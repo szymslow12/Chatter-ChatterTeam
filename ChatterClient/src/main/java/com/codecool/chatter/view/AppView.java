@@ -10,8 +10,8 @@ public class AppView extends Pane {
         renderAppView();
     }
 
-    //TODO
-    public void renderAppView() {
+
+    private void renderAppView() {
         setBackground(
             new Background(
                 new BackgroundImage(new Image("background.jpg"),
