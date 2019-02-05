@@ -11,18 +11,18 @@ public class LoginView extends Pane {
     private int width;
     private int height;
 
-    public LoginView(int width, int height) {
+    public LoginView(int width, int height, int margin) {
         super();
         this.width = width;
         this.height = height;
-        createNicknameInputField();
+        createNicknameInputField(margin);
 //        this.buttonView = new ButtonView();
         renderLoginView();
     }
 
 
-    private void createNicknameInputField() {
-        Insets margins = new Insets(25, 25 ,25 ,25);
+    private void createNicknameInputField(int margin) {
+        Insets margins = new Insets(margin, margin ,margin,margin);
         double width =  this.width * 0.75;
         double height = width * 0.75;
         this.inputField = new InputField("Nickname", false, width, height, margins);
