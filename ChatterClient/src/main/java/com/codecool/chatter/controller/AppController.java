@@ -28,4 +28,7 @@ public class AppController {
     }
 
 
+    public void setConnection(Socket connection) {
+        this.connection = connection;
+    }
 }
