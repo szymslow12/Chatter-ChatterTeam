@@ -9,6 +9,10 @@ import javafx.scene.paint.Color;
 
 public class AppView extends Pane {
 
+    public AppView() {
+        renderAppView();
+    }
+
     //TODO
     public void renderAppView() {
         setBackground(
