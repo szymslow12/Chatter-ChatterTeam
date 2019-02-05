@@ -37,8 +37,6 @@ public class LoginController {
 
 
     private void runLoginStage() {
-        LoginController loginController = new LoginController();
-        LoginView loginView = loginController.getLoginView();
         Stage stage = new Stage();
         stage.setAlwaysOnTop(true);
         stage.setScene(new Scene(loginView));
@@ -47,8 +45,10 @@ public class LoginController {
         stage.setMinHeight(500d);
         stage.initStyle(StageStyle.UNDECORATED);
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() / 2) - stage.getMinWidth() * 0.75);
-        stage.setY((primScreenBounds.getHeight() / 2) - stage.getMinHeight() * 0.5);
+        double x = primScreenBounds.getMaxX();
+        double y = primScreenBounds.getMaxY();
+        stage.setX((x / 2) - stage.getMinWidth() * 0.75);
+        stage.setY((y / 2) - stage.getMinHeight() * 0.5);
         stage.show();
     }
 }
