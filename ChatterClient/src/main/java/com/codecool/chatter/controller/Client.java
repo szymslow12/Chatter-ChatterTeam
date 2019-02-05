@@ -1,5 +1,7 @@
 package com.codecool.chatter.controller;
 
+import javafx.scene.Scene;
+
 public class Client {
 
     private String host;
@@ -15,5 +17,10 @@ public class Client {
     //TODO
     public void run() {
 
+    }
+
+
+    public Scene getMainScene() {
+        return new Scene(appController.getAppView());
     }
 }
