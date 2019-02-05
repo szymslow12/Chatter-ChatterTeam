@@ -1,8 +1,10 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.view.LoginView;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -14,8 +16,10 @@ public class LoginController {
     private Socket connection;
     private LoginView loginView;
 
+    private EventHandler<MouseEvent> joinToLobby = e -> System.out.println("Clicked");
+
     public LoginController() {
-        this.loginView = new LoginView(750, 500, 25);
+        this.loginView = new LoginView(750, 500, 25, joinToLobby);
     }
 
 
