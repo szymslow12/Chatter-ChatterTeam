@@ -29,8 +29,11 @@ public class AppController {
     //TODO
     public void run() {
         LoginController loginController = new LoginController();
-        appView.getChildren().add(loginController.getLoginView());
+        loginController.run();
     }
+
+
+
 
 
     public void setConnection(Socket connection) {
