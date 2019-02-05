@@ -7,7 +7,6 @@ public class Client {
     private Socket socket;
     private String host;
     private int port;
-//    private User client;
 //    private AppController appController;
 
     public Client(String host, int port) {
