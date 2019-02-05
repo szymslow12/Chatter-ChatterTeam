@@ -16,7 +16,8 @@ public class Client {
 
     //TODO
     public void run() {
-
+        System.out.println("Client is running!");
+        appController.run();
     }
 
 
