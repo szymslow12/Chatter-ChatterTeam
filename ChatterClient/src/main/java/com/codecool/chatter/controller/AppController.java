@@ -26,7 +26,8 @@ public class AppController {
 
     //TODO
     public void run() {
-
+        LoginController loginController = new LoginController();
+        appView.getChildren().addAll(loginController.getLoginView());
     }
 
 
