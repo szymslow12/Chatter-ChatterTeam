@@ -6,6 +6,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class InputField extends GridPane {
@@ -44,8 +45,13 @@ public class InputField extends GridPane {
         label.setFont(font);
         inputField.setFont(font);
         setGapsAndSizes(insets);
-        setConstraints(label, inputField, insets);
         alignAndAdd(label, inputField);
+        setConstraints(label, inputField);
+        setBackground(
+            new Background(
+                new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)
+            )
+        );
     }
 
 
@@ -53,23 +59,20 @@ public class InputField extends GridPane {
         setPrefSize(width, height);
         setPadding(insets);
         setVgap(insets.getTop());
-        setHgap(insets.getLeft());
+        setHgap(insets.getLeft() * 2);
     }
 
 
-    private void setConstraints(Node label, Node inputField, Insets insets) {
-        double margin = insets.getTop();
-        int marginIndex = (int) Math.round(((width) / margin) / 2);
-        int labelIndex = (int) Math.round((width / margin) / 2) - marginIndex;
-        setConstraints(label, labelIndex, 0);
-        setConstraints(inputField, labelIndex + 1, 0);
+    private void setConstraints(Label label, Node inputField) {
+        setConstraints(label, 0 , 1);
+        setConstraints(inputField, 1, 1);
     }
 
 
     private void alignAndAdd(Node label, Node inputField) {
         getChildren().addAll(label, inputField);
         setValignment(label, VPos.CENTER);
-        setHalignment(label, HPos.CENTER);
-        setHalignment(inputField, HPos.RIGHT);
+        setHalignment(label, HPos.RIGHT);
+        setHalignment(inputField, HPos.CENTER);
     }
 }
