@@ -13,12 +13,14 @@ public class AppController {
     private AppView appView;
     private User client;
 
-    public AppController(){}
+    public AppController(){
+        this.appView = new AppView();
+    }
 
 
     public AppController(Socket connection) {
+        this();
         this.connection = connection;
-        this.appView = new AppView();
 //        this.lobbyController = new LobbyController(connection);
 //        this.roomController = new RoomController(connection);
     }
@@ -27,7 +29,7 @@ public class AppController {
     //TODO
     public void run() {
         LoginController loginController = new LoginController();
-        appView.getChildren().addAll(loginController.getLoginView());
+        appView.getChildren().add(loginController.getLoginView());
     }
 
 
