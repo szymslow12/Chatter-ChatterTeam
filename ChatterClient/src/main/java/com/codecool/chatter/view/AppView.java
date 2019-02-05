@@ -1,15 +1,12 @@
 package com.codecool.chatter.view;
 
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 public class AppView extends Pane {
 
     public AppView() {
+        super();
         renderAppView();
     }
 
@@ -17,7 +14,11 @@ public class AppView extends Pane {
     public void renderAppView() {
         setBackground(
             new Background(
-                new BackgroundFill(Color.web("#66ffff"), CornerRadii.EMPTY, Insets.EMPTY)
+                new BackgroundImage(new Image("background.jpg"),
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT)
             )
         );
     }
