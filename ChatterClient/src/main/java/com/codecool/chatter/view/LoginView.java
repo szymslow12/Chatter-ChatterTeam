@@ -17,8 +17,7 @@ public class LoginView extends Pane {
     }
 
 
-    //TODO
-    public void renderLoginView() {
+    private void renderLoginView() {
         setBackground(
             new Background(
                 new BackgroundFill(Color.web("#66ffff"), CornerRadii.EMPTY, Insets.EMPTY)
