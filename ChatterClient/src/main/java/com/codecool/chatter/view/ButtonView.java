@@ -13,6 +13,7 @@ public class ButtonView extends Button {
         super();
         setWidth(width);
         setHeight(height);
+        setPrefSize(width, height);
     }
 
 
