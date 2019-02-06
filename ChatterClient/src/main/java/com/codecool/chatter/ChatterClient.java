@@ -6,17 +6,22 @@ import javafx.stage.Stage;
 
 public class ChatterClient extends Application {
 
+    private static final double WIDTH = 1024;
+    private static final double HEIGHT = WIDTH * 3 /4;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        Client client = new Client("localhost", 8080);
+        Client client = new Client("localhost", 8080, WIDTH, HEIGHT);
         primaryStage.setScene(client.getMainScene());
-        primaryStage.setMaximized(true);
+        primaryStage.setMinWidth(WIDTH);
+        primaryStage.setMinHeight(HEIGHT);
+        primaryStage.setMaximized(false);
         primaryStage.setTitle("Chatter Client");
-        client.run();
         primaryStage.show();
+        client.run();
     }
 }
