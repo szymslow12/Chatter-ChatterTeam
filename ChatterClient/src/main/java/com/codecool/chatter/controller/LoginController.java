@@ -29,7 +29,7 @@ public class LoginController {
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String nickname = textInputControl.getText();
             outputStream.writeUTF(nickname);
-            boolean isNicknameAvailable = true;
+            boolean isNicknameAvailable = inputStream.readBoolean();
             if (isNicknameAvailable) {
                 client = new User(nickname);
             }
