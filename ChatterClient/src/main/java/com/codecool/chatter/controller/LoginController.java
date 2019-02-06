@@ -5,8 +5,11 @@ import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,9 +32,25 @@ public class LoginController {
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String nickname = textInputControl.getText();
             outputStream.writeUTF(nickname);
+            outputStream.flush();
             boolean isNicknameAvailable = inputStream.readBoolean();
             if (isNicknameAvailable) {
                 client = new User(nickname);
+            } else {
+                loginView.getChildren().add(new Canvas(loginView.getMinWidth(), loginView.getMinHeight()) {
+                    private void drawBadLoginTry(Canvas canvas) {
+                        GraphicsContext context = canvas.getGraphicsContext2D();
+                        double width = loginView.getInputField().getWidth();
+                        double height = loginView.getInputField().getHeight() / 3;
+                        double x = loginView.getMinWidth() - width;
+                        context.strokeRect(x / 2, 5, width, height);
+                        context.setFill(Color.web("#ffffff"));
+                        context.fillRect((x / 2 ) + 1, 5, width - 1, height - 1);
+                    }
+                    {
+                        drawBadLoginTry(this);
+                    }
+                });
             }
         } catch (IOException e1) {
             e1.printStackTrace();
