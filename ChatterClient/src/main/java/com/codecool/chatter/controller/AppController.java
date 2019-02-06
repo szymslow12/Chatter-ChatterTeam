@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.net.Socket;
 
-public class AppController {
+public class AppController extends Thread {
 
     private String host;
     private int port;
@@ -21,16 +21,26 @@ public class AppController {
         this.host = host;
         this.port = port;
         this.appView = new AppView();
+        client = null;
+        setName("AppController");
 //        this.lobbyController = new LobbyController(connection);
 //        this.roomController = new RoomController(connection);
     }
 
 
-    //TODO
-    public void run() throws IOException {
-        Socket socket = new Socket(host, port);
-        LoginController loginController = new LoginController(socket);
-        loginController.run();
+    @Override
+    public void run() {
+        try (Socket socket = new Socket(host, port)) {
+            LoginController loginController = new LoginController(socket);
+            Platform.runLater(loginController::run);
+            while (client == null) {
+                client = loginController.getClient();
+            }
+            System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
+            interrupt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
