@@ -31,16 +31,12 @@ public class LoginController {
         }
     };
 
-    public LoginController() {
+
+    public LoginController(Socket connection) {
+        this.connection = connection;
         int width = 750;
         int height = (int) 400d * 2 / 3;
         this.loginView = new LoginView(width, height, 25, logIn);
-    }
-
-
-    public LoginController(Socket connection) {
-        this();
-        this.connection = connection;
     }
 
 
