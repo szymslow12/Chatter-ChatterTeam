@@ -12,13 +12,11 @@ import javafx.scene.text.Font;
 public class InputField extends GridPane {
 
     private String name;
-    private double width;
-    private double height;
 
     public InputField(String name, boolean isTextArea, double width, double height, Insets insets) {
         super();
-        this.width = width;
-        this.height = height;
+        setWidth(width);
+        setHeight(height);
         this.name = name;
         renderInputField(isTextArea, insets);
     }
@@ -56,7 +54,7 @@ public class InputField extends GridPane {
 
 
     private void setGapsAndSizes(Insets insets) {
-        setPrefSize(width, height);
+        setPrefSize(getWidth(), getHeight());
         setPadding(insets);
         setVgap(insets.getTop());
         setHgap(insets.getLeft() * 2);
