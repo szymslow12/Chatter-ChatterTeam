@@ -2,8 +2,6 @@ package com.codecool.chatter.controller;
 
 import javafx.scene.Scene;
 
-import java.io.IOException;
-
 public class Client {
 
     private AppController appController;
@@ -15,11 +13,7 @@ public class Client {
 
     //TODO
     public void run() {
-        try {
-            appController.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        appController.start();
     }
 
 
