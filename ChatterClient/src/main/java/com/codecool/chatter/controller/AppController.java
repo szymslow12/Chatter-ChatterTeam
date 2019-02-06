@@ -16,7 +16,6 @@ public class AppController extends Thread {
     private AppView appView;
     private User client;
 
-    //changes to UML add field host/port
     public AppController(String host, int port) {
         this.host = host;
         this.port = port;
@@ -32,7 +31,7 @@ public class AppController extends Thread {
     public void run() {
         try (Socket socket = new Socket(host, port)) {
             LoginController loginController = new LoginController(socket);
-            Platform.runLater(loginController::run);
+            Platform.runLater(loginController::runLoginStage);
             while (client == null) {
                 client = loginController.getClient();
             }
