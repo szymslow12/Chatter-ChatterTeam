@@ -56,18 +56,12 @@ public class LoginController {
     }
 
 
-    //TODO
-    public void run() {
-        runLoginStage();
-    }
-
-
     public LoginView getLoginView() {
         return loginView;
     }
 
 
-    private void runLoginStage() {
+    public void runLoginStage() {
         Stage stage = new Stage();
         setStageProperties(stage);
         setPositions(stage);
