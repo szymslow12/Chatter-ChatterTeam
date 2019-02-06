@@ -2,6 +2,9 @@ package com.codecool.chatter.controller;
 
 import javafx.scene.Scene;
 
+import java.io.IOException;
+import java.net.Socket;
+
 public class Client {
 
     private String host;
@@ -16,8 +19,13 @@ public class Client {
 
     //TODO
     public void run() {
-        System.out.println("Client is running!");
-        appController.run();
+        try (Socket socket = new Socket(host, port)) {
+            System.out.println("Client is running!");
+            appController.setConnection(socket);
+            appController.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
