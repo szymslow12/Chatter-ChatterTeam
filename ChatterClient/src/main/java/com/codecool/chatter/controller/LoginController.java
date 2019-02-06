@@ -41,7 +41,6 @@ public class LoginController {
     public LoginController(Socket connection) {
         this();
         this.connection = connection;
-        System.out.println(connection.isClosed());
     }
 
 
