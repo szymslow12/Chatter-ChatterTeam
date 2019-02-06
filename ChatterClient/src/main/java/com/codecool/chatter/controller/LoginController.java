@@ -4,11 +4,14 @@ import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class LoginController {
@@ -16,12 +19,22 @@ public class LoginController {
     private Socket connection;
     private LoginView loginView;
 
-    private EventHandler<MouseEvent> joinToLobby = e -> System.out.println("Clicked");
+    private EventHandler<MouseEvent> logIn = e -> {
+        try {
+            OutputStream outputStream = connection.getOutputStream();
+            TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
+            String text = textInputControl.getText();
+            System.out.println(text);
+            outputStream.write(text.getBytes());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    };
 
     public LoginController() {
         int width = 750;
         int height = (int) 400d * 2 / 3;
-        this.loginView = new LoginView(width, height, 25, joinToLobby);
+        this.loginView = new LoginView(width, height, 25, logIn);
     }
 
 
