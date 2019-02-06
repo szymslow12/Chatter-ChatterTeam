@@ -2,39 +2,35 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
+import javafx.application.Platform;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class AppController {
 
-    private Socket connection;
+    private String host;
+    private int port;
 //    private LobbyController lobbyController;
 //    private RoomController roomController;
     private AppView appView;
     private User client;
 
-    public AppController(){
+    //changes to UML add field host/port
+    public AppController(String host, int port) {
+        this.host = host;
+        this.port = port;
         this.appView = new AppView();
-    }
-
-
-    public AppController(Socket connection) {
-        this();
-        this.connection = connection;
 //        this.lobbyController = new LobbyController(connection);
 //        this.roomController = new RoomController(connection);
     }
 
 
     //TODO
-    public void run() {
-        LoginController loginController = new LoginController();
+    public void run() throws IOException {
+        Socket socket = new Socket(host, port);
+        LoginController loginController = new LoginController(socket);
         loginController.run();
-    }
-
-
-    public void setConnection(Socket connection) {
-        this.connection = connection;
     }
 
 
