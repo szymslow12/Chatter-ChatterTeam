@@ -5,13 +5,14 @@ import javafx.scene.layout.*;
 
 public class AppView extends Pane {
 
-    public AppView() {
+    public AppView(double width, double height) {
         super();
-        renderAppView();
+        renderAppView(width, height);
     }
 
 
-    private void renderAppView() {
+    private void renderAppView(double width, double height) {
+        setPrefSize(width, height);
         setBackground(
             new Background(
                 new BackgroundImage(new Image("background.jpg"),
