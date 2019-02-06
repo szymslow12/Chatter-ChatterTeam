@@ -45,11 +45,6 @@ public class InputField extends GridPane {
         setGapsAndSizes(insets);
         alignAndAdd(label, inputField);
         setConstraints(label, inputField);
-        setBackground(
-            new Background(
-                new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)
-            )
-        );
     }
 
 
