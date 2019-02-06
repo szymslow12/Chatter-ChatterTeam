@@ -10,6 +10,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -21,22 +22,27 @@ public class LoginController {
 
     private EventHandler<MouseEvent> logIn = e -> {
         try {
-            OutputStream outputStream = connection.getOutputStream();
+            DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String text = textInputControl.getText();
             System.out.println(text);
-            outputStream.write(text.getBytes());
+            outputStream.writeUTF(text);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     };
 
-
-    public LoginController(Socket connection) {
-        this.connection = connection;
+    public LoginController() {
         int width = 750;
         int height = (int) 400d * 2 / 3;
         this.loginView = new LoginView(width, height, 25, logIn);
+    }
+
+
+    public LoginController(Socket connection) {
+        this();
+        this.connection = connection;
+        System.out.println(connection.isClosed());
     }
 
 
