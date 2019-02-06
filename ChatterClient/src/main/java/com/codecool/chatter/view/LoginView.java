@@ -50,4 +50,9 @@ public class LoginView extends Pane {
         buttonView.setLayoutX(x - buttonView.getWidth() / 2);
         buttonView.setLayoutY(y + buttonView.getHeight());
     }
+
+
+    public InputField getInputField() {
+        return inputField;
+    }
 }
