@@ -16,7 +16,7 @@ public class LoginView extends Pane {
         super();
         setWidth(width);
         setHeight(height);
-        this.buttonView = new ButtonView().getButton("Join", onClick);
+        this.buttonView = new ButtonView(width * 0.15, 25).getButton("Join", onClick);
         createNicknameInputField(margin);
         renderLoginView();
     }
@@ -31,12 +31,7 @@ public class LoginView extends Pane {
 
 
     private void renderLoginView() {
-        double x = getWidth() / 2;
-        double y = getHeight() / 2;
-        inputField.setLayoutX(x - inputField.getWidth() / 2);
-        inputField.setLayoutY(y - inputField.getHeight() / 2);
-        buttonView.setLayoutX(x - buttonView.getWidth() / 2);
-//        buttonView.setLayoutY(y);
+        setPositionsOfElements();
         getChildren().addAll(inputField, buttonView);
         setBackground(
             new Background(
@@ -44,5 +39,15 @@ public class LoginView extends Pane {
             )
         );
         setMinSize(getWidth(), getHeight());
+    }
+
+
+    private void setPositionsOfElements() {
+        double x = getWidth() / 2;
+        double y = getHeight() / 2;
+        inputField.setLayoutX(x - inputField.getWidth() / 2);
+        inputField.setLayoutY(y - inputField.getHeight() / 1.5);
+        buttonView.setLayoutX(x - buttonView.getWidth() / 2);
+        buttonView.setLayoutY(y + buttonView.getHeight());
     }
 }
