@@ -16,10 +16,10 @@ public class AppController extends Thread {
     private AppView appView;
     private User client;
 
-    public AppController(String host, int port) {
+    public AppController(String host, int port, double width, double height) {
         this.host = host;
         this.port = port;
-        this.appView = new AppView();
+        this.appView = new AppView(width, height);
         client = null;
         setName("AppController");
 //        this.lobbyController = new LobbyController(connection);
