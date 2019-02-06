@@ -68,4 +68,9 @@ public class InputField extends GridPane {
         setHalignment(label, HPos.RIGHT);
         setHalignment(inputField, HPos.CENTER);
     }
+
+
+    public TextInputControl getTextInputControl() {
+        return textInputControl;
+    }
 }
