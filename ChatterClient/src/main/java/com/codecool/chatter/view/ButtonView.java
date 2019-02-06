@@ -9,8 +9,10 @@ import javafx.scene.text.Font;
 
 public class ButtonView extends Button {
 
-    public ButtonView() {
+    public ButtonView(double width, double height) {
         super();
+        setWidth(width);
+        setHeight(height);
     }
 
 
