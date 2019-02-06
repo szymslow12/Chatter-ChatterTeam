@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
@@ -10,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -18,14 +20,19 @@ public class LoginController {
 
     private Socket connection;
     private LoginView loginView;
+    private User client;
 
     private EventHandler<MouseEvent> logIn = e -> {
         try {
             DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+            DataInputStream inputStream = new DataInputStream(connection.getInputStream());
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
-            String text = textInputControl.getText();
-            System.out.println(text);
-            outputStream.writeUTF(text);
+            String nickname = textInputControl.getText();
+            outputStream.writeUTF(nickname);
+            boolean isNicknameAvailable = true;
+            if (isNicknameAvailable) {
+                client = new User(nickname);
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -41,6 +48,11 @@ public class LoginController {
     public LoginController(Socket connection) {
         this();
         this.connection = connection;
+    }
+
+
+    public User getClient() {
+        return client;
     }
 
 
