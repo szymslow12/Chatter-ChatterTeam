@@ -19,7 +19,9 @@ public class LoginController {
     private EventHandler<MouseEvent> joinToLobby = e -> System.out.println("Clicked");
 
     public LoginController() {
-        this.loginView = new LoginView(750, 500, 25, joinToLobby);
+        int width = 750;
+        int height = (int) 400d * 2 / 3;
+        this.loginView = new LoginView(width, height, 25, joinToLobby);
     }
 
 
@@ -52,8 +54,8 @@ public class LoginController {
         stage.setAlwaysOnTop(true);
         stage.setScene(new Scene(loginView));
         stage.setTitle("Login");
-        stage.setMinWidth(750);
-        stage.setMinHeight(500);
+        stage.setMinWidth(loginView.getMinWidth());
+        stage.setMinHeight(loginView.getMinHeight());
         stage.initStyle(StageStyle.UNDECORATED);
     }
 
