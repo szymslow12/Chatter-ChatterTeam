@@ -11,7 +11,6 @@ public class AppController extends Thread {
 
     private String host;
     private int port;
-//    private RoomController roomController;
     private AppView appView;
     private User client;
 
@@ -21,7 +20,6 @@ public class AppController extends Thread {
         this.appView = new AppView(width, height);
         client = null;
         setName("AppController");
-//        this.roomController = new RoomController(connection);
     }
 
 
