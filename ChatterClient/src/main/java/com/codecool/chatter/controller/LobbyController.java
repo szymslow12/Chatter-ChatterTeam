@@ -7,12 +7,15 @@ import com.codecool.chatter.view.AppView;
 import com.codecool.chatter.view.LobbyView;
 import com.codecool.chatter.view.RoomButton;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Optional;
 
 public class LobbyController {
 
@@ -24,16 +27,28 @@ public class LobbyController {
     private EventHandler<MouseEvent> enterRoom = e -> {
         RoomButton roomButton = (RoomButton) e.getSource();
         Room room = roomButton.getRoom();
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(connection.getOutputStream());
-            objectOutputStream.writeObject(room);
-            objectOutputStream.flush();
-            chosenRoom = room;
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        Alert confirm = getConfirmationAlert(room);
+        Optional<ButtonType> confirmation = confirm.showAndWait();
+        if (confirmation.get() == ButtonType.OK) {
+            try {
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(connection.getOutputStream());
+                objectOutputStream.writeObject(room);
+                objectOutputStream.flush();
+                chosenRoom = room;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
-
     };
+
+
+    private Alert getConfirmationAlert(Room room) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to join room '" + room.getName() + "' ?");
+        return alert;
+    }
 
 
     public LobbyController(Socket connection) {
