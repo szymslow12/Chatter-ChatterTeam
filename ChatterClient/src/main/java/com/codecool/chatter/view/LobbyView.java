@@ -24,6 +24,7 @@ public class LobbyView extends Pane {
         roomsButtons = new ArrayList<>();
         setWidth(width);
         setHeight(height);
+        setPrefSize(width, height);
     }
 
 
