@@ -39,6 +39,7 @@ public class LoginController {
                 if (isAlreadyDisplayBadLoginTry) {
                     loginView.getChildren().remove(badLoginTry);
                 }
+                ((Stage) loginView.getButtonView().getScene().getWindow()).close();
             } else {
                 if (!isAlreadyDisplayBadLoginTry) {
                     loginView.getChildren().add(badLoginTry);
