@@ -16,6 +16,7 @@ public class LoginView extends Pane {
 
     private InputField inputField;
     private ButtonView buttonView;
+    private Canvas badLoginTry; // add to UML
 
     public LoginView(int width, int height, int margin, EventHandler<MouseEvent> onClick) {
         super();
@@ -23,6 +24,7 @@ public class LoginView extends Pane {
         setHeight(height);
         this.buttonView = new ButtonView(width * 0.15, 25).getButton("Join", onClick);
         createNicknameInputField(margin);
+        renderBadLoginTryAlert();
         renderLoginView();
     }
 
@@ -62,10 +64,15 @@ public class LoginView extends Pane {
     }
 
 
-    public Canvas getBadLoginTryAlert() {
-        Canvas canvas = new Canvas(getMinWidth(), getMinHeight());
-        drawBadLoginTry(canvas);
-        return canvas;
+    public Canvas getBadLoginTry() {
+        return badLoginTry;
+    }
+
+
+    private void renderBadLoginTryAlert() {
+        badLoginTry = new Canvas(getMinWidth(), getMinHeight());
+        drawBadLoginTry(badLoginTry);
+
     }
 
 
