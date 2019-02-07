@@ -38,8 +38,8 @@ public class LoginView extends Pane {
 
 
     private void renderLoginView() {
-        setPositionsOfElements();
         getChildren().addAll(inputField, buttonView);
+        setPositionsOfElements();
         setBackground(
             new Background(
                 new BackgroundFill(Color.web("#66ffff"), CornerRadii.EMPTY, Insets.EMPTY)
@@ -70,9 +70,12 @@ public class LoginView extends Pane {
 
 
     private void renderBadLoginTryAlert() {
-        badLoginTry = new Canvas(getMinWidth(), getMinHeight());
+        double x = (getWidth() - inputField.getWidth()) / 2;
+        double y = 10;
+        badLoginTry = new Canvas(inputField.getWidth(), inputField.getHeight() / 2);
         drawBadLoginTry(badLoginTry);
-
+        badLoginTry.setLayoutX(x);
+        badLoginTry.setLayoutY(10);
     }
 
 
@@ -80,8 +83,7 @@ public class LoginView extends Pane {
         GraphicsContext context = canvas.getGraphicsContext2D();
         double width = inputField.getWidth();
         double height = inputField.getHeight() / 3;
-        double x = (getMinWidth() - width) / 2;
-        double y = 10;
+        double x = 0; double y = 0;
         drawBox(x, y, width, height, context);
         drawMessage(x, y, width, height, context);
     }
@@ -90,7 +92,7 @@ public class LoginView extends Pane {
     private void drawBox(double x, double y, double width, double height, GraphicsContext context) {
         context.strokeRect(x, y, width, height);
         context.setFill(Color.web("rgba(255, 0, 0, 0.8)"));
-        context.fillRect(x + 1, y, width - 1, height - 1);
+        context.fillRect(x + 1, y + 1, width - 1, height - 1);
     }
 
 
