@@ -32,23 +32,28 @@ public class LoginController {
             outputStream.writeUTF(nickname);
             outputStream.flush();
             boolean isNicknameAvailable = inputStream.readBoolean();
-            Canvas badLoginTry = loginView.getBadLoginTry();
-            boolean isAlreadyDisplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
-            if (isNicknameAvailable) {
-                client = new User(nickname);
-                if (isAlreadyDisplayBadLoginTry) {
-                    loginView.getChildren().remove(badLoginTry);
-                }
-                ((Stage) loginView.getButtonView().getScene().getWindow()).close();
-            } else {
-                if (!isAlreadyDisplayBadLoginTry) {
-                    loginView.getChildren().add(badLoginTry);
-                }
-            }
+            checkIfNicknameIsAvailable(isNicknameAvailable, nickname);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     };
+
+
+    private void checkIfNicknameIsAvailable(boolean isNicknameAvailable, String nickname) {
+        Canvas badLoginTry = loginView.getBadLoginTry();
+        boolean isAlreadyDisplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
+        if (isNicknameAvailable) {
+            client = new User(nickname);
+            if (isAlreadyDisplayBadLoginTry) {
+                loginView.getChildren().remove(badLoginTry);
+            }
+            ((Stage) loginView.getButtonView().getScene().getWindow()).close();
+        } else {
+            if (!isAlreadyDisplayBadLoginTry) {
+                loginView.getChildren().add(badLoginTry);
+            }
+        }
+    }
 
     public LoginController() {
         int width = 750;
