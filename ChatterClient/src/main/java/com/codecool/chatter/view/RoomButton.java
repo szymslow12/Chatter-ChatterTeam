@@ -89,7 +89,7 @@ public class RoomButton extends Pane {
 
 
     private Text getOnlineUsers(Font font, double x, double y) {
-        Text text = new Text("Online");
+        Text text = new Text("Online:");
         text.setFont(font);
         text.setTranslateX(x);
         text.setTranslateY(y);
