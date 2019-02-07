@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class LobbyView extends Pane {
 
 //    private CreateRoomView createRoomView;
-    private List<ButtonView> roomsButtons;
+    private List<RoomButton> roomsButtons;
 
     public LobbyView(double width, double height) {
         super();
@@ -37,10 +37,11 @@ public class LobbyView extends Pane {
                         Insets.EMPTY)
             )
         );
-        lobby.getRooms().forEach(room -> roomsButtons.add(new ButtonView(250, 50).getRoomButton(room, onClick)));
+        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 150, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
-            ButtonView buttonView = roomsButtons.get(i);
-            buttonView.setLayoutY((buttonView.getHeight() * i) + 5);
+            RoomButton roomButton = roomsButtons.get(i);
+            roomButton.setTranslateY((roomButton.getHeight() * i + 10));
+            roomButton.setTranslateX(10);
         });
         roomsButtons.forEach(button -> getChildren().add(button));
     }
