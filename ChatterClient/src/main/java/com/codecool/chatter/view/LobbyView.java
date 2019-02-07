@@ -37,7 +37,7 @@ public class LobbyView extends Pane {
                         Insets.EMPTY)
             )
         );
-        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 150, room, onClick)));
+        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);
             roomButton.setTranslateY((roomButton.getHeight() * i + 10));
