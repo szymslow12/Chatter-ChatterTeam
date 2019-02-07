@@ -64,6 +64,11 @@ public class LoginView extends Pane {
     }
 
 
+    public ButtonView getButtonView() {
+        return buttonView;
+    }
+
+
     public Canvas getBadLoginTry() {
         return badLoginTry;
     }
