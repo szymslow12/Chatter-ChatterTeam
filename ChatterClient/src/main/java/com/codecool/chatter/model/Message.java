@@ -1,8 +1,9 @@
 package com.codecool.chatter.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Serializable {
 
     private long id;
     private User author;
