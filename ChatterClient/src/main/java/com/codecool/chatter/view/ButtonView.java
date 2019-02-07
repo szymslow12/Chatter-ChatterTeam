@@ -9,8 +9,11 @@ import javafx.scene.text.Font;
 
 public class ButtonView extends Button {
 
+    private Long roomId;
+
     public ButtonView(double width, double height) {
         super();
+        roomId = null;
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
@@ -18,7 +21,11 @@ public class ButtonView extends Button {
 
 
     //TODO
-    public ButtonView getRoomButton(Room room) {
+    public ButtonView getRoomButton(Room room, EventHandler<MouseEvent> onClick) {
+        setFont(new Font(15));
+        setText(room.getName());
+        roomId = room.getId();
+        setOnMouseClicked(onClick);
         return this;
     }
 
@@ -29,5 +36,10 @@ public class ButtonView extends Button {
         setPrefHeight(25);
         setOnMouseClicked(onClick);
         return this;
+    }
+
+
+    public Long getRoomId() {
+        return roomId;
     }
 }
