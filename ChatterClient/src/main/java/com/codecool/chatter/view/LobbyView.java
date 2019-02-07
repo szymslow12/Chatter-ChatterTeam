@@ -32,11 +32,16 @@ public class LobbyView extends Pane {
         setBackground(
             new Background(
                 new BackgroundFill(
-                        Color.web("rgba(255, 255, 255, 0.5)"),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY)
+                    Color.web("rgba(255, 255, 255, 0.5)"),
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY)
             )
         );
+        addRoomsButtons(lobby, onClick);
+    }
+
+
+    private void addRoomsButtons(Lobby lobby, EventHandler<MouseEvent> onClick) {
         lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);
