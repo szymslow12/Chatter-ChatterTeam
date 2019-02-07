@@ -20,6 +20,7 @@ public class ChatterClient extends Application {
         primaryStage.setMinWidth(WIDTH);
         primaryStage.setMinHeight(HEIGHT);
         primaryStage.setMaximized(false);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Chatter Client");
         primaryStage.show();
         client.run();
