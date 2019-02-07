@@ -6,8 +6,8 @@ import javafx.stage.Stage;
 
 public class ChatterClient extends Application {
 
-    private static final double WIDTH = 1024;
-    private static final double HEIGHT = WIDTH * 3 /4;
+    public static final double WIDTH = 1024;
+    public static final double HEIGHT = WIDTH * 3 /4;
 
     public static void main(String[] args) {
         launch(args);
