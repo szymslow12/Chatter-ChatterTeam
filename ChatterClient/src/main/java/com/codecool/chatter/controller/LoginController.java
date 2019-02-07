@@ -7,12 +7,9 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -37,10 +34,17 @@ public class LoginController {
             outputStream.writeUTF(nickname);
             outputStream.flush();
             boolean isNicknameAvailable = inputStream.readBoolean();
+            Canvas badLoginTry = loginView.getBadLoginTry();
+            boolean isAlreadyDiplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
             if (isNicknameAvailable) {
                 client = new User(nickname);
+                if (isAlreadyDiplayBadLoginTry) {
+                    loginView.getChildren().remove(badLoginTry);
+                }
             } else {
-                loginView.getChildren().add(loginView.getBadLoginTryAlert());
+                if (!isAlreadyDiplayBadLoginTry) {
+                    loginView.getChildren().add(badLoginTry);
+                }
             }
         } catch (IOException e1) {
             e1.printStackTrace();
