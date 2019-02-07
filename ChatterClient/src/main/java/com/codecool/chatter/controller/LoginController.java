@@ -3,11 +3,9 @@ package com.codecool.chatter.controller;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
@@ -35,14 +33,14 @@ public class LoginController {
             outputStream.flush();
             boolean isNicknameAvailable = inputStream.readBoolean();
             Canvas badLoginTry = loginView.getBadLoginTry();
-            boolean isAlreadyDiplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
+            boolean isAlreadyDisplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
             if (isNicknameAvailable) {
                 client = new User(nickname);
-                if (isAlreadyDiplayBadLoginTry) {
+                if (isAlreadyDisplayBadLoginTry) {
                     loginView.getChildren().remove(badLoginTry);
                 }
             } else {
-                if (!isAlreadyDiplayBadLoginTry) {
+                if (!isAlreadyDisplayBadLoginTry) {
                     loginView.getChildren().add(badLoginTry);
                 }
             }
