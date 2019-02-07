@@ -1,10 +1,12 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class AppController extends Thread {
@@ -33,7 +35,12 @@ public class AppController extends Thread {
             }
             System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
             LobbyController lobbyController = new LobbyController(socket);
-            lobbyController.run();
+            lobbyController.run(appView);
+            Room chosenRoom = null;
+            while (chosenRoom == null) {
+                chosenRoom = lobbyController.getChosenRoom();
+            }
+            System.out.println("Entering room " + chosenRoom.getName() + "...");
             interrupt();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
