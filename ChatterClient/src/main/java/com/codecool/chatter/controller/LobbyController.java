@@ -23,11 +23,12 @@ public class LobbyController {
 
     private EventHandler<MouseEvent> enterRoom = e -> {
         RoomButton roomButton = (RoomButton) e.getSource();
+        Room room = roomButton.getRoom();
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(connection.getOutputStream());
-            chosenRoom = roomButton.getRoom();
-            objectOutputStream.writeObject(chosenRoom);
+            objectOutputStream.writeObject(room);
             objectOutputStream.flush();
+            chosenRoom = room;
         } catch (IOException e1) {
             e1.printStackTrace();
         }
