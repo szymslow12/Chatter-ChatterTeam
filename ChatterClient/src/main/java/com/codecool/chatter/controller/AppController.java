@@ -11,7 +11,6 @@ public class AppController extends Thread {
 
     private String host;
     private int port;
-//    private LobbyController lobbyController;
 //    private RoomController roomController;
     private AppView appView;
     private User client;
@@ -22,7 +21,6 @@ public class AppController extends Thread {
         this.appView = new AppView(width, height);
         client = null;
         setName("AppController");
-//        this.lobbyController = new LobbyController(connection);
 //        this.roomController = new RoomController(connection);
     }
 
@@ -36,7 +34,11 @@ public class AppController extends Thread {
                 client = loginController.getClient();
             }
             System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
+            LobbyController lobbyController = new LobbyController(socket);
+            lobbyController.run();
             interrupt();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
