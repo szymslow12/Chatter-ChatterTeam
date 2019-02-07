@@ -2,7 +2,12 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.view.AppView;
+import com.codecool.chatter.view.ButtonView;
 import com.codecool.chatter.view.LobbyView;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,17 +21,26 @@ public class LobbyController {
     private LobbyView lobbyView;
     private Long chosenRoomId;
 
+    private EventHandler<MouseEvent> enterRoom = e -> {
+        ButtonView buttonView = (ButtonView) e.getSource();
+        chosenRoomId = buttonView.getRoomId();
+        System.out.println(chosenRoomId);
+    };
+
     public LobbyController(Socket connection) {
         this.connection = connection;
         lobby = null;
-        lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
         chosenRoomId = null;
     }
 
 
-    public void run() throws IOException, ClassNotFoundException {
+    public void run(AppView appView) throws IOException, ClassNotFoundException {
+        lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
+        getLobbyFromServer();
+        lobbyView.renderLobbyView(lobby, enterRoom);
+        Platform.runLater(() -> appView.getChildren().add(lobbyView));
         while (chosenRoomId == null) {
-            getLobbyFromServer();
+
         }
         DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
         outputStream.writeLong(chosenRoomId);
