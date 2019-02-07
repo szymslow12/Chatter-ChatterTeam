@@ -16,7 +16,7 @@ public class LoginView extends Pane {
 
     private InputField inputField;
     private ButtonView buttonView;
-    private Canvas badLoginTry; // add to UML
+    private Canvas badLoginTry;
 
     public LoginView(int width, int height, int margin, EventHandler<MouseEvent> onClick) {
         super();
