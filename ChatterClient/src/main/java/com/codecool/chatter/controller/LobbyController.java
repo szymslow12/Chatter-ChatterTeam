@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,9 +32,9 @@ public class LobbyController {
         Optional<ButtonType> confirmation = confirm.showAndWait();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(connection.getOutputStream());
-                objectOutputStream.writeObject(room);
-                objectOutputStream.flush();
+                DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+                dataOutputStream.writeLong(room.getId());
+                dataOutputStream.flush();
                 chosenRoom = room;
             } catch (IOException e1) {
                 e1.printStackTrace();
