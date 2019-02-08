@@ -2,6 +2,7 @@ package com.codecool.chatter;
 
 import com.codecool.chatter.controller.Client;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ChatterClient extends Application {
@@ -16,7 +17,9 @@ public class ChatterClient extends Application {
     @Override
     public void start(Stage primaryStage) {
         Client client = new Client("localhost", 8080, WIDTH, HEIGHT);
-        primaryStage.setScene(client.getMainScene());
+        Scene scene = client.getMainScene();
+        scene.getStylesheets().add("css/main.css");
+        primaryStage.setScene(scene);
         primaryStage.setMinWidth(WIDTH);
         primaryStage.setMinHeight(HEIGHT);
         primaryStage.setMaximized(false);
