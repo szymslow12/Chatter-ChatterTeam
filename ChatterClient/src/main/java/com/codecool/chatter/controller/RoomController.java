@@ -10,6 +10,7 @@ public class RoomController {
 
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+//    private RoomView roomView;
 
     public RoomController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         this.outputStream = objectOutputStream;
