@@ -6,6 +6,8 @@ import com.codecool.chatter.view.AppView;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class AppController extends Thread {
@@ -27,20 +29,24 @@ public class AppController extends Thread {
     @Override
     public void run() {
         try (Socket socket = new Socket(host, port)) {
-            LoginController loginController = new LoginController(socket);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            LoginController loginController = new LoginController(objectOutputStream, objectInputStream);
             Platform.runLater(loginController::runLoginStage);
             while (client == null) {
                 client = loginController.getClient();
             }
             System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
-            LobbyController lobbyController = new LobbyController(socket);
+            LobbyController lobbyController = new LobbyController(objectOutputStream, objectInputStream);
             Platform.runLater(() -> lobbyController.run(appView));
             Room chosenRoom = null;
             while (chosenRoom == null) {
                 chosenRoom = lobbyController.getChosenRoom();
             }
             System.out.println("Entering room " + chosenRoom.getName() + "...");
-            chosenRoom.addUser(client);
+            client.setCurrentRoomId(chosenRoom.getId());
+            RoomController roomController = new RoomController(objectOutputStream, objectInputStream);
+            roomController.run();
             interrupt();
         } catch (IOException e) {
             e.printStackTrace();
