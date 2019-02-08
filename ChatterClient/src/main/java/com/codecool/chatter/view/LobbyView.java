@@ -1,13 +1,15 @@
 package com.codecool.chatter.view;
 
+import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class LobbyView extends Pane {
 
 //    private CreateRoomView createRoomView;
     private List<RoomButton> roomsButtons;
+    private HBox boxWithButtons;
 
     public LobbyView(double width, double height) {
         super();
@@ -42,12 +45,49 @@ public class LobbyView extends Pane {
 
 
     private void addRoomsButtons(Lobby lobby, EventHandler<MouseEvent> onClick) {
+        boxWithButtons = new HBox();
+        VBox box = getSettedVBox();
+        setAndAddRoomsButtons(box, lobby, onClick);
+        addScrollPaneAndScrollBarToBoxWithButtons(box);
+        getChildren().add(boxWithButtons);
+    }
+
+
+    private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<MouseEvent> onClick) {
         lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);
-            roomButton.setTranslateY((roomButton.getHeight() * i + 10));
             roomButton.setTranslateX(10);
         });
-        roomsButtons.forEach(button -> getChildren().add(button));
+        roomsButtons.forEach(button -> box.getChildren().add(button));
+    }
+
+
+    private VBox getSettedVBox() {
+        VBox box = new VBox();
+        box.setAlignment(Pos.TOP_CENTER);
+        VBox.setVgrow(box, Priority.ALWAYS);
+        return box;
+    }
+
+
+    private ScrollBar setAndGetScroll(ScrollPane scrollPane, VBox box) {
+        ScrollBar vScrollBar = new ScrollBar();
+        vScrollBar.setOrientation(Orientation.VERTICAL);
+        vScrollBar.minProperty().bind(scrollPane.vminProperty());
+        vScrollBar.maxProperty().bind(scrollPane.vmaxProperty());
+        vScrollBar.visibleAmountProperty().bind(scrollPane.heightProperty().divide(box.heightProperty()));
+        scrollPane.vvalueProperty().bindBidirectional(vScrollBar.valueProperty());
+        return vScrollBar;
+    }
+
+
+    private void addScrollPaneAndScrollBarToBoxWithButtons(VBox box) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(425d, ChatterClient.HEIGHT);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        ScrollBar vScrollBar = setAndGetScroll(scrollPane, box);
+        scrollPane.setContent(box);
+        boxWithButtons.getChildren().addAll(vScrollBar, scrollPane);
     }
 }
