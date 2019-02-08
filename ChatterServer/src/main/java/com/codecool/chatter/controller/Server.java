@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,8 +40,9 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 User user = null;
                 boolean isAvailable;
-                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                outputStream.flush();
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                 do {
                     String nickname = inputStream.readUTF();
                     isAvailable = users.stream().allMatch(
@@ -52,19 +54,25 @@ public class Server {
                         user = new User(nickname);
 
                 } while (!isAvailable);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(lobby);
-                objectOutputStream.flush();
-                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-                Room chosenRoom = (Room) objectInputStream.readObject();
-                System.out.println("User choose room " + chosenRoom.getName());
+                outputStream.writeObject(lobby);
+                outputStream.flush();
+                long chosenRoomId = inputStream.readLong();
+                Room chosenRoom = getRoomById(chosenRoomId);
+                if (chosenRoom == null) {
+                    outputStream.writeObject(new IllegalArgumentException("Room does not exist!"));
+                    outputStream.flush();
+                } else {
+                    System.out.println("User choose room " + chosenRoom.getName());
+                    chosenRoom.addUser(user);
+                    outputStream.writeObject(chosenRoom);
+                    outputStream.flush();
+                }
+                long smthToStop = inputStream.readLong();
                 socket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
             run();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
     }
@@ -85,5 +93,14 @@ public class Server {
         Room room2 = new Room(2, "dummyRoom_2", 8082);
         users.forEach(user -> room1.addUser(user));
         rooms.addAll(Stream.of(room1, room2).collect(Collectors.toList()));
+    }
+
+
+    private Room getRoomById(long id) {
+        Optional<Room> optionalRoom = rooms.stream().filter(room -> room.getId() == id).findFirst();
+        if (optionalRoom.isPresent()) {
+            return optionalRoom.get();
+        }
+        return null;
     }
 }
