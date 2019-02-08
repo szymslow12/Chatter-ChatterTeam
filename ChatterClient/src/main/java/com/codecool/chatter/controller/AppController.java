@@ -32,26 +32,36 @@ public class AppController extends Thread {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            LoginController loginController = new LoginController(objectOutputStream, objectInputStream);
-            Platform.runLater(loginController::runLoginStage);
-            while (client == null) {
-                client = loginController.getClient();
-            }
-            System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
-            LobbyController lobbyController = new LobbyController(objectOutputStream, objectInputStream);
-            Platform.runLater(() -> lobbyController.run(appView));
-            Room chosenRoom = null;
-            while (chosenRoom == null) {
-                chosenRoom = lobbyController.getChosenRoom();
-            }
-            System.out.println("Entering room " + chosenRoom.getName() + "...");
-            client.setCurrentRoomId(chosenRoom.getId());
+            runLoginController(objectOutputStream, objectInputStream);
+            runLobbyController(objectOutputStream, objectInputStream);
             RoomController roomController = new RoomController(objectOutputStream, objectInputStream);
             roomController.run();
             interrupt();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void runLoginController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
+        LoginController loginController = new LoginController(outputStream, inputStream);
+        Platform.runLater(loginController::runLoginStage);
+        while (client == null) {
+            client = loginController.getClient();
+        }
+        System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
+    }
+
+
+    private void runLobbyController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
+        LobbyController lobbyController = new LobbyController(outputStream, inputStream);
+        Platform.runLater(() -> lobbyController.run(appView));
+        Room chosenRoom = null;
+        while (chosenRoom == null) {
+            chosenRoom = lobbyController.getChosenRoom();
+        }
+        System.out.println("Entering room " + chosenRoom.getName() + "...");
+        client.setCurrentRoomId(chosenRoom.getId());
     }
 
 
