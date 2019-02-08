@@ -11,16 +11,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.Optional;
 
 public class LobbyController {
 
-    private Socket connection;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
     private Lobby lobby;
     private LobbyView lobbyView;
     private Room chosenRoom;
@@ -32,9 +31,8 @@ public class LobbyController {
         Optional<ButtonType> confirmation = confirm.showAndWait();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-                dataOutputStream.writeLong(room.getId());
-                dataOutputStream.flush();
+                outputStream.writeLong(room.getId());
+                outputStream.flush();
                 chosenRoom = room;
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -52,8 +50,9 @@ public class LobbyController {
     }
 
 
-    public LobbyController(Socket connection) {
-        this.connection = connection;
+    public LobbyController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
+        this.outputStream = objectOutputStream;
+        this.inputStream = objectInputStream;
         lobby = null;
         chosenRoom = null;
         lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
@@ -79,7 +78,6 @@ public class LobbyController {
 
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
-        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
         lobby = (Lobby) inputStream.readObject();
         System.out.println("Lobby has been loaded!");
     }
