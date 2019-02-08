@@ -40,6 +40,7 @@ public class AppController extends Thread {
                 chosenRoom = lobbyController.getChosenRoom();
             }
             System.out.println("Entering room " + chosenRoom.getName() + "...");
+            chosenRoom.addUser(client);
             interrupt();
         } catch (IOException e) {
             e.printStackTrace();
