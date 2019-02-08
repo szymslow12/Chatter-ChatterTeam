@@ -111,7 +111,7 @@ public class RoomButton extends Pane {
         Text maxCapNum = new Text(Integer.toString(room.getMaxCapacity()));
         maxCapNum.setFont(font);
         maxCapNum.setFill(Color.web("#ff0000"));
-        maxCapNum.setTranslateX(getWidth() - 10 - maxCapNum.getLayoutBounds().getWidth());
+        maxCapNum.setTranslateX(getWidth() - 20 - maxCapNum.getLayoutBounds().getWidth());
         maxCapNum.setTranslateY(y);
         return maxCapNum;
     }
@@ -120,7 +120,7 @@ public class RoomButton extends Pane {
     private Text getMax(Text maxCapNum, Font font, double y) {
         Text max = new Text("Max:");
         max.setFont(font);
-        max.setTranslateX(getWidth() - 10 - maxCapNum.getLayoutBounds().getWidth() - 10 - max.getLayoutBounds().getWidth());
+        max.setTranslateX(getWidth() - 20 - maxCapNum.getLayoutBounds().getWidth() - 10 - max.getLayoutBounds().getWidth());
         max.setTranslateY(y);
         return max;
     }
