@@ -12,21 +12,18 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class LoginController {
 
-    private Socket connection;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
     private LoginView loginView;
     private User client;
 
     private EventHandler<MouseEvent> logIn = e -> {
         try {
-            DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-            DataInputStream inputStream = new DataInputStream(connection.getInputStream());
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String nickname = textInputControl.getText();
             outputStream.writeUTF(nickname);
@@ -62,9 +59,10 @@ public class LoginController {
     }
 
 
-    public LoginController(Socket connection) {
+    public LoginController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         this();
-        this.connection = connection;
+        this.outputStream = objectOutputStream;
+        this.inputStream = objectInputStream;
     }
 
 
