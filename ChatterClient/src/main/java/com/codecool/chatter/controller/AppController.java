@@ -30,6 +30,7 @@ public class AppController extends Thread {
     public void run() {
         try (Socket socket = new Socket(host, port)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             LoginController loginController = new LoginController(objectOutputStream, objectInputStream);
             Platform.runLater(loginController::runLoginStage);
