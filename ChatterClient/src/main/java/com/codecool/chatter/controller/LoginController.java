@@ -12,8 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.*;
-import java.net.Socket;
+import java.io.*;;
 
 public class LoginController {
 
