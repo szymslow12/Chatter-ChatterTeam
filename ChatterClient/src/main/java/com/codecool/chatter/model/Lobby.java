@@ -1,9 +1,10 @@
 package com.codecool.chatter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lobby {
+public class Lobby implements Serializable {
 
     private List<Room> rooms;
     private transient List<User> users;

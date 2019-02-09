@@ -1,9 +1,10 @@
 package com.codecool.chatter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class Room implements Serializable {
 
     private long id;
     private String name;
@@ -23,6 +24,7 @@ public class Room {
 
 
     public void addUser(User user) {
+        user.setCurrentRoomId(id);
         users.add(user);
     }
 

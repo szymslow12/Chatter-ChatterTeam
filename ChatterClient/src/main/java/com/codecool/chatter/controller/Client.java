@@ -1,23 +1,23 @@
 package com.codecool.chatter.controller;
 
-import java.net.Socket;
+import javafx.scene.Scene;
 
 public class Client {
 
-    private Socket socket;
-    private String host;
-    private int port;
-//    private User client;
-//    private AppController appController;
+    private AppController appController;
+    //changes to UML removed field host/port
 
-    public Client(String host, int port) {
-        this.host = host;
-        this.port = port;
-//        this.appController = new AppController();
+    public Client(String host, int port, double width, double height) {
+        this.appController = new AppController(host, port, width, height);
     }
 
     //TODO
     public void run() {
+        appController.start();
+    }
 
+
+    public Scene getMainScene() {
+        return new Scene(appController.getAppView());
     }
 }

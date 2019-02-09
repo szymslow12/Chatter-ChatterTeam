@@ -1,9 +1,10 @@
 package com.codecool.chatter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat {
+public class Chat implements Serializable {
 
     private List<Message> messages;
     private transient User client;
