@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class LobbyView extends Pane {
         VBox box = getVbox();
         setAndAddRoomsButtons(box, lobby, onClick);
         addScrollPaneAndScrollBarToBoxWithButtons(box);
+        boxWithButtons.setBorder(getBoxWithButtonBorder());
         getChildren().add(boxWithButtons);
     }
 
@@ -89,5 +91,15 @@ public class LobbyView extends Pane {
         ScrollBar vScrollBar = setAndGetScroll(scrollPane, box);
         scrollPane.setContent(box);
         boxWithButtons.getChildren().addAll(vScrollBar, scrollPane);
+    }
+
+
+    private Border getBoxWithButtonBorder() {
+        Paint borderColor = Color.web("#000000");
+        BorderStrokeStyle NONE = BorderStrokeStyle.NONE;
+        BorderStrokeStyle SOLID = BorderStrokeStyle.SOLID;
+        Insets insets = new Insets(0, 10, 0, 0);
+        return new Border(new BorderStroke(borderColor, borderColor, borderColor, borderColor,
+                        NONE, SOLID, NONE, NONE, CornerRadii.EMPTY, BorderWidths.DEFAULT, insets));
     }
 }
