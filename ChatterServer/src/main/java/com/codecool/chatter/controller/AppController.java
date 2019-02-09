@@ -22,15 +22,19 @@ public class AppController {
         return new ObjectWrapper(action, object);
     }
 
-    public void handleData(Object object) {
+    public Object handleData(Object object) {
         ObjectWrapper data = (ObjectWrapper) object;
+        Object answer = null;
         String action = data.getAction();
         switch (action) {
             case "login":
+                answer = lobby.checkNickNameExist((String) data.getObject());
                 break;
-            case "":
+            case "lobby":
+                answer = lobby;
+                break;
         }
-
+        return answer;
     }
 
 
