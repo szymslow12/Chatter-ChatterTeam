@@ -7,9 +7,11 @@ import java.net.Socket;
 public class Server2 {
 
     private int port;
+    private AppController appController;
 
     public Server2(int port) {
         this.port = port;
+        appController = new AppController();
     }
 
     public void startServer() throws IOException {
@@ -19,8 +21,7 @@ public class Server2 {
 
         while (true) {
             socket = serverSocket.accept();
-
-            new EchoThread(socket).start();
+            new EchoThread(socket, appController).start();
         }
     }
 }
