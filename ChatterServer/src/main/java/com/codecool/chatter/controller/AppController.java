@@ -18,11 +18,6 @@ public class AppController {
         return lobby;
     }
 
-    public boolean checkNickNameExist(ObjectInputStream objectInputStream) throws IOException {
-        String userName = objectInputStream.readUTF();
-        return lobby.getUsers().stream().anyMatch(user -> userName.equalsIgnoreCase(user.getNickname()));
-    }
-
     public Object wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
     }
@@ -37,5 +32,7 @@ public class AppController {
         }
 
     }
+
+
 
 }
