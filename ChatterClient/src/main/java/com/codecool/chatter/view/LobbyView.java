@@ -73,6 +73,16 @@ public class LobbyView extends Pane {
     }
 
 
+    private void addScrollPaneAndScrollBarToBoxWithButtons(VBox box) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(410d, ChatterClient.HEIGHT);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        ScrollBar vScrollBar = setAndGetScroll(scrollPane, box);
+        scrollPane.setContent(box);
+        boxWithButtons.getChildren().addAll(vScrollBar, scrollPane);
+    }
+
+
     private ScrollBar setAndGetScroll(ScrollPane scrollPane, VBox box) {
         ScrollBar vScrollBar = new ScrollBar();
         vScrollBar.setOrientation(Orientation.VERTICAL);
@@ -81,16 +91,6 @@ public class LobbyView extends Pane {
         vScrollBar.visibleAmountProperty().bind(scrollPane.heightProperty().divide(box.heightProperty()));
         scrollPane.vvalueProperty().bindBidirectional(vScrollBar.valueProperty());
         return vScrollBar;
-    }
-
-
-    private void addScrollPaneAndScrollBarToBoxWithButtons(VBox box) {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(410d, ChatterClient.HEIGHT);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        ScrollBar vScrollBar = setAndGetScroll(scrollPane, box);
-        scrollPane.setContent(box);
-        boxWithButtons.getChildren().addAll(vScrollBar, scrollPane);
     }
 
 
