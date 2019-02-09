@@ -1,13 +1,8 @@
 package com.codecool.chatter.view;
 
-import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
