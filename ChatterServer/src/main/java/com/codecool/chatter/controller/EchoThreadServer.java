@@ -5,12 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class EchoThread extends Thread {
+public class EchoThreadServer extends Thread {
 
     private Socket socket;
     private AppController appController;
 
-    public EchoThread(Socket socket, AppController appController) {
+    public EchoThreadServer(Socket socket, AppController appController) {
         this.socket = socket;
         this.appController = appController;
     }

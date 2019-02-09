@@ -21,7 +21,7 @@ public class Server2 {
 
         while (true) {
             socket = serverSocket.accept();
-            new EchoThread(socket, appController).start();
+            new EchoThreadServer(socket, appController).start();
         }
     }
 }
