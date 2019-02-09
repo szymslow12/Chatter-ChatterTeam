@@ -47,7 +47,7 @@ public class LobbyView extends Pane {
 
     private void addRoomsButtons(Lobby lobby, EventHandler<MouseEvent> onClick) {
         boxWithButtons = new HBox();
-        VBox box = getVbox();
+        VBox box = getVBox();
         setAndAddRoomsButtons(box, lobby, onClick);
         addScrollPaneAndScrollBarToBoxWithButtons(box);
         boxWithButtons.setBorder(getBoxWithButtonBorder());
@@ -65,7 +65,7 @@ public class LobbyView extends Pane {
     }
 
 
-    private VBox getVbox() {
+    private VBox getVBox() {
         VBox box = new VBox();
         box.setAlignment(Pos.TOP_CENTER);
         VBox.setVgrow(box, Priority.ALWAYS);
