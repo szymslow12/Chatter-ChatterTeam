@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
@@ -25,11 +26,13 @@ public class LoginController {
         try {
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String nickname = textInputControl.getText();
-            outputStream.writeUTF(nickname);
+            outputStream.writeObject(new ObjectWrapper("login", nickname));
             outputStream.flush();
-            boolean isNicknameAvailable = inputStream.readBoolean();
+            boolean isNicknameAvailable = (Boolean) ((ObjectWrapper) inputStream.readObject()).getObject();
             checkIfNicknameIsAvailable(isNicknameAvailable, nickname);
         } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
         }
     };
