@@ -1,6 +1,7 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
 
@@ -44,27 +45,27 @@ public class Server {
                 outputStream.flush();
                 ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                 do {
-                    String nickname = inputStream.readUTF();
+                    String nickname = (String) ((ObjectWrapper) inputStream.readObject()).getObject();
                     isAvailable = users.stream().allMatch(
                         loggedUser -> !loggedUser.getNickname().equals(nickname));
-                    outputStream.writeBoolean(isAvailable);
+                    outputStream.writeObject(new ObjectWrapper("isNicknameAvailable", isAvailable));
                     outputStream.flush();
                     System.out.println("Nickname '" + nickname + "' is " + (isAvailable ? "available": "not available"));
                     if (isAvailable)
                         user = new User(nickname);
 
                 } while (!isAvailable);
-                outputStream.writeObject(lobby);
+                outputStream.writeObject(new ObjectWrapper("lobby", lobby));
                 outputStream.flush();
-                long chosenRoomId = inputStream.readLong();
+                long chosenRoomId = (Long) ((ObjectWrapper) inputStream.readObject()).getObject();
                 Room chosenRoom = getRoomById(chosenRoomId);
                 if (chosenRoom == null) {
-                    outputStream.writeObject(new IllegalArgumentException("Room does not exist!"));
+                    outputStream.writeObject(new ObjectWrapper("error", new IllegalArgumentException("Room does not exist!")));
                     outputStream.flush();
                 } else {
                     System.out.println("User choose room " + chosenRoom.getName());
                     chosenRoom.addUser(user);
-                    outputStream.writeObject(chosenRoom);
+                    outputStream.writeObject(new ObjectWrapper("room", chosenRoom));
                     outputStream.flush();
                 }
                 long smthToStop = inputStream.readLong();
@@ -73,6 +74,8 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
             run();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
