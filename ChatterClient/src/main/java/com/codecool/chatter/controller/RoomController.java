@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class RoomController {
 
     public void run() {
         try {
-            Room room = (Room) inputStream.readObject();
+            Room room = (Room) ((ObjectWrapper) inputStream.readObject()).getObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
