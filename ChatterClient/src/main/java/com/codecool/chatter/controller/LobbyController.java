@@ -2,6 +2,7 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.view.AppView;
 import com.codecool.chatter.view.LobbyView;
@@ -31,7 +32,7 @@ public class LobbyController {
         Optional<ButtonType> confirmation = confirm.showAndWait();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                outputStream.writeLong(room.getId());
+                outputStream.writeObject(new ObjectWrapper("chosenRoomId", room.getId()));
                 outputStream.flush();
                 chosenRoom = room;
             } catch (IOException e1) {
@@ -78,7 +79,7 @@ public class LobbyController {
 
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
-        lobby = (Lobby) inputStream.readObject();
+        lobby = (Lobby) ((ObjectWrapper) inputStream.readObject()).getObject();
         System.out.println("Lobby has been loaded!");
     }
 }
