@@ -25,7 +25,7 @@ public class AppController {
         String action = data.getAction();
         switch (action) {
             case "login":
-                answer = lobby.checkNickNameExist((String) data.getObject());
+                answer = checkNickNameExist((String) data.getObject());
                 break;
             case "lobby":
                 answer = lobby;
@@ -34,6 +34,7 @@ public class AppController {
         return answer;
     }
 
-
-
+    public boolean checkNickNameExist(String userName) {
+        return lobby.getUsers().stream().anyMatch(user -> userName.equalsIgnoreCase(user.getNickname()));
+    }
 }
