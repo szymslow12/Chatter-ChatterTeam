@@ -44,8 +44,4 @@ public class Lobby implements Serializable {
     public List<Room> getRooms() {
         return rooms;
     }
-
-    public boolean checkNickNameExist(String userName) {
-        return users.stream().anyMatch(user -> userName.equalsIgnoreCase(user.getNickname()));
-    }
 }
