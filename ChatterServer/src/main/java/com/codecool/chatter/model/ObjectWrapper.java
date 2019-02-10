@@ -1,4 +1,4 @@
-package com.codecool.chatter;
+package com.codecool.chatter.model;
 
 public class ObjectWrapper {
 

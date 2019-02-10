@@ -1,10 +1,7 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.ObjectWrapper;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Lobby;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 public class AppController {
 
