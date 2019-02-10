@@ -1,6 +1,8 @@
 package com.codecool.chatter.model;
 
-public class ObjectWrapper {
+import java.io.Serializable;
+
+public class ObjectWrapper implements Serializable {
 
     private String action;
 
