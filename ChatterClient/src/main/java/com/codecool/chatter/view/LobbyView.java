@@ -16,7 +16,7 @@ public class LobbyView extends Pane {
     public LobbyView(double width, double height) {
         super();
         roomButtonsBox = new RoomButtonsBox(410d, ChatterClient.HEIGHT);
-        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 410d, ChatterClient.HEIGHT);
+        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 440d, ChatterClient.HEIGHT / 2);
         setSize(width, height);
     }
 
@@ -39,6 +39,7 @@ public class LobbyView extends Pane {
         );
         roomButtonsBox.renderRoomButtonsBox(lobby, roomOnClick);
         createRoomView.renderCreateRoomView(buttonOnClick);
+        createRoomView.setLayoutX(getWidth() - createRoomView.getWidth());
         getChildren().add(roomButtonsBox);
         getChildren().add(createRoomView);
     }
