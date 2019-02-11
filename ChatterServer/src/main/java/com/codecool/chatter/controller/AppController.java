@@ -39,7 +39,7 @@ public class AppController {
                 answer = handleCreateRoom(receiveData, user);
                 break;
         }
-        return answer;
+        return wrapObject(action, answer);
     }
 
     public boolean checkNickNameExist(String userName) {

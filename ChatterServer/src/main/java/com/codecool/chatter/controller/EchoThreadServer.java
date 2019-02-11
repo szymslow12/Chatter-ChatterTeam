@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 
 import java.io.IOException;
@@ -24,7 +25,10 @@ public class EchoThreadServer extends Thread {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
             do {
-                Object answer = loginValidate(objectInputStream.readObject());
+                ObjectWrapper receiveData = (ObjectWrapper) objectInputStream.readObject();
+                String action = receiveData.getAction();
+                Object receiveObject = receiveData.getObject();
+                Object answer = new ObjectWrapper(action, loginValidate(receiveObject)) ;
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
             }while (user != null);
