@@ -24,14 +24,14 @@ public class CreateRoomView extends Pane {
 
     public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
         buttonView = buttonView.getButton("Create", onClick);
-        setBackground(
-            new Background(
-                new BackgroundFill(
-                        Color.web("rgba(35, 125, 195, 0.5)"),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY)
-            )
-        );
+//        setBackground(
+//            new Background(
+//                new BackgroundFill(
+//                        Color.web("rgba(35, 125, 195, 0.5)"),
+//                        CornerRadii.EMPTY,
+//                        Insets.EMPTY)
+//            )
+//        );
         setPositions();
         getChildren().addAll(inputField, buttonView);
     }
