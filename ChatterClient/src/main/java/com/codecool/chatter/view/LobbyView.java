@@ -16,7 +16,7 @@ public class LobbyView extends Pane {
     public LobbyView(double width, double height) {
         super();
         roomButtonsBox = new RoomButtonsBox(410d, ChatterClient.HEIGHT);
-        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 440d, ChatterClient.HEIGHT / 4);
+        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 430d, ChatterClient.HEIGHT / 4);
         setSize(width, height);
     }
 
@@ -32,14 +32,14 @@ public class LobbyView extends Pane {
         setBackground(
             new Background(
                 new BackgroundFill(
-                    Color.web("rgba(255, 255, 255, 0.5)"),
+                    Color.web("rgba(255, 255, 255, 0.4)"),
                     CornerRadii.EMPTY,
                     Insets.EMPTY)
             )
         );
         roomButtonsBox.renderRoomButtonsBox(lobby, roomOnClick);
         createRoomView.renderCreateRoomView(buttonOnClick);
-        createRoomView.setLayoutX(getWidth() - createRoomView.getWidth());
+        createRoomView.setLayoutX(roomButtonsBox.getWidth() + 20);
         createRoomView.setLayoutY(10);
         getChildren().add(roomButtonsBox);
         getChildren().add(createRoomView);
