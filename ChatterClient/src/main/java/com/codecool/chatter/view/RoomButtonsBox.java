@@ -24,10 +24,10 @@ public class RoomButtonsBox extends HBox {
     private ScrollPane scrollPane;
     private ScrollBar scrollBar;
 
-    public RoomButtonsBox() {
+    public RoomButtonsBox(double width, double height) {
         super();
         roomsButtons = new ArrayList<>();
-        renderVBox();
+        renderVBox(width, height);
         renderScrollPane(vBox);
         renderScrollBar(scrollPane, vBox);
     }
@@ -41,7 +41,7 @@ public class RoomButtonsBox extends HBox {
 
 
     private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<MouseEvent> onClick) {
-        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(400, 100, room, onClick)));
+        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(getWidth() - 10, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);
             roomButton.setTranslateX(10);
@@ -50,16 +50,18 @@ public class RoomButtonsBox extends HBox {
     }
 
 
-    private void renderVBox() {
+    private void renderVBox(double width, double height) {
         vBox = new VBox();
         vBox.setAlignment(Pos.TOP_CENTER);
+        setWidth(width);
+        setHeight(height);
         VBox.setVgrow(vBox, Priority.ALWAYS);
     }
 
 
     private void renderScrollPane(VBox box) {
         scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(410d, ChatterClient.HEIGHT);
+        scrollPane.setPrefSize(getWidth(), getHeight());
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setContent(box);
     }
