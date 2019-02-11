@@ -32,12 +32,17 @@ public class CreateRoomView extends Pane {
                         Insets.EMPTY)
             )
         );
-        double middle = getHeight() / 2;
-        inputField.setLayoutX(getInputMiddleX());
-        inputField.setLayoutY(middle - inputField.getHeight());
-        buttonView.setLayoutX(getButtonMiddleX());
-        buttonView.setLayoutY(middle);
+        setPositions();
         getChildren().addAll(inputField, buttonView);
+    }
+
+
+    private void setPositions() {
+        double middle = getHeight() / 2;
+        inputField.setTranslateX(getInputMiddleX());
+        inputField.setTranslateY(middle - inputField.getHeight() * 1.5);
+        buttonView.setTranslateX(getButtonMiddleX());
+        buttonView.setTranslateY(middle + buttonView.getHeight());
     }
 
 
