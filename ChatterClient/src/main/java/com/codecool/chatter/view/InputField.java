@@ -10,14 +10,14 @@ import javafx.scene.text.Font;
 
 public class InputField extends GridPane {
 
-    private String name;
+    private String labelName;
     private Label label;
     private TextInputControl textInputControl;
 
-    public InputField(String name, boolean isTextArea, double width, double height, Insets insets) {
+    public InputField(String labelName, boolean isTextArea, double width, double height, Insets insets) {
         super();
-        this.name = name;
-        label =  new Label(name);
+        this.labelName = labelName;
+        label =  new Label(labelName);
         textInputControl = getProperInputField(isTextArea);
         renderInputField(insets, width, height);
     }
