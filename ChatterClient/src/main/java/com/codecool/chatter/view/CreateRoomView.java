@@ -20,6 +20,7 @@ public class CreateRoomView extends GridPane {
         buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
         setWidth(width);
         setHeight(height);
+        setPrefSize(width, height);
     }
 
 
