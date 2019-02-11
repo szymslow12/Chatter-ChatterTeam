@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Room implements Serializable {
 
-    private long id;
+    private static long id = 1;
     private String name;
     private int maxCapacity;
     private List<User> users;
@@ -14,8 +14,8 @@ public class Room implements Serializable {
     private Chat chat;
 
 
-    public Room(long id, String name, int port) {
-        this.id = id;
+    public Room(String name, int port) {
+        id++;
         this.name = name;
         this.port = port;
         this.maxCapacity = 20;
