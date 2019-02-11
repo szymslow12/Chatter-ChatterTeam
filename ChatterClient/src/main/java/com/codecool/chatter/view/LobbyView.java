@@ -1,5 +1,6 @@
 package com.codecool.chatter.view;
 
+import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,12 +10,13 @@ import javafx.scene.paint.Color;
 
 public class LobbyView extends Pane {
 
-//    private CreateRoomView createRoomView;
+    private CreateRoomView createRoomView;
     private RoomButtonsBox roomButtonsBox;
 
     public LobbyView(double width, double height) {
         super();
-        roomButtonsBox = new RoomButtonsBox();
+        roomButtonsBox = new RoomButtonsBox(410d, ChatterClient.HEIGHT);
+        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 410d, ChatterClient.HEIGHT);
         setSize(width, height);
     }
 
@@ -37,5 +39,6 @@ public class LobbyView extends Pane {
         );
         roomButtonsBox.renderRoomButtonsBox(lobby, onClick);
         getChildren().add(roomButtonsBox);
+        getChildren().add(createRoomView);
     }
 }
