@@ -16,7 +16,7 @@ public class CreateRoomView extends GridPane {
 
     public CreateRoomView(double width, double height) {
         super();
-        inputField = new InputField("roomName", false, width - 20, height, new Insets(10));
+        inputField = new InputField("Room name", false, width - 20, height, new Insets(10));
         buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
         setWidth(width);
         setHeight(height);
@@ -25,7 +25,7 @@ public class CreateRoomView extends GridPane {
 
 
     public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
-        buttonView = buttonView.getButton("Room name", onClick);
+        buttonView = buttonView.getButton("Create", onClick);
         setBackground(
             new Background(
                 new BackgroundFill(
