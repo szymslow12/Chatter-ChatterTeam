@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class InputField extends GridPane {
@@ -41,6 +42,7 @@ public class InputField extends GridPane {
 
     private void setInputFieldStyles(Label label, TextInputControl inputField, Insets insets, Font font) {
         label.setFont(font);
+        label.setTextFill(Color.web("#000000"));
         inputField.setFont(font);
         setGapsAndSizes(insets);
         alignAndAdd(label, inputField);
