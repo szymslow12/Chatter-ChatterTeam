@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class CreateRoomView extends Pane {
 
@@ -14,7 +15,7 @@ public class CreateRoomView extends Pane {
 
     public CreateRoomView(double width, double height) {
         super();
-        inputField = new InputField("Room name", false, width * 0.9, height * 0.25, new Insets(10));
+        inputField = new InputField("Room name:", false, width * 0.9, height * 0.25, new Insets(10));
         buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
         setWidth(width);
         setHeight(height);
@@ -32,6 +33,7 @@ public class CreateRoomView extends Pane {
 //                        Insets.EMPTY)
 //            )
 //        );
+        setBorder(getCreateRoomBorder());
         setPositions();
         getChildren().addAll(inputField, buttonView);
     }
@@ -53,5 +55,15 @@ public class CreateRoomView extends Pane {
 
     private double getButtonMiddleX() {
         return (getWidth() / 2) - buttonView.getWidth() / 2;
+    }
+
+
+    private Border getCreateRoomBorder() {
+        Paint borderColor = Color.web("#000000");
+        BorderStrokeStyle NONE = BorderStrokeStyle.NONE;
+        BorderStrokeStyle SOLID = BorderStrokeStyle.SOLID;
+        Insets insets = new Insets(0);
+        return new Border(new BorderStroke(borderColor, borderColor, borderColor, borderColor,
+                NONE, NONE, SOLID, NONE, CornerRadii.EMPTY, BorderWidths.DEFAULT, insets));
     }
 }
