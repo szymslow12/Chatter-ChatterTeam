@@ -2,6 +2,7 @@ package com.codecool.chatter.view;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -13,7 +14,7 @@ public class CreateRoomView extends Pane {
 
     public CreateRoomView(double width, double height) {
         super();
-        inputField = new InputField("Room name", false, width - 20, height * 0.25, new Insets(10));
+        inputField = new InputField("Room name", false, width * 0.9, height * 0.25, new Insets(10));
         buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
         setWidth(width);
         setHeight(height);
@@ -31,9 +32,21 @@ public class CreateRoomView extends Pane {
                         Insets.EMPTY)
             )
         );
-        get
-        setConstraints(inputField, 1, 1);
-        setConstraints(buttonView, 0, 3);
+        double middle = getHeight() / 2;
+        inputField.setLayoutX(getInputMiddleX());
+        inputField.setLayoutY(middle - inputField.getHeight());
+        buttonView.setLayoutX(getButtonMiddleX());
+        buttonView.setLayoutY(middle);
         getChildren().addAll(inputField, buttonView);
+    }
+
+
+    private double getInputMiddleX() {
+        return (getWidth() / 2) - inputField.getWidth() / 2;
+    }
+
+
+    private double getButtonMiddleX() {
+        return (getWidth() / 2) - buttonView.getWidth() / 2;
     }
 }
