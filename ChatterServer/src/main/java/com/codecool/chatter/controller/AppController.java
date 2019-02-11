@@ -30,9 +30,13 @@ public class AppController {
         ObjectWrapper data = (ObjectWrapper) object;
         Object answer = null;
         String action = data.getAction();
+        Object receiveData = data.getObject();
         switch (action) {
             case "chosenRoomId":
-                answer = chooseRoomHandle((long) data.getObject(), user);
+                answer = chooseRoomHandle(receiveData , user);
+                break;
+            case "createRoom":
+                answer = handleCreateRoom(receiveData, user);
                 break;
         }
         return answer;
@@ -42,7 +46,8 @@ public class AppController {
         return allUsers.stream().anyMatch(user -> userName.equalsIgnoreCase(user.getNickname()));
     }
 
-    private Object chooseRoomHandle(long id, User user) {
+    private Object chooseRoomHandle(Object object, User user) {
+        long id = (long) object;
         if(checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
@@ -58,4 +63,24 @@ public class AppController {
     private Room getRoomById(long id) {
         return lobby.getRooms().stream().filter(room -> room.getId() == id).findFirst().get();
     }
+
+    private Object handleCreateRoom(Object receiveData, User user) {
+        String roomName = (String) receiveData;
+        if(checkRoomByNameExist(roomName)) {
+            return false;
+        }
+        Room room = new Room(roomName, 8080);
+        room.getUsers().add(user);
+        return room;
+    }
+
+    private boolean checkRoomByNameExist(String roomName) {
+        return lobby.getRooms().stream().anyMatch(room -> room.getName().equalsIgnoreCase(roomName));
+    }
+
+    private Room getRoomByName(String roomName) {
+        return lobby.getRooms().stream().filter(room -> room.getName().equalsIgnoreCase(roomName)).findFirst().get();
+    }
+
+
 }
