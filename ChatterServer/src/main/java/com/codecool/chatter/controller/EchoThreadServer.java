@@ -31,7 +31,7 @@ public class EchoThreadServer extends Thread {
 
             while (true) {
                 Object object = objectInputStream.readObject();
-                Object answer = appController.handleData(object);
+                Object answer = appController.handleData(object, user);
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
             }
