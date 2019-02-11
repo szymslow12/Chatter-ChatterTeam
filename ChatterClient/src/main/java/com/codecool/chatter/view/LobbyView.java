@@ -16,7 +16,7 @@ public class LobbyView extends Pane {
     public LobbyView(double width, double height) {
         super();
         roomButtonsBox = new RoomButtonsBox(410d, ChatterClient.HEIGHT);
-        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 440d, ChatterClient.HEIGHT / 2, new Insets(10));
+        createRoomView = new CreateRoomView(ChatterClient.WIDTH - 440d, ChatterClient.HEIGHT / 2);
         setSize(width, height);
     }
 
