@@ -68,7 +68,7 @@ public class LobbyController {
     public void run(AppView appView) {
         try {
             getLobbyFromServer();
-            lobbyView.renderLobbyView(lobby, enterRoom);
+            lobbyView.renderLobbyView(lobby, enterRoom, enterRoom);
             appView.getChildren().add(lobbyView);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

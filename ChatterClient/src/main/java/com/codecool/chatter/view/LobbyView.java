@@ -28,7 +28,7 @@ public class LobbyView extends Pane {
     }
 
 
-    public void renderLobbyView(Lobby lobby, EventHandler<MouseEvent> onClick) {
+    public void renderLobbyView(Lobby lobby, EventHandler<MouseEvent> roomOnClick, EventHandler<MouseEvent> buttonOnClick) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -37,7 +37,8 @@ public class LobbyView extends Pane {
                     Insets.EMPTY)
             )
         );
-        roomButtonsBox.renderRoomButtonsBox(lobby, onClick);
+        roomButtonsBox.renderRoomButtonsBox(lobby, roomOnClick);
+        createRoomView.renderCreateRoomView(buttonOnClick);
         getChildren().add(roomButtonsBox);
         getChildren().add(createRoomView);
     }
