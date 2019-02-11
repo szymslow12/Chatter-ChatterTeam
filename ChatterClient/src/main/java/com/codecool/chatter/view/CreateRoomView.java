@@ -3,7 +3,11 @@ package com.codecool.chatter.view;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class CreateRoomView extends GridPane {
 
@@ -21,6 +25,14 @@ public class CreateRoomView extends GridPane {
 
     public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
         buttonView = buttonView.getButton("Room name", onClick);
+        setBackground(
+            new Background(
+                new BackgroundFill(
+                        Color.web("rgba(35, 125, 195, 0.5)"),
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY)
+            )
+        );
         getChildren().addAll(inputField, buttonView);
     }
 }
