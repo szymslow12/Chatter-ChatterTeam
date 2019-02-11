@@ -1,5 +1,7 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.User;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,6 +11,7 @@ public class EchoThreadServer extends Thread {
 
     private Socket socket;
     private AppController appController;
+    private User user;
 
     public EchoThreadServer(Socket socket, AppController appController) {
         this.socket = socket;
@@ -19,6 +22,12 @@ public class EchoThreadServer extends Thread {
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+
+            do {
+                Object answer = loginValidate(objectInputStream.readObject());
+                objectOutputStream.writeObject(answer);
+                objectOutputStream.flush();
+            }while (user != null);
 
             while (true) {
                 Object object = objectInputStream.readObject();
@@ -32,5 +41,15 @@ public class EchoThreadServer extends Thread {
             e.printStackTrace();
         }
 
+    }
+
+    private Object loginValidate(Object object) {
+        String userName = (String) object;
+        if(appController.checkNickNameExist(userName)){
+            return false;
+        }
+        this.user = new User(userName);
+        appController.getLobby().addUser(user);
+        return appController.getLobby();
     }
 }
