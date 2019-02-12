@@ -22,6 +22,11 @@ public class CreateRoomView extends Pane {
     }
 
 
+    public InputField getInputField() {
+        return inputField;
+    }
+
+
     public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
         buttonView = buttonView.getButton("Create", onClick);
 //        setBackground(
