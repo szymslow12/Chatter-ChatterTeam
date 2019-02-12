@@ -15,9 +15,7 @@ public class CreateRoomView extends Pane {
 
     public CreateRoomView(double width, double height) {
         super();
-        inputField = new InputField("Room name:", false, width * 0.9, height * 0.25, new Insets(10));
-        buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
-        alertMessage = new AlertMessage(inputField.getWidth(), inputField.getHeight() * 0.6, "Bad room name!");
+        initializeField(width, height);
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
@@ -43,6 +41,24 @@ public class CreateRoomView extends Pane {
         setPositions();
         renderAlert();
         getChildren().addAll(inputField, buttonView);
+    }
+
+
+    private void initializeField(double width, double height) {
+        inputField = new InputField(
+            "Room name:",
+            false,
+            width * 0.9,
+            height * 0.25,
+            new Insets(10)
+        );
+        buttonView = new ButtonView(
+            (width - 20) * 0.25,
+            height * 0.1);
+        alertMessage = new AlertMessage(
+            inputField.getWidth(),
+            inputField.getHeight() * 0.6,
+            "Bad room name!");
     }
 
 
