@@ -1,16 +1,11 @@
 package com.codecool.chatter.view;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class CreateRoomView extends Pane {
 
@@ -22,7 +17,7 @@ public class CreateRoomView extends Pane {
         super();
         inputField = new InputField("Room name:", false, width * 0.9, height * 0.25, new Insets(10));
         buttonView = new ButtonView((width - 20) * 0.25, height * 0.1);
-        alertMessage = new AlertMessage(width, height / 2, "Bad room name!");
+        alertMessage = new AlertMessage(inputField.getWidth(), inputField.getHeight() * 0.6, "Bad room name!");
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
@@ -46,9 +41,7 @@ public class CreateRoomView extends Pane {
 //        );
         setBorder(getCreateRoomBorder());
         setPositions();
-        double x = (getWidth() - inputField.getWidth()) / 2;
-        double y = 10;
-        alertMessage.renderAlertMessage(x, y);
+        renderAlert();
         getChildren().addAll(inputField, buttonView);
     }
 
@@ -79,6 +72,13 @@ public class CreateRoomView extends Pane {
         Insets insets = new Insets(0);
         return new Border(new BorderStroke(borderColor, borderColor, borderColor, borderColor,
                 NONE, NONE, SOLID, NONE, CornerRadii.EMPTY, BorderWidths.DEFAULT, insets));
+    }
+
+
+    private void renderAlert() {
+        double x = (getWidth() - inputField.getWidth()) / 2;
+        double y = 10;
+        alertMessage.renderAlertMessage(x, y);
     }
 
 
