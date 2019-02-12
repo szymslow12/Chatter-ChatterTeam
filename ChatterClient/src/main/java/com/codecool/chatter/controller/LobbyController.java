@@ -1,19 +1,16 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.controller.eventHandler.EnterRoom;
 import com.codecool.chatter.model.*;
 import com.codecool.chatter.view.*;
 import com.codecool.chatter.view.box.CreateRoomForm;
-import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class LobbyController {
 
@@ -21,30 +18,6 @@ public class LobbyController {
     private Lobby lobby;
     private LobbyView lobbyView;
     private Room chosenRoom;
-
-    private EventHandler<MouseEvent> enterRoom = e -> {
-        RoomButton roomButton = (RoomButton) e.getSource();
-        Room room = roomButton.getRoom();
-        Alert confirm = getConfirmationAlert(room);
-        Optional<ButtonType> confirmation = confirm.showAndWait();
-        if (confirmation.get() == ButtonType.OK) {
-            try {
-                connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
-                chosenRoom = room;
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-    };
-
-
-    private Alert getConfirmationAlert(Room room) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to join room '" + room.getName() + "' ?");
-        return alert;
-    }
 
 
     private EventHandler<MouseEvent> createRoom = e -> {
@@ -98,7 +71,7 @@ public class LobbyController {
     public void run(AppView appView, User client) {
         try {
             getLobbyFromServer();
-            lobbyView.renderLobbyView(lobby, client, enterRoom, createRoom);
+            lobbyView.renderLobbyView(lobby, client, new EnterRoom(this), createRoom);
             appView.getChildren().add(lobbyView);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
