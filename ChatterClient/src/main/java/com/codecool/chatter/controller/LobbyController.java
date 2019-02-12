@@ -1,10 +1,7 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.ChatterClient;
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 import com.codecool.chatter.view.*;
 import com.codecool.chatter.view.box.CreateRoomForm;
 import com.codecool.chatter.view.interactive.RoomButton;
@@ -22,8 +19,7 @@ import java.util.Optional;
 
 public class LobbyController {
 
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
+    private Connection connection;
     private Lobby lobby;
     private LobbyView lobbyView;
     private Room chosenRoom;
@@ -35,8 +31,7 @@ public class LobbyController {
         Optional<ButtonType> confirmation = confirm.showAndWait();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                outputStream.writeObject(new ObjectWrapper("chosenRoomId", room.getId()));
-                outputStream.flush();
+                connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
                 chosenRoom = room;
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -60,9 +55,8 @@ public class LobbyController {
        String roomName = textInputControl.getText();
        ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
-            outputStream.writeObject(objectWrapper);
-            outputStream.flush();
-            objectWrapper = (ObjectWrapper) inputStream.readObject();
+            connection.write(objectWrapper);
+            objectWrapper = connection.read();
             if (objectWrapper.getAction().equals("isAvailable")) {
                 Canvas alert = createRoomForm.getAlertMessage();
                 boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
@@ -80,9 +74,8 @@ public class LobbyController {
 
     };
 
-    public LobbyController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
-        this.outputStream = objectOutputStream;
-        this.inputStream = objectInputStream;
+    public LobbyController(Connection connection) {
+        this.connection = connection;
         lobby = null;
         chosenRoom = null;
         lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
@@ -108,7 +101,7 @@ public class LobbyController {
 
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
-        lobby = (Lobby) ((ObjectWrapper) inputStream.readObject()).getObject();
+        lobby = (Lobby) connection.read().getObject();
         System.out.println("Lobby has been loaded!");
     }
 }

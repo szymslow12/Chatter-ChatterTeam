@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.LoginView;
@@ -13,12 +14,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.*;;
+import java.io.*;
 
 public class LoginController {
 
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
+    private Connection connection;
     private LoginView loginView;
     private User client;
 
@@ -26,9 +26,8 @@ public class LoginController {
         try {
             TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
             String nickname = textInputControl.getText();
-            outputStream.writeObject(new ObjectWrapper("login", nickname));
-            outputStream.flush();
-            boolean isNicknameAvailable = (Boolean) ((ObjectWrapper) inputStream.readObject()).getObject();
+            connection.write(new ObjectWrapper("login", nickname));
+            boolean isNicknameAvailable = (Boolean) connection.read().getObject();
             checkIfNicknameIsAvailable(isNicknameAvailable, nickname);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -61,10 +60,9 @@ public class LoginController {
     }
 
 
-    public LoginController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
+    public LoginController(Connection connection) {
         this();
-        this.outputStream = objectOutputStream;
-        this.inputStream = objectInputStream;
+        this.connection = connection;
     }
 
 
