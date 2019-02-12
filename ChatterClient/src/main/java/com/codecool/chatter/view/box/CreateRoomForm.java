@@ -66,11 +66,10 @@ public class CreateRoomForm extends Pane {
 
 
     private void setPositions() {
-        double middle = getHeight() / 2;
         inputField.setTranslateX(getInputMiddleX());
-        inputField.setTranslateY(middle - inputField.getHeight() * 1.5);
+        inputField.setTranslateY(getInputY());
         buttonView.setTranslateX(getButtonMiddleX());
-        buttonView.setTranslateY(middle + buttonView.getHeight());
+        buttonView.setTranslateY(getButtonY());
     }
 
 
@@ -79,8 +78,18 @@ public class CreateRoomForm extends Pane {
     }
 
 
+    private double getInputY() {
+        return (getHeight() / 2) - inputField.getHeight() * 1.5;
+    }
+
+
     private double getButtonMiddleX() {
         return (getWidth() / 2) - buttonView.getWidth() / 2;
+    }
+
+
+    private double getButtonY() {
+        return (getHeight() / 2)  + buttonView.getHeight();
     }
 
 

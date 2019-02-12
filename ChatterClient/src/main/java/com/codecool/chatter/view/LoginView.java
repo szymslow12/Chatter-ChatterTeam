@@ -54,12 +54,30 @@ public class LoginView extends Pane {
 
 
     private void setPositionsOfElements() {
-        double x = getWidth() / 2;
-        double y = getHeight() / 2;
-        inputField.setLayoutX(x - inputField.getWidth() / 2);
-        inputField.setLayoutY(y - inputField.getHeight() / 1.5);
-        buttonView.setLayoutX(x - buttonView.getWidth() / 2);
-        buttonView.setLayoutY(y + buttonView.getHeight());
+        inputField.setLayoutX(getInputMiddleX());
+        inputField.setLayoutY(getInputY());
+        buttonView.setLayoutX(getButtonMiddleX());
+        buttonView.setLayoutY(getButtonY());
+    }
+
+
+    private double getInputMiddleX() {
+        return (getWidth() / 2) - inputField.getWidth() / 2;
+    }
+
+
+    private double getInputY() {
+        return (getHeight() / 2) - inputField.getHeight() / 1.5;
+    }
+
+
+    private double getButtonMiddleX() {
+        return (getWidth() / 2) - buttonView.getWidth() / 2;
+    }
+
+
+    private double getButtonY() {
+        return (getHeight() / 2) + buttonView.getHeight();
     }
 
 
@@ -81,7 +99,10 @@ public class LoginView extends Pane {
     private void renderAlertMessage() {
         double x = (getWidth() - inputField.getWidth()) / 2;
         double y = 20;
-        alertMessage = new AlertMessage(inputField.getWidth(), inputField.getHeight() / 3, "Nickname is used by some else!");
+        alertMessage = new AlertMessage(
+            inputField.getWidth(),
+            inputField.getHeight() / 3,
+            "Nickname is used by some else!");
         alertMessage.renderAlertMessage(x, y);
     }
 }
