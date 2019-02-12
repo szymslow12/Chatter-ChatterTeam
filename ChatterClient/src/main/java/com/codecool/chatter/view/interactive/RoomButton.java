@@ -28,14 +28,6 @@ public class RoomButton extends Pane {
 
 
     private void renderRoomButton() {
-        setBackground(
-            new Background(
-                new BackgroundFill(
-                    Color.web("rgba(0, 0, 0, 0.4)"),
-                    CornerRadii.EMPTY,
-                    new Insets(10, 10, 0, 0))
-            )
-        );
         Font font = new Font(25);
         Text roomName = getRoomName(font);
         double secondLineY = 50 + roomName.getLayoutBounds().getHeight();
@@ -43,6 +35,14 @@ public class RoomButton extends Pane {
         Text onlineUsersNumber = getOnlineUsersNumber(font, onlineUsers, secondLineY);
         Text maxCapNum = getMaxCapNum(font, secondLineY);
         Text max = getMax(maxCapNum, font, secondLineY);
+        setBackground(
+            new Background(
+                new BackgroundFill(
+                        Color.web("rgba(0, 0, 0, 0.4)"),
+                        CornerRadii.EMPTY,
+                        new Insets(10, 10, 0, 0))
+            )
+        );
         getChildren().addAll(roomName, onlineUsers, onlineUsersNumber, maxCapNum, max);
     }
 

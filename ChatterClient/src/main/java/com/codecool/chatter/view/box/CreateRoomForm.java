@@ -32,7 +32,10 @@ public class CreateRoomForm extends Pane {
 
     public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
         buttonView = buttonView.getButton("Create", onClick);
-//        setBackground(
+        setBorder(getCreateRoomBorder());
+        setPositions();
+        renderAlert();
+        //        setBackground(
 //            new Background(
 //                new BackgroundFill(
 //                        Color.web("rgba(35, 125, 195, 0.5)"),
@@ -40,9 +43,6 @@ public class CreateRoomForm extends Pane {
 //                        Insets.EMPTY)
 //            )
 //        );
-        setBorder(getCreateRoomBorder());
-        setPositions();
-        renderAlert();
         getChildren().addAll(inputField, buttonView);
     }
 
