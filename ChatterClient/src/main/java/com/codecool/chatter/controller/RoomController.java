@@ -1,27 +1,23 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.ObjectWrapper;
+import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class RoomController {
 
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
+    private Connection connection;
 //    private RoomView roomView;
 
-    public RoomController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
-        this.outputStream = objectOutputStream;
-        this.inputStream = objectInputStream;
+    public RoomController(Connection connection) {
+        this.connection = connection;
     }
 
 
     public void run() {
         try {
-            Room room = (Room) ((ObjectWrapper) inputStream.readObject()).getObject();
+            Room room = (Room) connection.read().getObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

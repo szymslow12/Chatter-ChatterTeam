@@ -1,22 +1,21 @@
 package com.codecool.chatter.view;
 
-import javafx.geometry.Bounds;
+import com.codecool.chatter.view.alert.AlertMessage;
+import com.codecool.chatter.view.interactive.ButtonView;
+import com.codecool.chatter.view.interactive.InputField;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class LoginView extends Pane {
 
     private InputField inputField;
     private ButtonView buttonView;
-    private Canvas badLoginTry;
+    private AlertMessage alertMessage;
 
     public LoginView(int width, int height, int margin, EventHandler<MouseEvent> onClick) {
         super();
@@ -24,7 +23,7 @@ public class LoginView extends Pane {
         setHeight(height);
         this.buttonView = new ButtonView(width * 0.15, 25).getButton("Join", onClick);
         createNicknameInputField(margin);
-        renderBadLoginTryAlert();
+        renderAlertMessage();
         renderLoginView();
     }
 
@@ -33,7 +32,12 @@ public class LoginView extends Pane {
         Insets margins = new Insets(margin, margin ,margin,margin);
         double width =  getWidth() * 0.75;
         double height = width * 0.25;
-        this.inputField = new InputField("Nickname", false, width, height, margins);
+        this.inputField = new InputField(
+            "Nickname",
+            false,
+            width,
+            height,
+            margins);
     }
 
 
@@ -50,12 +54,30 @@ public class LoginView extends Pane {
 
 
     private void setPositionsOfElements() {
-        double x = getWidth() / 2;
-        double y = getHeight() / 2;
-        inputField.setLayoutX(x - inputField.getWidth() / 2);
-        inputField.setLayoutY(y - inputField.getHeight() / 1.5);
-        buttonView.setLayoutX(x - buttonView.getWidth() / 2);
-        buttonView.setLayoutY(y + buttonView.getHeight());
+        inputField.setLayoutX(getInputMiddleX());
+        inputField.setLayoutY(getInputY());
+        buttonView.setLayoutX(getButtonMiddleX());
+        buttonView.setLayoutY(getButtonY());
+    }
+
+
+    private double getInputMiddleX() {
+        return (getWidth() / 2) - inputField.getWidth() / 2;
+    }
+
+
+    private double getInputY() {
+        return (getHeight() / 2) - inputField.getHeight() / 1.5;
+    }
+
+
+    private double getButtonMiddleX() {
+        return (getWidth() / 2) - buttonView.getWidth() / 2;
+    }
+
+
+    private double getButtonY() {
+        return (getHeight() / 2) + buttonView.getHeight();
     }
 
 
@@ -69,45 +91,18 @@ public class LoginView extends Pane {
     }
 
 
-    public Canvas getBadLoginTry() {
-        return badLoginTry;
+    public Canvas getAlertMessage() {
+        return alertMessage;
     }
 
 
-    private void renderBadLoginTryAlert() {
+    private void renderAlertMessage() {
         double x = (getWidth() - inputField.getWidth()) / 2;
-        double y = 10;
-        badLoginTry = new Canvas(inputField.getWidth(), inputField.getHeight() / 2);
-        drawBadLoginTry(badLoginTry);
-        badLoginTry.setLayoutX(x);
-        badLoginTry.setLayoutY(10);
-    }
-
-
-    private void drawBadLoginTry(Canvas canvas) {
-        GraphicsContext context = canvas.getGraphicsContext2D();
-        double width = inputField.getWidth();
-        double height = inputField.getHeight() / 3;
-        double x = 0; double y = 0;
-        drawBox(x, y, width, height, context);
-        drawMessage(x, y, width, height, context);
-    }
-
-
-    private void drawBox(double x, double y, double width, double height, GraphicsContext context) {
-        context.strokeRect(x, y, width, height);
-        context.setFill(Color.web("rgba(255, 0, 0, 0.8)"));
-        context.fillRect(x + 1, y + 1, width - 1, height - 1);
-    }
-
-
-    private void drawMessage(double x, double y, double width, double height, GraphicsContext context) {
-        String badLoginMessage = "Nickname is in use!";
-        Bounds bounds = new Text(badLoginMessage).getLayoutBounds();
-        double textX = x + width / 2 - bounds.getWidth();
-        double textY = y + ((height + 1) / 2) + bounds.getHeight() / 2;
-        context.setFill(Color.web("#000000"));
-        context.setFont(new Font(25));
-        context.fillText(badLoginMessage, textX, textY);
+        double y = 20;
+        alertMessage = new AlertMessage(
+            inputField.getWidth(),
+            inputField.getHeight() / 3,
+            "Nickname is used by some else!");
+        alertMessage.renderAlertMessage(x, y);
     }
 }

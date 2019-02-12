@@ -1,70 +1,37 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.ObjectWrapper;
+import com.codecool.chatter.controller.eventHandler.LogIn;
+import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.LoginView;
-import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.*;;
-
 public class LoginController {
 
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
+    private Connection connection;
     private LoginView loginView;
     private User client;
 
-    private EventHandler<MouseEvent> logIn = e -> {
-        try {
-            TextInputControl textInputControl = loginView.getInputField().getTextInputControl();
-            String nickname = textInputControl.getText();
-            outputStream.writeObject(new ObjectWrapper("login", nickname));
-            outputStream.flush();
-            boolean isNicknameAvailable = (Boolean) ((ObjectWrapper) inputStream.readObject()).getObject();
-            checkIfNicknameIsAvailable(isNicknameAvailable, nickname);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
-    };
-
-
-    private void checkIfNicknameIsAvailable(boolean isNicknameAvailable, String nickname) {
-        Canvas badLoginTry = loginView.getBadLoginTry();
-        boolean isAlreadyDisplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
-        if (isNicknameAvailable) {
-            client = new User(nickname);
-            if (isAlreadyDisplayBadLoginTry) {
-                loginView.getChildren().remove(badLoginTry);
-            }
-            ((Stage) loginView.getButtonView().getScene().getWindow()).close();
-        } else {
-            if (!isAlreadyDisplayBadLoginTry) {
-                loginView.getChildren().add(badLoginTry);
-            }
-        }
-    }
 
     public LoginController() {
         int width = 750;
         int height = (int) 400d * 2 / 3;
-        this.loginView = new LoginView(width, height, 25, logIn);
+        this.loginView = new LoginView(width, height, 25, new LogIn(this));
     }
 
 
-    public LoginController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
+    public LoginController(Connection connection) {
         this();
-        this.outputStream = objectOutputStream;
-        this.inputStream = objectInputStream;
+        this.connection = connection;
+    }
+
+
+    public void setClient(User client) {
+        this.client = client;
     }
 
 
@@ -75,6 +42,11 @@ public class LoginController {
 
     public LoginView getLoginView() {
         return loginView;
+    }
+
+
+    public Connection getConnection() {
+        return connection;
     }
 
 

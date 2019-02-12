@@ -1,4 +1,4 @@
-package com.codecool.chatter.view;
+package com.codecool.chatter.view.interactive;
 
 import javafx.scene.control.Button;
 

@@ -1,22 +1,23 @@
-package com.codecool.chatter.view;
+package com.codecool.chatter.view.interactive;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class InputField extends GridPane {
 
-    private String name;
+    private String labelName;
     private Label label;
     private TextInputControl textInputControl;
 
-    public InputField(String name, boolean isTextArea, double width, double height, Insets insets) {
+    public InputField(String labelName, boolean isTextArea, double width, double height, Insets insets) {
         super();
-        this.name = name;
-        label =  new Label(name);
+        this.labelName = labelName;
+        label =  new Label(labelName);
         textInputControl = getProperInputField(isTextArea);
         renderInputField(insets, width, height);
     }
@@ -41,6 +42,7 @@ public class InputField extends GridPane {
 
     private void setInputFieldStyles(Label label, TextInputControl inputField, Insets insets, Font font) {
         label.setFont(font);
+        label.setTextFill(Color.web("#000000"));
         inputField.setFont(font);
         setGapsAndSizes(insets);
         alignAndAdd(label, inputField);

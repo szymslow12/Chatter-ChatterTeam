@@ -1,13 +1,12 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import javafx.application.Platform;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.IOException;;
 import java.net.Socket;
 
 public class AppController extends Thread {
@@ -29,13 +28,10 @@ public class AppController extends Thread {
     @Override
     public void run() {
         try (Socket socket = new Socket(host, port)) {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.flush();
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            runLoginController(objectOutputStream, objectInputStream);
-            runLobbyController(objectOutputStream, objectInputStream);
-            RoomController roomController = new RoomController(objectOutputStream, objectInputStream);
-            roomController.run();
+            Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
+            runLoginController(connection);
+            runLobbyController(connection);
+            runRoomController(connection);
             interrupt();
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,8 +39,8 @@ public class AppController extends Thread {
     }
 
 
-    private void runLoginController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
-        LoginController loginController = new LoginController(outputStream, inputStream);
+    private void runLoginController(Connection connection) {
+        LoginController loginController = new LoginController(connection);
         Platform.runLater(loginController::runLoginStage);
         while (client == null) {
             client = loginController.getClient();
@@ -53,15 +49,21 @@ public class AppController extends Thread {
     }
 
 
-    private void runLobbyController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
-        LobbyController lobbyController = new LobbyController(outputStream, inputStream);
-        Platform.runLater(() -> lobbyController.run(appView));
+    private void runLobbyController(Connection connection) {
+        LobbyController lobbyController = new LobbyController(connection);
+        Platform.runLater(() -> lobbyController.run(appView, client));
         Room chosenRoom = null;
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
         }
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
+    }
+
+
+    private void runRoomController(Connection connection) {
+        RoomController roomController = new RoomController(connection);
+        roomController.run();
     }
 
 
