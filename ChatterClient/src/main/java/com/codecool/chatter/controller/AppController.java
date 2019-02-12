@@ -34,8 +34,7 @@ public class AppController extends Thread {
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             runLoginController(objectOutputStream, objectInputStream);
             runLobbyController(objectOutputStream, objectInputStream);
-            RoomController roomController = new RoomController(objectOutputStream, objectInputStream);
-            roomController.run();
+            runRoomController(objectOutputStream, objectInputStream);
             interrupt();
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,6 +61,12 @@ public class AppController extends Thread {
         }
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
+    }
+
+
+    private void runRoomController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
+        RoomController roomController = new RoomController(outputStream, inputStream);
+        roomController.run();
     }
 
 
