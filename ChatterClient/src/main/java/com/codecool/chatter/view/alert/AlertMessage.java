@@ -1,4 +1,4 @@
-package com.codecool.chatter.view;
+package com.codecool.chatter.view.alert;
 
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
