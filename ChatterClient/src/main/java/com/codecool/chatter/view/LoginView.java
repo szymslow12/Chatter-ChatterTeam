@@ -29,7 +29,12 @@ public class LoginView extends Pane {
         Insets margins = new Insets(margin, margin ,margin,margin);
         double width =  getWidth() * 0.75;
         double height = width * 0.25;
-        this.inputField = new InputField("Nickname", false, width, height, margins);
+        this.inputField = new InputField(
+            "Nickname",
+            false,
+            width,
+            height,
+            margins);
     }
 
 

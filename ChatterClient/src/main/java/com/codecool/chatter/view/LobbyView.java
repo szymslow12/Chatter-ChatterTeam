@@ -1,7 +1,6 @@
 package com.codecool.chatter.view;
 
 import com.codecool.chatter.ChatterClient;
-import com.codecool.chatter.model.Chat;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.User;
 import javafx.event.EventHandler;
@@ -48,7 +47,11 @@ public class LobbyView extends Pane {
     private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
         roomButtonsBox = new RoomButtonsBox(leftSiteWidth, height);
         createRoomView = new CreateRoomView(rightSiteWidth, divide(height, 4));
-        lobbyInfoView = new LobbyInfoView(rightSiteWidth, divide(height, 3 / 4), new Insets(10));
+        lobbyInfoView = new LobbyInfoView(
+            rightSiteWidth,
+            divide(height, 3 / 4),
+            new Insets(10)
+        );
     }
 
 
