@@ -55,7 +55,7 @@ public class AppController extends Thread {
 
     private void runLobbyController(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
         LobbyController lobbyController = new LobbyController(outputStream, inputStream);
-        Platform.runLater(() -> lobbyController.run(appView));
+        Platform.runLater(() -> lobbyController.run(appView, client));
         Room chosenRoom = null;
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
