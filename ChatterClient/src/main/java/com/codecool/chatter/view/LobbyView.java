@@ -52,7 +52,7 @@ public class LobbyView extends Pane {
         createRoomForm = new CreateRoomForm(rightSiteWidth, divide(height, 4));
         lobbyInfoBox = new LobbyInfoBox(
             rightSiteWidth,
-            divide(height, 3 / 4),
+            divide(height, 3f / 4),
             new Insets(10)
         );
     }
