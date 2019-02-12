@@ -77,7 +77,7 @@ public class CreateRoomView extends Pane {
 
     private void renderAlert() {
         double x = (getWidth() - inputField.getWidth()) / 2;
-        double y = 10;
+        double y = 5;
         alertMessage.renderAlertMessage(x, y);
     }
 
