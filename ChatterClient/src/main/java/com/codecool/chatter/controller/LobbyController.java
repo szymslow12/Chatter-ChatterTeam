@@ -80,8 +80,18 @@ public class LobbyController {
     }
 
 
+    public void setChosenRoom(Room room) {
+        this.chosenRoom = room;
+    }
+
+
     public Room getChosenRoom() {
         return chosenRoom;
+    }
+
+
+    public Connection getConnection() {
+        return connection;
     }
 
 

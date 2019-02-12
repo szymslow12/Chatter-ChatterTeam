@@ -1,15 +1,15 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.model.Connection;
+import com.codecool.chatter.controller.LobbyController;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class EnterRoom implements EventHandler<MouseEvent> {
 
-    private Connection connection;
+    private LobbyController lobbyController;
 
-    public EnterRoom(Connection connection) {
-        this.connection = connection;
+    public EnterRoom(LobbyController lobbyController) {
+        this.lobbyController = lobbyController;
     }
 
     @Override
