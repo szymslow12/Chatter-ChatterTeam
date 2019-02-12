@@ -7,13 +7,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class CreateRoomView extends Pane {
+public class CreateRoomForm extends Pane {
 
     private InputField inputField;
     private ButtonView buttonView;
     private AlertMessage alertMessage;
 
-    public CreateRoomView(double width, double height) {
+    public CreateRoomForm(double width, double height) {
         super();
         initializeField(width, height);
         setWidth(width);

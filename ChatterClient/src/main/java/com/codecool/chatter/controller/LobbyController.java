@@ -53,8 +53,8 @@ public class LobbyController {
 
 
     private EventHandler<MouseEvent> createRoom = e -> {
-        CreateRoomView createRoomView = lobbyView.getCreateRoomView();
-       TextInputControl textInputControl = createRoomView.getInputField().getTextInputControl();
+        CreateRoomForm createRoomForm = lobbyView.getCreateRoomForm();
+       TextInputControl textInputControl = createRoomForm.getInputField().getTextInputControl();
        String roomName = textInputControl.getText();
        ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
@@ -62,10 +62,10 @@ public class LobbyController {
             outputStream.flush();
             objectWrapper = (ObjectWrapper) inputStream.readObject();
             if (objectWrapper.getAction().equals("isAvailable")) {
-                Canvas alert = createRoomView.getAlertMessage();
-                boolean isDisplayedAlert = createRoomView.getChildren().contains(alert);
+                Canvas alert = createRoomForm.getAlertMessage();
+                boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
                 if (!isDisplayedAlert) {
-                    createRoomView.getChildren().add(alert);
+                    createRoomForm.getChildren().add(alert);
                 }
             } else {
                 chosenRoom = (Room) objectWrapper.getObject();

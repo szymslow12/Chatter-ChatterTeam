@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 
 public class LobbyView extends Pane {
 
-    private CreateRoomView createRoomView;
+    private CreateRoomForm createRoomForm;
     private RoomButtonsBox roomButtonsBox;
     private LobbyInfoView lobbyInfoView;
 
@@ -22,8 +22,8 @@ public class LobbyView extends Pane {
     }
 
 
-    public CreateRoomView getCreateRoomView() {
-        return createRoomView;
+    public CreateRoomForm getCreateRoomForm() {
+        return createRoomForm;
     }
 
 
@@ -37,16 +37,16 @@ public class LobbyView extends Pane {
             )
         );
         roomButtonsBox.renderRoomButtonsBox(lobby, roomOnClick);
-        createRoomView.renderCreateRoomView(buttonOnClick);
+        createRoomForm.renderCreateRoomView(buttonOnClick);
         lobbyInfoView.renderLobbyInfoView(lobby, client);
         setPositions();
-        getChildren().addAll(roomButtonsBox, createRoomView, lobbyInfoView);
+        getChildren().addAll(roomButtonsBox, createRoomForm, lobbyInfoView);
     }
 
 
     private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
         roomButtonsBox = new RoomButtonsBox(leftSiteWidth, height);
-        createRoomView = new CreateRoomView(rightSiteWidth, divide(height, 4));
+        createRoomForm = new CreateRoomForm(rightSiteWidth, divide(height, 4));
         lobbyInfoView = new LobbyInfoView(
             rightSiteWidth,
             divide(height, 3 / 4),
@@ -63,10 +63,10 @@ public class LobbyView extends Pane {
 
 
     private void setPositions() {
-        createRoomView.setLayoutX(roomButtonsBox.getWidth() + 20);
-        createRoomView.setLayoutY(10);
+        createRoomForm.setLayoutX(roomButtonsBox.getWidth() + 20);
+        createRoomForm.setLayoutY(10);
         lobbyInfoView.setLayoutX(roomButtonsBox.getWidth() + 20);
-        lobbyInfoView.setLayoutY(createRoomView.getHeight() + 10);
+        lobbyInfoView.setLayoutY(createRoomForm.getHeight() + 10);
     }
 
 
