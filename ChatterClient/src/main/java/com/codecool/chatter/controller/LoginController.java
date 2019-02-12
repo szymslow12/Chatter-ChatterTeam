@@ -39,7 +39,7 @@ public class LoginController {
 
 
     private void checkIfNicknameIsAvailable(boolean isNicknameAvailable, String nickname) {
-        Canvas badLoginTry = loginView.getBadLoginTry();
+        Canvas badLoginTry = loginView.getAlertMessage();
         boolean isAlreadyDisplayBadLoginTry = loginView.getChildren().contains(badLoginTry);
         if (isNicknameAvailable) {
             client = new User(nickname);
