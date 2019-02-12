@@ -13,8 +13,6 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Optional;
 
 public class LobbyController {
