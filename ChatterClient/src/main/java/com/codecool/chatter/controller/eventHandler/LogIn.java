@@ -1,15 +1,15 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.model.Connection;
+import com.codecool.chatter.controller.LoginController;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class LogIn implements EventHandler<MouseEvent> {
 
-    private Connection connection;
+    private LoginController loginController;
 
-    public LogIn(Connection connection) {
-        this.connection = connection;
+    public LogIn(LoginController loginController) {
+        this.loginController = loginController;
     }
 
     @Override

@@ -66,6 +66,11 @@ public class LoginController {
     }
 
 
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+
     public User getClient() {
         return client;
     }
@@ -73,6 +78,11 @@ public class LoginController {
 
     public LoginView getLoginView() {
         return loginView;
+    }
+
+
+    public Connection getConnection() {
+        return connection;
     }
 
 
