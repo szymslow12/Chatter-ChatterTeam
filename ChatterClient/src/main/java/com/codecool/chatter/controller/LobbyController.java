@@ -5,12 +5,12 @@ import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
-import com.codecool.chatter.view.AppView;
-import com.codecool.chatter.view.LobbyView;
-import com.codecool.chatter.view.RoomButton;
+import com.codecool.chatter.view.*;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -52,6 +52,32 @@ public class LobbyController {
     }
 
 
+    private EventHandler<MouseEvent> createRoom = e -> {
+        CreateRoomView createRoomView = lobbyView.getCreateRoomView();
+       TextInputControl textInputControl = createRoomView.getInputField().getTextInputControl();
+       String roomName = textInputControl.getText();
+       ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
+        try {
+            outputStream.writeObject(objectWrapper);
+            outputStream.flush();
+            objectWrapper = (ObjectWrapper) inputStream.readObject();
+            if (objectWrapper.getAction().equals("isAvailable")) {
+                Canvas alert = createRoomView.getBadRoomName();
+                boolean isDisplayedAlert = createRoomView.getChildren().contains(alert);
+                if (!isDisplayedAlert) {
+                    createRoomView.getChildren().add(alert);
+                }
+            } else {
+                chosenRoom = (Room) objectWrapper.getObject();
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        }
+
+    };
+
     public LobbyController(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         this.outputStream = objectOutputStream;
         this.inputStream = objectInputStream;
@@ -69,7 +95,7 @@ public class LobbyController {
     public void run(AppView appView, User client) {
         try {
             getLobbyFromServer();
-            lobbyView.renderLobbyView(lobby, client, enterRoom, enterRoom);
+            lobbyView.renderLobbyView(lobby, client, enterRoom, createRoom);
             appView.getChildren().add(lobbyView);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
