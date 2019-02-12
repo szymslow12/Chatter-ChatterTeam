@@ -13,7 +13,7 @@ public class LobbyView extends Pane {
 
     private CreateRoomForm createRoomForm;
     private RoomButtonBox roomButtonBox;
-    private LobbyInfoView lobbyInfoView;
+    private LobbyInfoBox lobbyInfoBox;
 
     public LobbyView(double width, double height) {
         super();
@@ -38,16 +38,16 @@ public class LobbyView extends Pane {
         );
         roomButtonBox.renderRoomButtonsBox(lobby, roomOnClick);
         createRoomForm.renderCreateRoomView(buttonOnClick);
-        lobbyInfoView.renderLobbyInfoView(lobby, client);
+        lobbyInfoBox.renderLobbyInfoView(lobby, client);
         setPositions();
-        getChildren().addAll(roomButtonBox, createRoomForm, lobbyInfoView);
+        getChildren().addAll(roomButtonBox, createRoomForm, lobbyInfoBox);
     }
 
 
     private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
         roomButtonBox = new RoomButtonBox(leftSiteWidth, height);
         createRoomForm = new CreateRoomForm(rightSiteWidth, divide(height, 4));
-        lobbyInfoView = new LobbyInfoView(
+        lobbyInfoBox = new LobbyInfoBox(
             rightSiteWidth,
             divide(height, 3 / 4),
             new Insets(10)
@@ -65,8 +65,8 @@ public class LobbyView extends Pane {
     private void setPositions() {
         createRoomForm.setLayoutX(roomButtonBox.getWidth() + 20);
         createRoomForm.setLayoutY(10);
-        lobbyInfoView.setLayoutX(roomButtonBox.getWidth() + 20);
-        lobbyInfoView.setLayoutY(createRoomForm.getHeight() + 10);
+        lobbyInfoBox.setLayoutX(roomButtonBox.getWidth() + 20);
+        lobbyInfoBox.setLayoutY(createRoomForm.getHeight() + 10);
     }
 
 

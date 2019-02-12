@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class LobbyInfoView extends GridPane {
+public class LobbyInfoBox extends GridPane {
 
 
-    public LobbyInfoView(double width, double height, Insets insets) {
+    public LobbyInfoBox(double width, double height, Insets insets) {
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
