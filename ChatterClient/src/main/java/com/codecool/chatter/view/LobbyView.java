@@ -3,6 +3,7 @@ package com.codecool.chatter.view;
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Chat;
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.model.User;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
@@ -36,7 +37,7 @@ public class LobbyView extends Pane {
     }
 
 
-    public void renderLobbyView(Lobby lobby, EventHandler<MouseEvent> roomOnClick, EventHandler<MouseEvent> buttonOnClick) {
+    public void renderLobbyView(Lobby lobby, User client, EventHandler<MouseEvent> roomOnClick, EventHandler<MouseEvent> buttonOnClick) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -47,7 +48,7 @@ public class LobbyView extends Pane {
         );
         roomButtonsBox.renderRoomButtonsBox(lobby, roomOnClick);
         createRoomView.renderCreateRoomView(buttonOnClick);
-        lobbyInfoView.renderLobbyInfoView(lobby);
+        lobbyInfoView.renderLobbyInfoView(lobby, client);
         setPositions();
         getChildren().addAll(roomButtonsBox, createRoomView, lobbyInfoView);
     }
