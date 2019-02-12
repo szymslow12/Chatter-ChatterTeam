@@ -1,4 +1,4 @@
-package com.codecool.chatter.view;
+package com.codecool.chatter.view.interactive;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

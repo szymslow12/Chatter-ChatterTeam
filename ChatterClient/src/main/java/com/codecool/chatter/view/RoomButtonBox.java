@@ -1,6 +1,7 @@
 package com.codecool.chatter.view;
 
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;

@@ -1,5 +1,7 @@
 package com.codecool.chatter.view;
 
+import com.codecool.chatter.view.interactive.ButtonView;
+import com.codecool.chatter.view.interactive.InputField;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.*;
