@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class RoomButtonsBox extends HBox {
+public class RoomButtonBox extends HBox {
 
     private List<RoomButton> roomsButtons;
     private VBox vBox;
     private ScrollPane scrollPane;
     private ScrollBar scrollBar;
 
-    public RoomButtonsBox(double width, double height) {
+    public RoomButtonBox(double width, double height) {
         super();
         roomsButtons = new ArrayList<>();
         renderVBox(width, height);
