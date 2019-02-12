@@ -50,6 +50,8 @@ public class LobbyView extends Pane {
         lobbyInfoView.renderLobbyInfoView(lobby);
         createRoomView.setLayoutX(roomButtonsBox.getWidth() + 20);
         createRoomView.setLayoutY(10);
+        lobbyInfoView.setLayoutX(roomButtonsBox.getWidth() + 20);
+        lobbyInfoView.setLayoutY(roomButtonsBox.getHeight() - 20);
         getChildren().addAll(roomButtonsBox, createRoomView, lobbyInfoView);
     }
 
