@@ -62,7 +62,7 @@ public class LobbyController {
             outputStream.flush();
             objectWrapper = (ObjectWrapper) inputStream.readObject();
             if (objectWrapper.getAction().equals("isAvailable")) {
-                Canvas alert = createRoomView.getBadRoomName();
+                Canvas alert = createRoomView.getAlertMessage();
                 boolean isDisplayedAlert = createRoomView.getChildren().contains(alert);
                 if (!isDisplayedAlert) {
                     createRoomView.getChildren().add(alert);

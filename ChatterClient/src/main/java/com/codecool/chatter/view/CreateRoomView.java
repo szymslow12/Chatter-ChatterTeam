@@ -82,7 +82,7 @@ public class CreateRoomView extends Pane {
     }
 
 
-    public AlertMessage getBadRoomName() {
+    public AlertMessage getAlertMessage() {
         return alertMessage;
     }
 }
