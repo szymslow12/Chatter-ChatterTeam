@@ -1,5 +1,6 @@
-package com.codecool.chatter.view;
+package com.codecool.chatter.view.box;
 
+import com.codecool.chatter.view.AlertMessage;
 import com.codecool.chatter.view.interactive.ButtonView;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.event.EventHandler;

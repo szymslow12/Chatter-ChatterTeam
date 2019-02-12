@@ -3,6 +3,7 @@ package com.codecool.chatter.view;
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.User;
+import com.codecool.chatter.view.box.CreateRoomForm;
 import com.codecool.chatter.view.box.LobbyInfoBox;
 import com.codecool.chatter.view.box.RoomButtonBox;
 import javafx.event.EventHandler;
