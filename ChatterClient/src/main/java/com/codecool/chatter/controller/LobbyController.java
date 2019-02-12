@@ -4,6 +4,7 @@ import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
+import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import com.codecool.chatter.view.LobbyView;
 import com.codecool.chatter.view.RoomButton;
@@ -65,7 +66,7 @@ public class LobbyController {
     }
 
 
-    public void run(AppView appView) {
+    public void run(AppView appView, User client) {
         try {
             getLobbyFromServer();
             lobbyView.renderLobbyView(lobby, enterRoom, enterRoom);
