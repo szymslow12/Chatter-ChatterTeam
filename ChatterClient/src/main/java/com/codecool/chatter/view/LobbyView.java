@@ -23,17 +23,8 @@ public class LobbyView extends Pane {
     }
 
 
-    private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
-        roomButtonsBox = new RoomButtonsBox(leftSiteWidth, height);
-        createRoomView = new CreateRoomView(rightSiteWidth, divide(height, 4));
-        lobbyInfoView = new LobbyInfoView(rightSiteWidth, divide(height, 3 / 4), new Insets(10));
-    }
-
-
-    private void setSize(double width, double height) {
-        setWidth(width);
-        setHeight(height);
-        setPrefSize(width, height);
+    public CreateRoomView getCreateRoomView() {
+        return createRoomView;
     }
 
 
@@ -51,6 +42,20 @@ public class LobbyView extends Pane {
         lobbyInfoView.renderLobbyInfoView(lobby, client);
         setPositions();
         getChildren().addAll(roomButtonsBox, createRoomView, lobbyInfoView);
+    }
+
+
+    private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
+        roomButtonsBox = new RoomButtonsBox(leftSiteWidth, height);
+        createRoomView = new CreateRoomView(rightSiteWidth, divide(height, 4));
+        lobbyInfoView = new LobbyInfoView(rightSiteWidth, divide(height, 3 / 4), new Insets(10));
+    }
+
+
+    private void setSize(double width, double height) {
+        setWidth(width);
+        setHeight(height);
+        setPrefSize(width, height);
     }
 
 
