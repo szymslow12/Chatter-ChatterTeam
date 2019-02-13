@@ -7,6 +7,7 @@ import com.codecool.chatter.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AppController {
 
@@ -32,9 +33,9 @@ public class AppController {
     }
 
     private void addUserAndRoomForTest() {
-        User user = new User("StefaN");
+        User user = new User("Stefan");
         User user2 = new User("Grażyna");
-        Room room = new Room("towarzyski", 8080);
+        Room room = new Room("towarzyski");
         room.addUser(user2);
         lobby.addRoom(room);
         lobby.addUser(user);
@@ -47,7 +48,7 @@ public class AppController {
         Object receiveData = data.getObject();
         switch (action) {
             case "chosenRoomId":
-                answer = chooseRoomHandle(receiveData , user);
+                answer = chooseRoomHandle(receiveData, user);
                 break;
             case "createRoom":
                 answer = handleCreateRoom(receiveData, user);
@@ -57,12 +58,12 @@ public class AppController {
     }
 
     public boolean checkNickNameExist(String userName) {
-        return allUsers.stream().anyMatch(user -> userName.equalsIgnoreCase(user.getNickname()));
+        return allUsers.stream().anyMatch(user -> userName.equals(user.getNickname()));
     }
 
     private Object chooseRoomHandle(Object object, User user) {
-        long id = (long) object;
-        if(checkRoomByIdExist(id)) {
+        UUID id = (UUID) object;
+        if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
             return room;
@@ -70,20 +71,20 @@ public class AppController {
         return IllegalArgumentException.class;
     }
 
-    private boolean checkRoomByIdExist(long id) {
+    private boolean checkRoomByIdExist(UUID id) {
         return lobby.getRooms().stream().anyMatch(room -> id == room.getId());
     }
 
-    private Room getRoomById(long id) {
+    private Room getRoomById(UUID id) {
         return lobby.getRooms().stream().filter(room -> room.getId() == id).findFirst().get();
     }
 
     private Object handleCreateRoom(Object receiveData, User user) {
         String roomName = (String) receiveData;
-        if(checkRoomByNameExist(roomName)) {
+        if (checkRoomByNameExist(roomName)) {
             return false;
         }
-        Room room = new Room(roomName, 8080);
+        Room room = new Room(roomName);
         room.getUsers().add(user);
         return room;
     }
