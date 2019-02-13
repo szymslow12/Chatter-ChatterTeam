@@ -36,7 +36,7 @@ public class EchoThreadServer extends Thread {
                 userExist = loginValidate(receiveObject);
                 objectOutputStream.writeObject(new ObjectWrapper(action, userExist));
                 objectOutputStream.flush();
-            }while (userExist);
+            }while (!userExist);
 
             String userName = (String) receiveObject;
             this.user = new User(userName);
