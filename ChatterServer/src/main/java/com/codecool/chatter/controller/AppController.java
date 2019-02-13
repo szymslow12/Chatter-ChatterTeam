@@ -53,17 +53,16 @@ public class AppController {
                 answer = chooseRoomHandle(receiveData, user);
                 break;
             case "createRoom":
-                String roomName = (String) receiveData;
-                if(checkRoomByNameExist(roomName)) {
-                    action = "isAvailable";
-                    answer = false;
-                }else{
-                    Room room = new Room(roomName);
-                    room.getUsers().add(user);
-                    answer = room;
-                }
-
-//                answer = handleCreateRoom(receiveData, user);
+//                String roomName = (String) receiveData;
+//                if(checkRoomByNameExist(roomName)) {
+//                    action = "isAvailable";
+//                    answer = false;
+//                }else{
+//                    Room room = new Room(roomName);
+//                    room.getUsers().add(user);
+//                    answer = room;
+//                }
+                answer = handleCreateRoom(receiveData, user);
                 break;
         }
         return wrapObject(action, answer);
@@ -77,7 +76,6 @@ public class AppController {
         UUID id = (UUID) object;
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
-            System.out.println(room.getName());
             room.addUser(user);
             return room;
         }
@@ -95,7 +93,7 @@ public class AppController {
     private Object handleCreateRoom(Object receiveData, User user) {
         String roomName = (String) receiveData;
         if (checkRoomByNameExist(roomName)) {
-            return false;
+            return null;
         }
         Room room = new Room(roomName);
         room.getUsers().add(user);
