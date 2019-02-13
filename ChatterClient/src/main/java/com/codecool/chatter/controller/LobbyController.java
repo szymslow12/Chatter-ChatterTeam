@@ -13,7 +13,7 @@ public class LobbyController {
     private Connection connection;
     private Lobby lobby;
     private LobbyView lobbyView;
-    private Room chosenRoom;
+    private volatile Room chosenRoom;
 
 
     public LobbyController(Connection connection) {
