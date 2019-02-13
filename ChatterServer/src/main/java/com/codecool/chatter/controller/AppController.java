@@ -36,6 +36,8 @@ public class AppController {
         User user = new User("Stefan");
         User user2 = new User("Grażyna");
         Room room = new Room("towarzyski");
+        allUsers.add(user);
+        allUsers.add(user2);
         room.addUser(user2);
         lobby.addRoom(room);
         lobby.addUser(user);
