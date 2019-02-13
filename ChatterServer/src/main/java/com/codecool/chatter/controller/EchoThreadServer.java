@@ -52,7 +52,6 @@ public class EchoThreadServer extends Thread {
                 objectOutputStream.flush();
             }
 
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
