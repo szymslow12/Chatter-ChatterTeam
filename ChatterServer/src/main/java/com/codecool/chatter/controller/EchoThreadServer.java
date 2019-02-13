@@ -45,12 +45,14 @@ public class EchoThreadServer extends Thread {
             objectOutputStream.writeObject(appController.wrapObject("lobby", appController.getLobby()));
             objectOutputStream.flush();
 
-            while (true) {
+            while (objectInputStream.available() > 0) {
                 Object object = objectInputStream.readObject();
                 Object answer = appController.handleData(object, user);
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
             }
+            objectOutputStream.close();
+            objectInputStream.close();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
