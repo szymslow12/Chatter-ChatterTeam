@@ -1,6 +1,8 @@
 package com.codecool.chatter.view;
 
+import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Room;
+import com.codecool.chatter.view.containers.UserListBox;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,12 +12,18 @@ import javafx.scene.paint.Color;
 
 public class RoomView extends Pane {
 
-    //private UserListBox userListBox;
+    private UserListBox userListBox;
     //private ChatBox chatBox;
 
 
     public RoomView(double width, double height) {
         super();
+        userListBox = new UserListBox(300d, ChatterClient.HEIGHT);
+        setSizes(width, height);
+    }
+
+
+    private void setSizes(double width, double height) {
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
@@ -31,8 +39,9 @@ public class RoomView extends Pane {
                         Insets.EMPTY)
             )
         );
-        //userListBox.renderUserListBox(room.getName(), room.getUsers());
+        userListBox.renderUserListBox(room.getName(), room.getUsers());
         //chatBox.renderChatBox(room.getChat());
-        //getChildren().addAll(userListBox, chatBox);
+//        getChildren().addAll(userListBox, chatBox);
+        getChildren().add(userListBox);
     }
 }
