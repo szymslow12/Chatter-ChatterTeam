@@ -33,6 +33,9 @@ public class EchoThreadServer extends Thread {
                 objectOutputStream.flush();
             }while (user != null);
 
+            objectOutputStream.writeObject(appController.getLobby());
+            objectOutputStream.flush();
+
             while (true) {
                 Object object = objectInputStream.readObject();
                 Object answer = appController.handleData(object, user);
@@ -49,11 +52,6 @@ public class EchoThreadServer extends Thread {
 
     private Object loginValidate(Object object) {
         String userName = (String) object;
-        if(appController.checkNickNameExist(userName)){
-            return false;
-        }
-        this.user = new User(userName);
-        appController.getLobby().addUser(user);
-        return appController.getLobby();
+        return !appController.checkNickNameExist(userName);
     }
 }
