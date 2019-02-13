@@ -25,11 +25,14 @@ public class EchoThreadServer extends Thread {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-            ObjectWrapper receiveData = (ObjectWrapper) objectInputStream.readObject();
-            String action = receiveData.getAction();
-            Object receiveObject = receiveData.getObject();
+            ObjectWrapper receiveData;
+            String action;
+            Object receiveObject;
             Boolean userExist;
             do {
+                receiveData = (ObjectWrapper) objectInputStream.readObject();
+                action = receiveData.getAction();
+                receiveObject = receiveData.getObject();
                 userExist = loginValidate(receiveObject);
                 objectOutputStream.writeObject(new ObjectWrapper(action, userExist));
                 objectOutputStream.flush();
