@@ -1,10 +1,8 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +12,20 @@ public class AppController {
     private Lobby lobby;
 
     private List<User> allUsers = new ArrayList<>();
+    private List<ClientInfo> clients = new ArrayList<>();
 
     public AppController() {
         this.lobby = new Lobby();
         addUserAndRoomForTest();
+        new DataStreamController(this).start();
+    }
+
+    public void addClient(ObjectOutputStream out, User user) {
+        clients.add(new ClientInfo(out, user));
+    }
+
+    public List<ClientInfo> getClientInfo() {
+        return clients;
     }
 
     public Lobby getLobby() {
@@ -53,15 +61,6 @@ public class AppController {
                 answer = chooseRoomHandle(receiveData, user);
                 break;
             case "createRoom":
-//                String roomName = (String) receiveData;
-//                if(checkRoomByNameExist(roomName)) {
-//                    action = "isAvailable";
-//                    answer = false;
-//                }else{
-//                    Room room = new Room(roomName);
-//                    room.getUsers().add(user);
-//                    answer = room;
-//                }
                 answer = handleCreateRoom(receiveData, user);
                 break;
         }
@@ -86,7 +85,7 @@ public class AppController {
         return lobby.getRooms().stream().anyMatch(room -> id.equals(room.getId()));
     }
 
-    private Room getRoomById(UUID id) {
+    public Room getRoomById(UUID id) {
         return lobby.getRooms().stream().filter(room -> room.getId().equals(id)).findFirst().get();
     }
 
