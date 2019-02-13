@@ -77,6 +77,7 @@ public class AppController {
         UUID id = (UUID) object;
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
+            System.out.println(room.getName());
             room.addUser(user);
             return room;
         }
@@ -84,11 +85,11 @@ public class AppController {
     }
 
     private boolean checkRoomByIdExist(UUID id) {
-        return lobby.getRooms().stream().anyMatch(room -> id == room.getId());
+        return lobby.getRooms().stream().anyMatch(room -> id.equals(room.getId()));
     }
 
     private Room getRoomById(UUID id) {
-        return lobby.getRooms().stream().filter(room -> room.getId() == id).findFirst().get();
+        return lobby.getRooms().stream().filter(room -> room.getId().equals(id)).findFirst().get();
     }
 
     private Object handleCreateRoom(Object receiveData, User user) {

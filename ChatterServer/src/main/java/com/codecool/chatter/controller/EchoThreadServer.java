@@ -13,7 +13,6 @@ public class EchoThreadServer extends Thread {
 
     private Socket socket;
     private AppController appController;
-    private User user;
 
     public EchoThreadServer(Socket socket, AppController appController) {
         this.socket = socket;
@@ -39,7 +38,7 @@ public class EchoThreadServer extends Thread {
             }while (!userExist);
 
             String userName = (String) receiveObject;
-            this.user = new User(userName);
+            User user = new User(userName);
             Lobby lobby = appController.getLobby();
             lobby.addUser(user);
 
