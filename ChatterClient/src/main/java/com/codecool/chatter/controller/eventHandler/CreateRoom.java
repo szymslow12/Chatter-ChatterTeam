@@ -42,7 +42,7 @@ public class CreateRoom implements EventHandler<MouseEvent> {
 
 
     private void checkIfIsRoomNameAvailable(ObjectWrapper objectWrapper, CreateRoomForm createRoomForm) {
-        if (objectWrapper.getAction().equals("isAvailable")) {
+        if (isNull(objectWrapper.getObject())) {
             Canvas alert = createRoomForm.getAlertMessage();
             boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
             if (!isDisplayedAlert) {
@@ -51,5 +51,10 @@ public class CreateRoom implements EventHandler<MouseEvent> {
         } else {
             lobbyController.setChosenRoom((Room) objectWrapper.getObject());
         }
+    }
+
+
+    private boolean isNull(Object object) {
+        return object == null;
     }
 }
