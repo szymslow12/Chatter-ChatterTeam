@@ -32,7 +32,7 @@ public class CreateRoom implements EventHandler<MouseEvent> {
         try {
             connection.write(objectWrapper);
             objectWrapper = connection.read();
-            checkIfIsRoomNameAvailable(objectWrapper, createRoomForm);
+            handleCreateRoom(objectWrapper, createRoomForm);
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e1) {
@@ -41,7 +41,7 @@ public class CreateRoom implements EventHandler<MouseEvent> {
     };
 
 
-    private void checkIfIsRoomNameAvailable(ObjectWrapper objectWrapper, CreateRoomForm createRoomForm) {
+    private void handleCreateRoom(ObjectWrapper objectWrapper, CreateRoomForm createRoomForm) {
         if (isNull(objectWrapper.getObject())) {
             Canvas alert = createRoomForm.getAlertMessage();
             boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
