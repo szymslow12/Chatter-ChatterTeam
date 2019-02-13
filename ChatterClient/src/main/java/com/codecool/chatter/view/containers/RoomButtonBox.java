@@ -1,4 +1,4 @@
-package com.codecool.chatter.view.box;
+package com.codecool.chatter.view.containers;
 
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.view.interactive.RoomButton;
