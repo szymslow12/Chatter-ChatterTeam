@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 
@@ -24,16 +25,21 @@ public class EchoThreadServer extends Thread {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
+            ObjectWrapper receiveData = (ObjectWrapper) objectInputStream.readObject();
+            String action = receiveData.getAction();
+            Object receiveObject = receiveData.getObject();
             do {
-                ObjectWrapper receiveData = (ObjectWrapper) objectInputStream.readObject();
-                String action = receiveData.getAction();
-                Object receiveObject = receiveData.getObject();
                 Object answer = new ObjectWrapper(action, loginValidate(receiveObject)) ;
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
             }while (user != null);
 
-            objectOutputStream.writeObject(appController.getLobby());
+            String userName = (String) receiveObject;
+            this.user = new User(userName);
+            Lobby lobby = appController.getLobby();
+            lobby.addUser(user);
+
+            objectOutputStream.writeObject(appController.wrapObject("lobby", appController.getLobby()));
             objectOutputStream.flush();
 
             while (true) {

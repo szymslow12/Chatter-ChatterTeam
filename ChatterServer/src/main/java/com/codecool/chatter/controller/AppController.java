@@ -16,14 +16,28 @@ public class AppController {
 
     public AppController() {
         this.lobby = new Lobby();
+        addUserAndRoomForTest();
     }
 
     public Lobby getLobby() {
         return lobby;
     }
 
+    private void addUser(User user) {
+        allUsers.add(user);
+    }
+
     public Object wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
+    }
+
+    private void addUserAndRoomForTest() {
+        User user = new User("StefaN");
+        User user2 = new User("Grażyna");
+        Room room = new Room("towarzyski", 8080);
+        room.addUser(user2);
+        lobby.addRoom(room);
+        lobby.addUser(user);
     }
 
     public Object handleData(Object object, User user) {
