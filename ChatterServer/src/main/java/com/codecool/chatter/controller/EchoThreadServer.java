@@ -59,6 +59,6 @@ public class EchoThreadServer extends Thread {
 
     private boolean loginValidate(Object object) {
         String userName = (String) object;
-        return appController.checkNickNameExist(userName);
+        return !appController.checkNickNameExist(userName);
     }
 }
