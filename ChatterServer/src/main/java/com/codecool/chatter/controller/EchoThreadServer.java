@@ -28,11 +28,12 @@ public class EchoThreadServer extends Thread {
             ObjectWrapper receiveData = (ObjectWrapper) objectInputStream.readObject();
             String action = receiveData.getAction();
             Object receiveObject = receiveData.getObject();
+            Boolean userExist;
             do {
-                Object answer = new ObjectWrapper(action, loginValidate(receiveObject)) ;
-                objectOutputStream.writeObject(answer);
+                userExist = loginValidate(receiveObject);
+                objectOutputStream.writeObject(new ObjectWrapper(action, userExist));
                 objectOutputStream.flush();
-            }while (user != null);
+            }while (userExist);
 
             String userName = (String) receiveObject;
             this.user = new User(userName);
@@ -56,8 +57,8 @@ public class EchoThreadServer extends Thread {
 
     }
 
-    private Object loginValidate(Object object) {
+    private boolean loginValidate(Object object) {
         String userName = (String) object;
-        return !appController.checkNickNameExist(userName);
+        return appController.checkNickNameExist(userName);
     }
 }
