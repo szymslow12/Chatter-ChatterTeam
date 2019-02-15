@@ -22,7 +22,8 @@ public class RoomButtonBox extends LeftScrollContainer {
 
     public void renderRoomButtonsBox(Lobby lobby, EventHandler<MouseEvent> onClick) {
         setAndAddRoomsButtons(getVBox(), lobby, onClick);
-        getChildren().addAll(getScrollBar(), getScrollPane());
+        getChildren().addAll(getScrollPane(), getScrollBar());
+        switchPositions();
     }
 
 
@@ -30,7 +31,7 @@ public class RoomButtonBox extends LeftScrollContainer {
         lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(getWidth() - 10, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);
-            roomButton.setTranslateX(10);
+            roomButton.setTranslateX(5);
         });
         roomsButtons.forEach(button -> box.getChildren().add(button));
     }

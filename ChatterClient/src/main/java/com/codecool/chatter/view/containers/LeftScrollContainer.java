@@ -75,4 +75,10 @@ public class LeftScrollContainer extends HBox {
         return new Border(new BorderStroke(borderColor, borderColor, borderColor, borderColor,
                 NONE, SOLID, NONE, NONE, CornerRadii.EMPTY, BorderWidths.DEFAULT, insets));
     }
+
+
+    public void switchPositions() {
+        scrollBar.setTranslateX(-(scrollPane.getPrefWidth()));
+        scrollPane.setTranslateX(scrollBar.getWidth());
+    }
 }

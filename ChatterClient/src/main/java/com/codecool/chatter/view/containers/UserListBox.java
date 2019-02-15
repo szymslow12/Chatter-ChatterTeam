@@ -26,8 +26,8 @@ public class UserListBox extends LeftScrollContainer {
     public void renderUserListBox(Room room) {
         List<User> users = room.getUsers();
         IntStream.range(0, users.size()).forEach(i -> getVBox().getChildren().add(renderUserBox(users.get(i))));
-//        getScrollPane().setTranslateY(0);
-        getChildren().addAll(getScrollBar(), getScrollPane());
+        getChildren().addAll(getScrollPane(), getScrollBar());
+        switchPositions();
         System.out.println(room.getName() + " has " + room.getUsers().size() + " users...");
     }
 
@@ -36,7 +36,7 @@ public class UserListBox extends LeftScrollContainer {
         Pane pane = new Pane();
         pane.setPrefSize(getWidth() - 10, 110);
         pane.getChildren().add(getUserNameText(user));
-        pane.setTranslateX(10);
+        pane.setTranslateX(5);
         pane.setBackground(
             new Background(
                 new BackgroundFill(
