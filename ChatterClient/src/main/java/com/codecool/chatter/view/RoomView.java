@@ -39,7 +39,7 @@ public class RoomView extends Pane {
                         Insets.EMPTY)
             )
         );
-        userListBox.renderUserListBox(room.getName(), room.getUsers());
+        userListBox.renderUserListBox(room);
         //chatBox.renderChatBox(room.getChat());
 //        getChildren().addAll(userListBox, chatBox);
         getChildren().add(userListBox);

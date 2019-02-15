@@ -1,9 +1,7 @@
 package com.codecool.chatter.view.containers;
 
-import com.codecool.chatter.model.User;
-import javafx.scene.text.Text;
-
-import java.util.List;
+import com.codecool.chatter.model.Room;
+import com.codecool.chatter.view.interactive.RoomButton;
 
 public class UserListBox extends LeftScrollContainer {
 
@@ -13,8 +11,8 @@ public class UserListBox extends LeftScrollContainer {
     }
 
 
-    public void renderUserListBox(String roomName, List<User> users) {
-        getChildren().add(new Text(roomName));
-        System.out.println(roomName + " has " + users.size() + " users...");
+    public void renderUserListBox(Room room) {
+        getChildren().add(new RoomButton(getWidth(), getHeight(), room));
+        System.out.println(room.getName() + " has " + room.getUsers().size() + " users...");
     }
 }
