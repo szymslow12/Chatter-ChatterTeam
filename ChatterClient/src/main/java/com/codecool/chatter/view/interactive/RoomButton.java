@@ -12,18 +12,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+
 public class RoomButton extends Pane {
 
     private Room room;
 
     public RoomButton(double width, double height, Room room, EventHandler<MouseEvent> onClick) {
+        this(width, height, room);
+        addEventsListeners(onClick);
+    }
+
+
+    public RoomButton(double width, double height, Room room) {
         super();
         this.room = room;
         setWidth(width);
         setHeight(height);
         setPrefSize(width, height);
         renderRoomButton();
-        addEventsListeners(onClick);
     }
 
 
