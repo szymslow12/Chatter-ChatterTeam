@@ -22,6 +22,6 @@ public class RoomController {
         System.out.println(chosenRoom.getName());
 //        chosenRoom.getChat().setClient(client);
         roomView.renderRoomView(chosenRoom);
-        appView.getChildren().add(appView);
+        appView.getChildren().add(roomView);
     }
 }
