@@ -7,8 +7,6 @@ import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import com.codecool.chatter.view.RoomView;
 
-import java.io.IOException;
-
 public class RoomController {
 
     private Connection connection;
@@ -20,17 +18,10 @@ public class RoomController {
     }
 
 
-    public void run(AppView appView, User client) {
-        try {
-            Room room = (Room) connection.read().getObject();
-            room.getChat().setClient(client);
-            roomView.renderRoomView(room);
-            appView.getChildren().add(appView);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
+    public void run(AppView appView, User client, Room chosenRoom) {
+        System.out.println(chosenRoom.getName());
+        chosenRoom.getChat().setClient(client);
+        roomView.renderRoomView(chosenRoom);
+        appView.getChildren().add(appView);
     }
 }
