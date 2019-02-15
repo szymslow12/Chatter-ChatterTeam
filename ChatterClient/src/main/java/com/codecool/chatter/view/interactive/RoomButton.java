@@ -56,26 +56,26 @@ public class RoomButton extends Pane {
 
     private void setHover() {
         setOnMouseEntered(event -> {
-        setBackground(
-            new Background(
-                new BackgroundFill(
-                    Color.web("rgba(0, 0, 0, 0.3)"),
-                    CornerRadii.EMPTY,
-                    new Insets(10, 10, 0, 0)
+            setBackground(
+                new Background(
+                    new BackgroundFill(
+                        Color.web("rgba(0, 0, 0, 0.3)"),
+                        CornerRadii.EMPTY,
+                        new Insets(10, 10, 0, 0)
+                    )
                 )
-            )
-        );
+            );
         });
         setOnMouseExited(event -> {
         setBackground(
-            new Background(
-                new BackgroundFill(
-                    Color.web("rgba(0, 0, 0, 0.4)"),
-                    CornerRadii.EMPTY,
-                    new Insets(10, 10, 0, 0)
+                new Background(
+                    new BackgroundFill(
+                        Color.web("rgba(0, 0, 0, 0.4)"),
+                        CornerRadii.EMPTY,
+                        new Insets(10, 10, 0, 0)
+                    )
                 )
-            )
-        );
+            );
         });
     }
 
