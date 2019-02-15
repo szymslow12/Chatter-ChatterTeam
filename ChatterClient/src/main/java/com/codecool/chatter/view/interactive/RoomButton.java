@@ -19,7 +19,7 @@ public class RoomButton extends Pane {
 
     public RoomButton(double width, double height, Room room, EventHandler<MouseEvent> onClick) {
         this(width, height, room);
-        setOnMouseClicked(onClick);;
+        setOnMouseClicked(onClick);
     }
 
 
