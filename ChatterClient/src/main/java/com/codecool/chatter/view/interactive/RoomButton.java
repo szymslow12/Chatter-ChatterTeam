@@ -19,7 +19,7 @@ public class RoomButton extends Pane {
 
     public RoomButton(double width, double height, Room room, EventHandler<MouseEvent> onClick) {
         this(width, height, room);
-        addEventsListeners(onClick);
+        setOnMouseClicked(onClick);;
     }
 
 
@@ -30,6 +30,7 @@ public class RoomButton extends Pane {
         setHeight(height);
         setPrefSize(width, height);
         renderRoomButton();
+        setHover();
     }
 
 
@@ -53,29 +54,28 @@ public class RoomButton extends Pane {
     }
 
 
-    private void addEventsListeners(EventHandler<MouseEvent> onClick) {
-        setOnMouseClicked(onClick);
+    private void setHover() {
         setOnMouseEntered(event -> {
-            setBackground(
-                new Background(
-                    new BackgroundFill(
-                        Color.web("rgba(0, 0, 0, 0.3)"),
-                        CornerRadii.EMPTY,
-                        new Insets(10, 10, 0, 0)
-                    )
+        setBackground(
+            new Background(
+                new BackgroundFill(
+                    Color.web("rgba(0, 0, 0, 0.3)"),
+                    CornerRadii.EMPTY,
+                    new Insets(10, 10, 0, 0)
                 )
-            );
+            )
+        );
         });
         setOnMouseExited(event -> {
-            setBackground(
-                new Background(
-                    new BackgroundFill(
-                        Color.web("rgba(0, 0, 0, 0.4)"),
-                        CornerRadii.EMPTY,
-                        new Insets(10, 10, 0, 0)
-                    )
+        setBackground(
+            new Background(
+                new BackgroundFill(
+                    Color.web("rgba(0, 0, 0, 0.4)"),
+                    CornerRadii.EMPTY,
+                    new Insets(10, 10, 0, 0)
                 )
-            );
+            )
+        );
         });
     }
 
