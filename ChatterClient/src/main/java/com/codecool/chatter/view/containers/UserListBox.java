@@ -34,13 +34,8 @@ public class UserListBox extends LeftScrollContainer {
 
     private Pane renderUserBox(User user) {
         Pane pane = new Pane();
-        Text userName = new Text(user.getNickname());
-        userName.setFont(new Font(25));
-        Bounds textBounds = userName.getLayoutBounds();
-        userName.setLayoutY((110d / 2) + 10);
-        userName.setLayoutX((getWidth() - 10) / 2 - (textBounds.getWidth() / 2));
         pane.setPrefSize(getWidth() - 10, 110);
-        pane.getChildren().add(userName);
+        pane.getChildren().add(getUserNameText(user));
         pane.setTranslateX(10);
         pane.setBackground(
             new Background(
@@ -51,5 +46,25 @@ public class UserListBox extends LeftScrollContainer {
             )
         );
         return pane;
+    }
+
+
+    private Text getUserNameText(User user) {
+        Text userName = new Text(user.getNickname());
+        userName.setFont(new Font(25));
+        Bounds textBounds = userName.getLayoutBounds();
+        userName.setLayoutY(getUserNameMiddleY());
+        userName.setLayoutX(getUserNameMiddleX(textBounds));
+        return userName;
+    }
+
+
+    private double getUserNameMiddleY() {
+        return (110d / 2) + 10;
+    }
+
+
+    private double getUserNameMiddleX(Bounds textBounds) {
+        return ((getWidth()- 10) / 2) - (textBounds.getWidth() / 2) - 10;
     }
 }
