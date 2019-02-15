@@ -20,7 +20,7 @@ public class RoomController {
 
     public void run(AppView appView, User client, Room chosenRoom) {
         System.out.println(chosenRoom.getName());
-        chosenRoom.getChat().setClient(client);
+//        chosenRoom.getChat().setClient(client);
         roomView.renderRoomView(chosenRoom);
         appView.getChildren().add(appView);
     }
