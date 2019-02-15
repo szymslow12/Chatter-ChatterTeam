@@ -62,23 +62,23 @@ public class UserListBox extends LeftScrollContainer {
 
     private void setHover(Pane pane) {
         pane.setOnMouseEntered(event -> {
-            setBackground(
+            pane.setBackground(
                 new Background(
                     new BackgroundFill(
                         Color.web("rgba(0, 0, 0, 0.3)"),
                         CornerRadii.EMPTY,
-                        new Insets(10, 10, 0, 0)
+                        new Insets(10, 10, 10, 0)
                     )
                 )
             );
         });
         pane.setOnMouseExited(event -> {
-            setBackground(
+            pane.setBackground(
                 new Background(
                     new BackgroundFill(
                         Color.web("rgba(0, 0, 0, 0.4)"),
                             CornerRadii.EMPTY,
-                            new Insets(10, 10, 0, 0)
+                            new Insets(10, 10, 10, 0)
                     )
                 )
             );
