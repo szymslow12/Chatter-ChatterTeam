@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 public class RoomView extends Pane {
 
     private UserListBox userListBox;
-    //private ChatBox chatBox;
+    //private ChatView chatBox;
 
 
     public RoomView(double width, double height) {

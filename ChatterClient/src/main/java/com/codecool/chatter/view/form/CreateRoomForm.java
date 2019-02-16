@@ -1,4 +1,4 @@
-package com.codecool.chatter.view.containers;
+package com.codecool.chatter.view.form;
 
 import com.codecool.chatter.view.alert.AlertMessage;
 import com.codecool.chatter.view.interactive.ButtonView;

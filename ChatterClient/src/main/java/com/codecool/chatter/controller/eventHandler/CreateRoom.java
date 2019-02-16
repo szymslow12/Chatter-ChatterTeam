@@ -5,7 +5,7 @@ import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.view.LobbyView;
-import com.codecool.chatter.view.containers.CreateRoomForm;
+import com.codecool.chatter.view.form.CreateRoomForm;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextInputControl;
