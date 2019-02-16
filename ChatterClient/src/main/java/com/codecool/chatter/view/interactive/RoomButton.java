@@ -4,16 +4,12 @@ import com.codecool.chatter.model.Room;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
-public class RoomButton extends Pane {
+public class RoomButton extends HoverPane {
 
     private Room room;
 
@@ -24,13 +20,9 @@ public class RoomButton extends Pane {
 
 
     public RoomButton(double width, double height, Room room) {
-        super();
+        super(width, height, new Insets(10, 10, 0, 0));
         this.room = room;
-        setWidth(width);
-        setHeight(height);
-        setPrefSize(width, height);
         renderRoomButton();
-        setHover();
     }
 
 
@@ -42,41 +34,7 @@ public class RoomButton extends Pane {
         Text onlineUsersNumber = getOnlineUsersNumber(font, onlineUsers, secondLineY);
         Text maxCapNum = getMaxCapNum(font, secondLineY);
         Text max = getMax(maxCapNum, font, secondLineY);
-        setBackground(
-            new Background(
-                new BackgroundFill(
-                        Color.web("rgba(0, 0, 0, 0.4)"),
-                        CornerRadii.EMPTY,
-                        new Insets(10, 10, 0, 0))
-            )
-        );
         getChildren().addAll(roomName, onlineUsers, onlineUsersNumber, maxCapNum, max);
-    }
-
-
-    private void setHover() {
-        setOnMouseEntered(event -> {
-            setBackground(
-                new Background(
-                    new BackgroundFill(
-                        Color.web("rgba(0, 0, 0, 0.3)"),
-                        CornerRadii.EMPTY,
-                        new Insets(10, 10, 0, 0)
-                    )
-                )
-            );
-        });
-        setOnMouseExited(event -> {
-            setBackground(
-                    new Background(
-                        new BackgroundFill(
-                            Color.web("rgba(0, 0, 0, 0.4)"),
-                            CornerRadii.EMPTY,
-                            new Insets(10, 10, 0, 0)
-                    )
-                )
-            );
-        });
     }
 
 
