@@ -19,8 +19,8 @@ public class RoomController {
 
 
     public void run(AppView appView, User client, Room chosenRoom) {
-//        client.setCurrentRoomId(chosenRoom.getId());
-//        chosenRoom.getChat().setClient(client);
+        client.setCurrentRoomId(chosenRoom.getId());
+        chosenRoom.getChat().setClient(client);
         roomView.renderRoomView(chosenRoom);
         appView.getChildren().add(roomView);
     }
