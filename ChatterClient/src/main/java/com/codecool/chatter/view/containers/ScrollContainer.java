@@ -9,14 +9,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class LeftScrollContainer extends HBox {
+public class ScrollContainer extends HBox {
 
     private VBox vBox;
     private ScrollPane scrollPane;
     private ScrollBar scrollBar;
 
 
-    public LeftScrollContainer(double width, double height) {
+    public ScrollContainer(double width, double height) {
         super();
         renderVBox(width, height);
         renderScrollPane(vBox);

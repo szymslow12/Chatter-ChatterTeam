@@ -7,7 +7,7 @@ import com.codecool.chatter.view.interactive.UserBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListBox extends LeftScrollContainer {
+public class UserListBox extends ScrollContainer {
 
     private List<UserBox> userBoxes;
 
