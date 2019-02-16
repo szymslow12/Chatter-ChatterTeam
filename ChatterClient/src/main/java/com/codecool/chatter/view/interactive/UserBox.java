@@ -13,9 +13,13 @@ public class UserBox extends HoverPane {
     public UserBox(double width, double height, User user) {
         super(width, height, new Insets(10, 10, 10, 0));
         this.user = user;
-        setPrefSize(width, height);
-        getChildren().add(getUserNameText());
+        renderUserBox();
+    }
+
+
+    private void renderUserBox() {
         setTranslateX(5);
+        getChildren().add(getUserNameText());
     }
 
 
