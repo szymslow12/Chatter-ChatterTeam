@@ -33,4 +33,9 @@ public class ChatForm extends Pane {
         inputField.setOnEnterPressed(onEnter);
         inputField.setFont(new Font(20));
     }
+
+
+    public InputField getInputField() {
+        return inputField;
+    }
 }
