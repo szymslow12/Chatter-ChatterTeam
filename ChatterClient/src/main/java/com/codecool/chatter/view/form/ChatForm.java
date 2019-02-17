@@ -13,8 +13,8 @@ public class ChatForm extends Pane {
 
     public ChatForm(double width, double height) {
         setPrefSize(width, height);
-        chatBox = new ChatBox(width, height * 0.75);
-        inputField = new InputField("Message: ", true, width  * 0.9, height * 0.25, new Insets(10));
+        chatBox = new ChatBox(width, height * 0.8);
+        inputField = new InputField("Message: ", true, width * 0.9, height * 0.2, new Insets(10));
     }
 
 

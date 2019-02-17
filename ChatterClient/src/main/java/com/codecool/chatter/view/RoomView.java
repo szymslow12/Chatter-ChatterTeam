@@ -21,7 +21,7 @@ public class RoomView extends Pane {
     public RoomView(double width, double height) {
         super();
         userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
-        chatForm = new ChatForm(ChatterClient.WIDTH - 330d, ChatterClient.HEIGHT);
+        chatForm = new ChatForm(ChatterClient.WIDTH - 300d, ChatterClient.HEIGHT);
         setSizes(width, height);
     }
 
