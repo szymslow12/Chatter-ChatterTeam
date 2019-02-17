@@ -1,6 +1,8 @@
 package com.codecool.chatter.view.alert;
 
 import com.codecool.chatter.model.Message;
+import com.codecool.chatter.view.interactive.HoverPane;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
@@ -8,22 +10,35 @@ import javafx.scene.text.Text;
 
 import java.time.LocalDateTime;
 
-public class MessageView extends Canvas {
+public class MessageView extends HoverPane {
 
     public MessageView(double width, double height, Message message) {
-        super(width, height);
+        super(width, height, new Insets(10));
         renderMessageView(message);
     }
 
 
     private void renderMessageView(Message message) {
         String messageString = getMessageString(message);
-        GraphicsContext context = getGraphicsContext2D();
         Font font = new Font(15);
         Text text = new Text(messageString);
         text.setFont(font);
-        context.setFont(font);
-        context.fillText(messageString, 0, getHeight() - text.getLayoutBounds().getHeight() / 2);
+        text.setLayoutX(10);
+        resizeMessageSizeIfMessageIsLong(text);
+        text.setLayoutY(getMiddleTextY(text));
+        text.setWrappingWidth(getWidth());
+        getChildren().add(text);
+    }
+
+
+    private void resizeMessageSizeIfMessageIsLong(Text message) {
+        double messageWidth = message.getLayoutBounds().getWidth();
+        double messageWidthDividedByContainerWidth = messageWidth / getWidth();
+        if (messageWidthDividedByContainerWidth > 1) {
+            double resizedHeight = getHeight() * messageWidthDividedByContainerWidth;
+            setHeight(resizedHeight);
+            setPrefHeight(resizedHeight);
+        }
     }
 
 
@@ -43,5 +58,10 @@ public class MessageView extends Canvas {
         int minute = date.getMinute();
         int second = date.getSecond();
         return String.format("%s-%s-%s %s:%s:%s", day, month, year, hour, minute, second);
+    }
+
+
+    private double getMiddleTextY(Text text) {
+        return getHeight() / 2 - text.getLayoutBounds().getHeight() / 2;
     }
 }
