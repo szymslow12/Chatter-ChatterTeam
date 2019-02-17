@@ -3,8 +3,6 @@ package com.codecool.chatter.view.alert;
 import com.codecool.chatter.model.Message;
 import com.codecool.chatter.view.interactive.HoverPane;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -20,12 +18,10 @@ public class MessageView extends HoverPane {
 
     private void renderMessageView(Message message) {
         String messageString = getMessageString(message);
-        Font font = new Font(15);
         Text text = new Text(messageString);
-        text.setFont(font);
+        text.setFont(new Font(15));
         text.setLayoutX(10);
         resizeMessageSizeIfMessageIsLong(text);
-        text.setLayoutY(getMiddleTextY(text));
         text.setWrappingWidth(getWidth());
         getChildren().add(text);
     }
@@ -36,9 +32,17 @@ public class MessageView extends HoverPane {
         double messageWidthDividedByContainerWidth = messageWidth / getWidth();
         if (messageWidthDividedByContainerWidth > 1) {
             double resizedHeight = getHeight() * messageWidthDividedByContainerWidth;
-            setHeight(resizedHeight);
-            setPrefHeight(resizedHeight);
+            setSizeAndPosition(resizedHeight, message);
+        } else {
+            message.setLayoutY(getMiddleTextY());
         }
+    }
+
+
+    private void setSizeAndPosition(double resizedHeight, Text message) {
+        setHeight(resizedHeight);
+        setPrefHeight(resizedHeight);
+        message.setLayoutY(10 + message.getLayoutBounds().getHeight());
     }
 
 
@@ -61,7 +65,7 @@ public class MessageView extends HoverPane {
     }
 
 
-    private double getMiddleTextY(Text text) {
-        return getHeight() / 2 - text.getLayoutBounds().getHeight() / 2;
+    private double getMiddleTextY() {
+        return getHeight() / 2 + 5;
     }
 }
