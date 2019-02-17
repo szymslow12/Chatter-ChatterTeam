@@ -6,6 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.time.LocalDateTime;
+
 public class MessageView extends Canvas {
 
     public MessageView(double width, double height, Message message) {
@@ -28,7 +30,18 @@ public class MessageView extends Canvas {
     private String getMessageString(Message message) {
         String author = message.getAuthor().getNickname();
         String content = message.getContent();
-        String createdAt = message.getCreatedAt().toString();
+        String createdAt = getDate(message.getCreatedAt());
         return String.format(">>%s<< %s - %s", author, createdAt, content);
+    }
+
+
+    private String getDate(LocalDateTime date) {
+        int day = date.getDayOfMonth();
+        int month = date.getMonthValue();
+        int year = date.getYear();
+        int hour = date.getHour();
+        int minute = date.getMinute();
+        int second = date.getSecond();
+        return String.format("%s-%s-%s %s:%s:%s", day, month, year, hour, minute, second);
     }
 }
