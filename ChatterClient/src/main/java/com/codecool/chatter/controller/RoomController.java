@@ -1,6 +1,7 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.controller.eventHandler.SendMessage;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
@@ -21,7 +22,12 @@ public class RoomController {
     public void run(AppView appView, User client, Room chosenRoom) {
         client.setCurrentRoomId(chosenRoom.getId());
         chosenRoom.getChat().setClient(client);
-        roomView.renderRoomView(chosenRoom);
+        roomView.renderRoomView(chosenRoom, new SendMessage(connection, this));
         appView.getChildren().add(roomView);
+    }
+
+
+    public RoomView getRoomView() {
+        return roomView;
     }
 }
