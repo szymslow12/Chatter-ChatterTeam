@@ -22,7 +22,7 @@ public class RoomController {
     public void run(AppView appView, User client, Room chosenRoom) {
         client.setCurrentRoomId(chosenRoom.getId());
         chosenRoom.getChat().setClient(client);
-        roomView.renderRoomView(chosenRoom, new SendMessage(connection, this));
+        roomView.renderRoomView(chosenRoom, new SendMessage(connection, this, client));
         appView.getChildren().add(roomView);
     }
 
