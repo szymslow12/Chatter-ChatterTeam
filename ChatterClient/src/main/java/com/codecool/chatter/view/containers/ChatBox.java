@@ -26,7 +26,7 @@ public class ChatBox extends ScrollContainer {
 
 
     private void addMessageView(Message message) {
-        MessageView messageView = new MessageView(getWidth() * 0.8, 50, message);
+        MessageView messageView = new MessageView(getWidth() * 0.95, 50, message);
         messages.add(messageView);
         getVBox().getChildren().add(messageView);
     }
