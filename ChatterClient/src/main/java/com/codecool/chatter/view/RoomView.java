@@ -5,7 +5,9 @@ import com.codecool.chatter.model.Room;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
 import com.codecool.chatter.view.interactive.RoomButton;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -33,7 +35,7 @@ public class RoomView extends Pane {
     }
 
 
-    public void renderRoomView(Room room) {
+    public void renderRoomView(Room room, EventHandler<KeyEvent> onEnter) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -45,7 +47,7 @@ public class RoomView extends Pane {
         RoomButton titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, room);
         userListBox.renderUserListBox(room);
         userListBox.setTranslateY(100);
-        chatForm.renderChatForm(room.getChat());
+        chatForm.renderChatForm(room.getChat(), onEnter);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
     }
