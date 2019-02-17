@@ -51,4 +51,9 @@ public class RoomView extends Pane {
         chatForm.setTranslateX(userListBox.getWidth() + 30);
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
     }
+
+
+    public ChatForm getChatForm() {
+        return chatForm;
+    }
 }
