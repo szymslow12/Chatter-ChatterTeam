@@ -21,7 +21,7 @@ public class RoomView extends Pane {
     public RoomView(double width, double height) {
         super();
         userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
-        chatForm = new ChatForm(ChatterClient.WIDTH - 300d, ChatterClient.HEIGHT);
+        chatForm = new ChatForm(ChatterClient.WIDTH - 330d, ChatterClient.HEIGHT);
         setSizes(width, height);
     }
 
@@ -46,7 +46,7 @@ public class RoomView extends Pane {
         userListBox.renderUserListBox(room);
         userListBox.setTranslateY(100);
         chatForm.renderChatForm(room.getChat());
-        chatForm.setTranslateX(userListBox.getWidth());
+        chatForm.setTranslateX(userListBox.getWidth() + 30);
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
     }
 }
