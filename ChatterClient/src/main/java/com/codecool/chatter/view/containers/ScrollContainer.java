@@ -81,4 +81,9 @@ public class ScrollContainer extends HBox {
         scrollBar.setTranslateX(-(scrollPane.getPrefWidth()));
         scrollPane.setTranslateX(scrollBar.getWidth());
     }
+
+
+    public void setItemsSpacing(double spacing) {
+        vBox.setSpacing(spacing);
+    }
 }
