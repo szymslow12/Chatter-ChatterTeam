@@ -36,7 +36,7 @@ public class AppController extends Thread {
             runLoginController(connection);
             runLobbyController(connection);
             runRoomController(connection);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -52,11 +52,10 @@ public class AppController extends Thread {
     }
 
 
-    private void runLobbyController(Connection connection) throws IOException, ClassNotFoundException {
+    private void runLobbyController(Connection connection) {
         LobbyController lobbyController = new LobbyController(connection);
         Platform.runLater(() -> lobbyController.run(appView, client));
         while (chosenRoom == null) {
-            lobbyController.getLobbyView().updateView(connection.read(), client, new EnterRoom(lobbyController));
             chosenRoom = lobbyController.getChosenRoom();
         }
         System.out.println("Entering room " + chosenRoom.getName() + "...");
