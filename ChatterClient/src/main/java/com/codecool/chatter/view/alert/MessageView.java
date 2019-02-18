@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class MessageView extends HoverPane {
 
     public MessageView(double width, double height, Message message) {
-        super(width, height, new Insets(10));
+        super(width, height, new Insets(0));
         renderMessageView(message);
     }
 
@@ -22,14 +22,14 @@ public class MessageView extends HoverPane {
         text.setFont(new Font(15));
         text.setLayoutX(10);
         resizeMessageSizeIfMessageIsLong(text);
-        text.setWrappingWidth(getWidth());
+        text.setWrappingWidth(getWidth() - 20);
         getChildren().add(text);
     }
 
 
     private void resizeMessageSizeIfMessageIsLong(Text message) {
         double messageWidth = message.getLayoutBounds().getWidth();
-        double messageWidthDividedByContainerWidth = messageWidth / getWidth();
+        double messageWidthDividedByContainerWidth = messageWidth / (getWidth() - 20);
         if (messageWidthDividedByContainerWidth > 1) {
             double resizedHeight = getHeight() * messageWidthDividedByContainerWidth;
             setSizeAndPosition(resizedHeight, message);
