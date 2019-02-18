@@ -13,6 +13,7 @@ public class AppController {
 
     private List<User> allUsers = new ArrayList<>();
     private List<ClientInfo> clients = new ArrayList<>();
+    private static int msgId = 1;
 
     public AppController() {
         this.lobby = new Lobby();
@@ -44,6 +45,8 @@ public class AppController {
         User user = new User("Stefan");
         User user2 = new User("Grażyna");
         Room room = new Room("towarzyski");
+        Chat chat = new Chat();
+        room.setChat(chat);
         allUsers.add(user);
         allUsers.add(user2);
         room.addUser(user2);
@@ -63,8 +66,19 @@ public class AppController {
             case "createRoom":
                 answer = handleCreateRoom(receiveData, user);
                 break;
+            case "message":
+                answer = handleMessage(receiveData, user);
+                break;
         }
         return wrapObject(action, answer);
+    }
+
+    private Object handleMessage(Object receiveData, User user) {
+        Message msg = (Message) receiveData;
+        UUID roomId = user.getCurrentRoomId();
+        msg.setId(msgId++);
+        getRoomById(roomId).getChat().addMessage(msg);
+        return true;
     }
 
     public boolean checkNickNameExist(String userName) {
