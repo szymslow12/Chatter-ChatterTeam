@@ -54,6 +54,7 @@ public class RoomView extends Pane {
 
 
     public void clearChildren() {
+        getChildren().clear();
         userListBox.clearChildren();
         chatForm.clearChildren();
     }
