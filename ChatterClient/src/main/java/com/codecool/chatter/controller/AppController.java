@@ -29,7 +29,8 @@ public class AppController extends Thread {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket(host, port)) {
+        try {
+            Socket socket = new Socket(host, port);
             Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
             runLoginController(connection);
             runLobbyController(connection);
