@@ -28,12 +28,14 @@ public class DataStreamController extends Thread {
                 for (ClientInfo client : clients) {
                     out = client.getOutputStream();
                     user = client.getUser();
-                    if (user.getCurrentRoomId().equals(null)) {
+                    if (user.getCurrentRoomId() == null) {
+                        System.out.println("chce wyslac lobby");
                         out.writeObject(appController.wrapObject("lobby", appController.getLobby()));
                         out.flush();
                         break;
 
-                    } else if (!user.getCurrentRoomId().equals(null)) {
+                    } else if (user.getCurrentRoomId() != null) {
+                        System.out.println("wchodzi i chce wyslac roomUsers");
                         Room room = appController.getRoomById(user.getCurrentRoomId());
                         Object roomUsers = appController.wrapObject("roomUsers", room.getUsers());
                         out.writeObject(roomUsers);
@@ -46,7 +48,7 @@ public class DataStreamController extends Thread {
                     }
                 }
 
-                Thread.sleep(100);
+                Thread.sleep(5000);
             }
         }catch (IOException | InterruptedException e) {
             e.printStackTrace();

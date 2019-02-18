@@ -22,6 +22,7 @@ public class AppController {
     }
 
     public void addClient(ObjectOutputStream out, User user) {
+        allUsers.add(user);
         clients.add(new ClientInfo(out, user));
     }
 
@@ -75,6 +76,7 @@ public class AppController {
 
     private Object handleMessage(Object receiveData, User user) {
         Message msg = (Message) receiveData;
+        System.out.println(msg.getContent());
         UUID roomId = user.getCurrentRoomId();
         msg.setId(msgId++);
         getRoomById(roomId).getChat().addMessage(msg);
@@ -90,6 +92,7 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
+            System.out.println(room.getUsers().size() + " !!!!");
             return room;
         }
         return IllegalArgumentException.class;
