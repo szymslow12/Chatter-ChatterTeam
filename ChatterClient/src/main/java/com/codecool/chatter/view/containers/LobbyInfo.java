@@ -45,6 +45,12 @@ public class LobbyInfo extends GridPane {
     }
 
 
+    public void clearChildren() {
+        getChildren().forEach(node -> clearConstraints(node));
+        getChildren().clear();
+    }
+
+
     private void setFill(Paint paint, Text... texts) {
         Stream.of(texts).forEach(text -> text.setFill(paint));
     }
