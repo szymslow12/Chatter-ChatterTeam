@@ -1,6 +1,7 @@
 package com.codecool.chatter.view;
 
 import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.model.Chat;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
@@ -50,6 +51,12 @@ public class RoomView extends Pane {
         chatForm.renderChatForm(room.getChat(), onEnter);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
+    }
+
+
+    public void updateChat(Chat chat) {
+        chatForm.getChatBox().updateChat(chat);
+        chatForm.getInputField().getTextInputControl().clear();
     }
 
 
