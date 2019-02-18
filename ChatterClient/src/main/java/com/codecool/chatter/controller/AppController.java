@@ -71,9 +71,6 @@ public class AppController extends Thread {
                 roomController.run(appView, client);
             }
         );
-        while (true) {
-
-        }
     }
 
 
