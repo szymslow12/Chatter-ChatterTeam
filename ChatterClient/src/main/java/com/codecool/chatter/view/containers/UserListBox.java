@@ -34,4 +34,11 @@ public class UserListBox extends ScrollContainer {
         userBoxes.add(userBox);
         getVBox().getChildren().add(userBox);
     }
+
+
+    public void clearChildren() {
+        getChildren().clear();
+        userBoxes.clear();
+        getVBox().getChildren().clear();
+    }
 }

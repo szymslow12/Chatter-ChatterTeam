@@ -5,6 +5,7 @@ import com.codecool.chatter.view.containers.ChatBox;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -32,10 +33,18 @@ public class ChatForm extends Pane {
         inputField.setTranslateY(chatBox.getHeight());
         inputField.setOnEnterPressed(onEnter);
         inputField.setFont(new Font(20));
+        ((TextArea) inputField.getTextInputControl()).setWrapText(true);
     }
 
 
     public InputField getInputField() {
         return inputField;
+    }
+
+
+    public void clearChildren() {
+        getChildren().clear();
+        chatBox.clearChildren();
+        inputField.getTextInputControl().clear();
     }
 }

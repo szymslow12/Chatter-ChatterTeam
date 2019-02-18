@@ -53,6 +53,12 @@ public class RoomView extends Pane {
     }
 
 
+    public void clearChildren() {
+        userListBox.clearChildren();
+        chatForm.clearChildren();
+    }
+
+
     public ChatForm getChatForm() {
         return chatForm;
     }

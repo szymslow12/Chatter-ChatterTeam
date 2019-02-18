@@ -31,4 +31,11 @@ public class ChatBox extends ScrollContainer {
         messages.add(messageView);
         getVBox().getChildren().add(messageView);
     }
+
+
+    public void clearChildren() {
+        getChildren().clear();
+        messages.clear();
+        getVBox().getChildren().clear();
+    }
 }
