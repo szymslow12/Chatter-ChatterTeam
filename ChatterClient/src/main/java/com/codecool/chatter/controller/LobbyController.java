@@ -13,11 +13,13 @@ public class LobbyController {
     private Connection connection;
     private Lobby lobby;
     private LobbyView lobbyView;
+    private Updater updater;
     private volatile Room chosenRoom;
 
 
-    public LobbyController(Connection connection) {
+    public LobbyController(Connection connection, Updater updater) {
         this.connection = connection;
+        this.updater = updater;
         lobby = null;
         chosenRoom = null;
         lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
@@ -59,6 +61,12 @@ public class LobbyController {
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
         lobby = (Lobby) connection.read().getObject();
+        updater.setReceived(true);
         System.out.println("Lobby has been loaded!");
+    }
+
+
+    public Updater getUpdater() {
+        return updater;
     }
 }
