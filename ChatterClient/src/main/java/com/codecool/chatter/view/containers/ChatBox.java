@@ -33,14 +33,6 @@ public class ChatBox extends ScrollContainer {
     }
 
 
-    public void updateChat(Chat chat) {
-        messages.clear();
-        getVBox().getChildren().clear();
-        chat.getMessages().stream().forEach(message -> addMessageView(message));
-        getScrollPane().setVvalue(1.0);
-    }
-
-
     public void clearChildren() {
         getChildren().clear();
         messages.clear();
