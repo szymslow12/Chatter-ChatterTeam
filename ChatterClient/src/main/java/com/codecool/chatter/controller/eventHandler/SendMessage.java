@@ -29,7 +29,7 @@ public class SendMessage implements EventHandler<KeyEvent> {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             InputField inputField = roomController.getRoomView().getChatForm().getInputField();
             TextInputControl textInputControl = inputField.getTextInputControl();
-            String message = textInputControl.getText();
+            String message = textInputControl.getText().trim();
             try {
                 Message toSend = new Message(client, message);
                 connection.write(new ObjectWrapper("message", toSend));
