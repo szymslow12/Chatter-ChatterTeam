@@ -55,7 +55,7 @@ public class RoomView extends Pane {
 
 
     public void updateChat(Chat chat) {
-        chatForm.getChatBox().updateChat(chat);
+        chatForm.updateChat(chat);
         chatForm.getInputField().getTextInputControl().clear();
     }
 
