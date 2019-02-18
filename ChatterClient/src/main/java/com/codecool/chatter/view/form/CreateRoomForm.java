@@ -1,4 +1,4 @@
-package com.codecool.chatter.view.box;
+package com.codecool.chatter.view.form;
 
 import com.codecool.chatter.view.alert.AlertMessage;
 import com.codecool.chatter.view.interactive.ButtonView;
@@ -35,14 +35,6 @@ public class CreateRoomForm extends Pane {
         setBorder(getCreateRoomBorder());
         setPositions();
         renderAlert();
-        //        setBackground(
-//            new Background(
-//                new BackgroundFill(
-//                        Color.web("rgba(35, 125, 195, 0.5)"),
-//                        CornerRadii.EMPTY,
-//                        Insets.EMPTY)
-//            )
-//        );
         getChildren().addAll(inputField, buttonView);
     }
 

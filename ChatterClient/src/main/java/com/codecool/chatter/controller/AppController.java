@@ -15,12 +15,14 @@ public class AppController extends Thread {
     private int port;
     private AppView appView;
     private User client;
+    private Room chosenRoom;
 
     public AppController(String host, int port, double width, double height) {
         this.host = host;
         this.port = port;
         this.appView = new AppView(width, height);
         client = null;
+        chosenRoom = null;
         setName("AppController");
     }
 
@@ -32,7 +34,6 @@ public class AppController extends Thread {
             runLoginController(connection);
             runLobbyController(connection);
             runRoomController(connection);
-            interrupt();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +53,6 @@ public class AppController extends Thread {
     private void runLobbyController(Connection connection) {
         LobbyController lobbyController = new LobbyController(connection);
         Platform.runLater(() -> lobbyController.run(appView, client));
-        Room chosenRoom = null;
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
         }
@@ -62,8 +62,16 @@ public class AppController extends Thread {
 
 
     private void runRoomController(Connection connection) {
-        RoomController roomController = new RoomController(connection);
-        roomController.run();
+        RoomController roomController = new RoomController(connection, chosenRoom);
+        Platform.runLater(() ->
+            {
+                appView.getChildren().clear();
+                roomController.run(appView, client);
+            }
+        );
+        while (true) {
+
+        }
     }
 
 
