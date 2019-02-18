@@ -17,6 +17,7 @@ public class AppController extends Thread {
     private AppView appView;
     private User client;
     private Room chosenRoom;
+    private Updater updater;
 
     public AppController(String host, int port, double width, double height) {
         this.host = host;
@@ -48,13 +49,15 @@ public class AppController extends Thread {
         while (client == null) {
             client = loginController.getClient();
         }
+        updater = new Updater(client, connection);
         System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
     }
 
 
     private void runLobbyController(Connection connection) {
-        LobbyController lobbyController = new LobbyController(connection);
+        LobbyController lobbyController = new LobbyController(connection, updater);
         Platform.runLater(() -> lobbyController.run(appView, client));
+        startUpdater(lobbyController);
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
         }
@@ -72,6 +75,13 @@ public class AppController extends Thread {
                 roomController.run(appView, client);
             }
         );
+    }
+
+
+    private void startUpdater(LobbyController lobbyController) {
+        updater.setEventHandler(new EnterRoom(lobbyController));
+        updater.setUpdatable(lobbyController.getLobbyView());
+        updater.start();
     }
 
 
