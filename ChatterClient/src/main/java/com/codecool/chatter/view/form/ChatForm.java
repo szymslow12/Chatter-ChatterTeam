@@ -42,6 +42,11 @@ public class ChatForm extends Pane {
     }
 
 
+    public ChatBox getChatBox() {
+        return chatBox;
+    }
+
+
     public void clearChildren() {
         getChildren().clear();
         chatBox.clearChildren();
