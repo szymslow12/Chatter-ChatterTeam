@@ -1,10 +1,7 @@
 package com.codecool.chatter.controller.eventHandler;
 
 import com.codecool.chatter.controller.RoomController;
-import com.codecool.chatter.model.Connection;
-import com.codecool.chatter.model.Message;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputControl;
@@ -34,9 +31,13 @@ public class SendMessage implements EventHandler<KeyEvent> {
             TextInputControl textInputControl = inputField.getTextInputControl();
             String message = textInputControl.getText();
             try {
-                connection.write(new ObjectWrapper("message", new Message(client, message)));
+                Message toSend = new Message(client, message);
+                connection.write(new ObjectWrapper("message", toSend));
                 System.out.println("Message: '" + message + "' has been send...");
+                roomController.updateChat();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
