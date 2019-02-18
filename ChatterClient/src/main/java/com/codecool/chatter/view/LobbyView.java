@@ -2,7 +2,9 @@ package com.codecool.chatter.view;
 
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.form.CreateRoomForm;
 import com.codecool.chatter.view.containers.LobbyInfo;
 import com.codecool.chatter.view.containers.RoomButtonBox;
@@ -12,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class LobbyView extends Pane {
+public class LobbyView extends Pane implements Updatable {
 
     private CreateRoomForm createRoomForm;
     private RoomButtonBox roomButtonBox;
@@ -44,6 +46,18 @@ public class LobbyView extends Pane {
         lobbyInfo.renderLobbyInfoView(lobby, client);
         setPositions();
         getChildren().addAll(roomButtonBox, createRoomForm, lobbyInfo);
+    }
+
+
+    @Override
+    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<?> eventHandler) {
+        if (objectWrapper.getAction().equals("lobby")) {
+            Lobby lobby = (Lobby) objectWrapper.getObject();
+            roomButtonBox.clearChildren();
+            roomButtonBox.renderRoomButtonsBox(lobby, (EventHandler<MouseEvent>) eventHandler);
+            lobbyInfo.clearChildren();
+            lobbyInfo.renderLobbyInfoView(lobby, client);
+        }
     }
 
 
