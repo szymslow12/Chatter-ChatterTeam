@@ -1,12 +1,10 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Chat;
-import com.codecool.chatter.model.ClientInfo;
-import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataStreamController extends Thread {
@@ -38,9 +36,12 @@ public class DataStreamController extends Thread {
                     } else if (!user.getCurrentRoomId().equals(null)) {
                         Room room = appController.getRoomById(user.getCurrentRoomId());
                         Object roomUsers = appController.wrapObject("roomUsers", room.getUsers());
-                        Chat chat = room.getChat();
                         out.writeObject(roomUsers);
-                        out.writeObject(chat);
+                        out.flush();
+                        List<Message> messages = room.getChat().getMessages();
+                        List<Message> messageToSend = getMessageToSend(client, room);
+                        Object newMessages = appController.wrapObject("updateChat", messageToSend);
+                        out.writeObject(newMessages);
                         out.flush();
                     }
                 }
@@ -53,5 +54,14 @@ public class DataStreamController extends Thread {
 
     }
 
+    private List<Message> getMessageToSend(ClientInfo client, Room room) {
+        int latestMsgIndex = client.getLatestMsgIndex();
+        List<Message> messages = room.getChat().getMessages();
+        List<Message> latestMsg = new ArrayList<>();
+        for(int i = latestMsgIndex; i < messages.size(); i++) {
+            latestMsg.add(messages.get(i));
+        }
+        return messages;
+    }
 
 }
