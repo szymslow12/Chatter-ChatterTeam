@@ -31,18 +31,18 @@ public class MessageView extends HoverPane {
         double messageWidth = message.getLayoutBounds().getWidth();
         double messageWidthDividedByContainerWidth = messageWidth / (getWidth() - 20);
         if (messageWidthDividedByContainerWidth > 1) {
-            double resizedHeight = getHeight() * messageWidthDividedByContainerWidth;
-            setSizeAndPosition(resizedHeight, message);
+            setSizeAndPosition(messageWidthDividedByContainerWidth, message);
         } else {
             message.setLayoutY(getMiddleTextY());
         }
     }
 
 
-    private void setSizeAndPosition(double resizedHeight, Text message) {
-        setHeight(resizedHeight);
-        setPrefHeight(resizedHeight);
-        message.setLayoutY(10 + message.getLayoutBounds().getHeight());
+    private void setSizeAndPosition(double multiplier, Text message) {
+        double messageHeight = message.getLayoutBounds().getHeight() * multiplier;
+        setHeight(getHeight() + messageHeight);
+        setPrefHeight(getHeight());
+        message.setLayoutY(getPrefHeight() / 2 - messageHeight / 2 + 5);
     }
 
 
