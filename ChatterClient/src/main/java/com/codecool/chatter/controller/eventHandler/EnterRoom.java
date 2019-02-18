@@ -31,9 +31,12 @@ public class EnterRoom implements EventHandler<MouseEvent> {
         if (confirmation.get() == ButtonType.OK) {
             try {
                 connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
+                room = (Room) connection.read().getObject();
                 lobbyController.setChosenRoom(room);
             } catch (IOException e1) {
                 e1.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     };

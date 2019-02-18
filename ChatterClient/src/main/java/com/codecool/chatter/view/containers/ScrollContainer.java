@@ -1,52 +1,42 @@
-package com.codecool.chatter.view.box;
+package com.codecool.chatter.view.containers;
 
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.view.interactive.RoomButton;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
+public class ScrollContainer extends HBox {
 
-public class RoomButtonBox extends HBox {
-
-    private List<RoomButton> roomsButtons;
     private VBox vBox;
     private ScrollPane scrollPane;
     private ScrollBar scrollBar;
 
-    public RoomButtonBox(double width, double height) {
+
+    public ScrollContainer(double width, double height) {
         super();
-        roomsButtons = new ArrayList<>();
         renderVBox(width, height);
         renderScrollPane(vBox);
         renderScrollBar(scrollPane, vBox);
+        setBorder(getRightBorder());
     }
 
 
-    public void renderRoomButtonsBox(Lobby lobby, EventHandler<MouseEvent> onClick) {
-        setAndAddRoomsButtons(vBox, lobby, onClick);
-        setBorder(getBoxWithButtonBorder());
-        getChildren().addAll(scrollBar, scrollPane);
+    public VBox getVBox() {
+        return vBox;
     }
 
 
-    private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<MouseEvent> onClick) {
-        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(getWidth() - 10, 100, room, onClick)));
-        IntStream.range(0, roomsButtons.size()).forEach(i -> {
-            RoomButton roomButton = roomsButtons.get(i);
-            roomButton.setTranslateX(10);
-        });
-        roomsButtons.forEach(button -> box.getChildren().add(button));
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+
+    public ScrollBar getScrollBar() {
+        return scrollBar;
     }
 
 
@@ -77,12 +67,23 @@ public class RoomButtonBox extends HBox {
     }
 
 
-    private Border getBoxWithButtonBorder() {
+    private Border getRightBorder() {
         Paint borderColor = Color.web("#000000");
         BorderStrokeStyle NONE = BorderStrokeStyle.NONE;
         BorderStrokeStyle SOLID = BorderStrokeStyle.SOLID;
         Insets insets = new Insets(0, 10, 0, 0);
         return new Border(new BorderStroke(borderColor, borderColor, borderColor, borderColor,
                 NONE, SOLID, NONE, NONE, CornerRadii.EMPTY, BorderWidths.DEFAULT, insets));
+    }
+
+
+    public void switchPositions() {
+        scrollBar.setTranslateX(-(scrollPane.getPrefWidth()));
+        scrollPane.setTranslateX(scrollBar.getWidth());
+    }
+
+
+    public void setItemsSpacing(double spacing) {
+        vBox.setSpacing(spacing);
     }
 }

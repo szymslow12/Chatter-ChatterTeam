@@ -5,7 +5,7 @@ import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.view.LobbyView;
-import com.codecool.chatter.view.box.CreateRoomForm;
+import com.codecool.chatter.view.form.CreateRoomForm;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextInputControl;
@@ -43,13 +43,18 @@ public class CreateRoom implements EventHandler<MouseEvent> {
 
     private void handleCreateRoom(ObjectWrapper objectWrapper, CreateRoomForm createRoomForm) {
         if (isNull(objectWrapper.getObject())) {
-            Canvas alert = createRoomForm.getAlertMessage();
-            boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
-            if (!isDisplayedAlert) {
-                createRoomForm.getChildren().add(alert);
-            }
+            handleAlert(createRoomForm);
         } else {
             lobbyController.setChosenRoom((Room) objectWrapper.getObject());
+        }
+    }
+
+
+    private void handleAlert(CreateRoomForm createRoomForm) {
+        Canvas alert = createRoomForm.getAlertMessage();
+        boolean isDisplayedAlert = createRoomForm.getChildren().contains(alert);
+        if (!isDisplayedAlert) {
+            createRoomForm.getChildren().add(alert);
         }
     }
 

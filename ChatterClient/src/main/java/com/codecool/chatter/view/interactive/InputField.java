@@ -1,9 +1,11 @@
 package com.codecool.chatter.view.interactive;
 
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -74,5 +76,16 @@ public class InputField extends GridPane {
 
     public TextInputControl getTextInputControl() {
         return textInputControl;
+    }
+
+
+    public void setOnEnterPressed(EventHandler<KeyEvent> onKeyPressed) {
+        textInputControl.setOnKeyPressed(onKeyPressed);
+    }
+
+
+    public void setFont(Font font) {
+        textInputControl.setFont(font);
+        label.setFont(font);
     }
 }

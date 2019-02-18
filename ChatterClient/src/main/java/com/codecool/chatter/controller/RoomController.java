@@ -1,28 +1,44 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.controller.eventHandler.SendMessage;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
-
-import java.io.IOException;
+import com.codecool.chatter.model.User;
+import com.codecool.chatter.view.AppView;
+import com.codecool.chatter.view.RoomView;
 
 public class RoomController {
 
     private Connection connection;
-//    private RoomView roomView;
+    private RoomView roomView;
+    private Room room;
 
-    public RoomController(Connection connection) {
+    public RoomController(Connection connection, Room room) {
         this.connection = connection;
+        this.roomView = new RoomView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
+        this.room = room;
     }
 
 
-    public void run() {
-        try {
-            Room room = (Room) connection.read().getObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void run(AppView appView, User client) {
+        client.setCurrentRoomId(room.getId());
+        room.getChat().setClient(client);
+        roomView.renderRoomView(room, new SendMessage(connection, this, client));
+        appView.getChildren().add(roomView);
+    }
 
+
+    public void updateChat() {
+        roomView.updateChat(room.getChat());
+    }
+
+
+    public RoomView getRoomView() {
+        return roomView;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

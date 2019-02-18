@@ -22,6 +22,7 @@ public class Room implements Serializable {
 
 
     public void addUser(User user) {
+        user.setCurrentRoomId(id);
         users.add(user);
     }
 

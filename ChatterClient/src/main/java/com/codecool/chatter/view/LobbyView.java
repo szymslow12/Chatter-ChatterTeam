@@ -3,9 +3,9 @@ package com.codecool.chatter.view;
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.User;
-import com.codecool.chatter.view.box.CreateRoomForm;
-import com.codecool.chatter.view.box.LobbyInfoBox;
-import com.codecool.chatter.view.box.RoomButtonBox;
+import com.codecool.chatter.view.form.CreateRoomForm;
+import com.codecool.chatter.view.containers.LobbyInfo;
+import com.codecool.chatter.view.containers.RoomButtonBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +16,7 @@ public class LobbyView extends Pane {
 
     private CreateRoomForm createRoomForm;
     private RoomButtonBox roomButtonBox;
-    private LobbyInfoBox lobbyInfoBox;
+    private LobbyInfo lobbyInfo;
 
     public LobbyView(double width, double height) {
         super();
@@ -41,16 +41,16 @@ public class LobbyView extends Pane {
         );
         roomButtonBox.renderRoomButtonsBox(lobby, roomOnClick);
         createRoomForm.renderCreateRoomView(buttonOnClick);
-        lobbyInfoBox.renderLobbyInfoView(lobby, client);
+        lobbyInfo.renderLobbyInfoView(lobby, client);
         setPositions();
-        getChildren().addAll(roomButtonBox, createRoomForm, lobbyInfoBox);
+        getChildren().addAll(roomButtonBox, createRoomForm, lobbyInfo);
     }
 
 
     private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
         roomButtonBox = new RoomButtonBox(leftSiteWidth, height);
         createRoomForm = new CreateRoomForm(rightSiteWidth, divide(height, 4));
-        lobbyInfoBox = new LobbyInfoBox(
+        lobbyInfo = new LobbyInfo(
             rightSiteWidth,
             divide(height, 3f / 4),
             new Insets(10)
@@ -68,8 +68,8 @@ public class LobbyView extends Pane {
     private void setPositions() {
         createRoomForm.setLayoutX(roomButtonBox.getWidth() + 20);
         createRoomForm.setLayoutY(10);
-        lobbyInfoBox.setLayoutX(roomButtonBox.getWidth() + 20);
-        lobbyInfoBox.setLayoutY(createRoomForm.getHeight() + 10);
+        lobbyInfo.setLayoutX(roomButtonBox.getWidth() + 20);
+        lobbyInfo.setLayoutY(createRoomForm.getHeight() + 10);
     }
 
 
