@@ -34,13 +34,11 @@ public class SendMessage implements EventHandler<KeyEvent> {
                 Message toSend = new Message(client, message);
                 connection.write(new ObjectWrapper("message", toSend));
                 System.out.println("Message: '" + message + "' has been send...");
+                roomController.getRoom().getChat().addMessage(toSend);
                 roomController.updateChat();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
-
     }
 }
