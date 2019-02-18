@@ -39,6 +39,9 @@ public class EchoThreadServer extends Thread {
 
             String userName = (String) receiveObject;
             User user = new User(userName);
+
+            appController.addClient(objectOutputStream, user);
+
             Lobby lobby = appController.getLobby();
             lobby.addUser(user);
 

@@ -1,10 +1,8 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +12,22 @@ public class AppController {
     private Lobby lobby;
 
     private List<User> allUsers = new ArrayList<>();
+    private List<ClientInfo> clients = new ArrayList<>();
+    private static int msgId = 1;
 
     public AppController() {
         this.lobby = new Lobby();
         addUserAndRoomForTest();
+        new DataStreamController(this).start();
+    }
+
+    public void addClient(ObjectOutputStream out, User user) {
+        allUsers.add(user);
+        clients.add(new ClientInfo(out, user));
+    }
+
+    public List<ClientInfo> getClientInfo() {
+        return clients;
     }
 
     public Lobby getLobby() {
@@ -36,6 +46,8 @@ public class AppController {
         User user = new User("Stefan");
         User user2 = new User("Grażyna");
         Room room = new Room("towarzyski");
+        Chat chat = new Chat();
+        room.setChat(chat);
         allUsers.add(user);
         allUsers.add(user2);
         room.addUser(user2);
@@ -53,19 +65,22 @@ public class AppController {
                 answer = chooseRoomHandle(receiveData, user);
                 break;
             case "createRoom":
-//                String roomName = (String) receiveData;
-//                if(checkRoomByNameExist(roomName)) {
-//                    action = "isAvailable";
-//                    answer = false;
-//                }else{
-//                    Room room = new Room(roomName);
-//                    room.getUsers().add(user);
-//                    answer = room;
-//                }
                 answer = handleCreateRoom(receiveData, user);
+                break;
+            case "message":
+                answer = handleMessage(receiveData, user);
                 break;
         }
         return wrapObject(action, answer);
+    }
+
+    private Object handleMessage(Object receiveData, User user) {
+        Message msg = (Message) receiveData;
+        System.out.println(msg.getContent());
+        UUID roomId = user.getCurrentRoomId();
+        msg.setId(msgId++);
+        getRoomById(roomId).getChat().addMessage(msg);
+        return true;
     }
 
     public boolean checkNickNameExist(String userName) {
@@ -77,6 +92,7 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
+            System.out.println(room.getUsers().size() + " !!!!");
             return room;
         }
         return IllegalArgumentException.class;
@@ -86,7 +102,7 @@ public class AppController {
         return lobby.getRooms().stream().anyMatch(room -> id.equals(room.getId()));
     }
 
-    private Room getRoomById(UUID id) {
+    public Room getRoomById(UUID id) {
         return lobby.getRooms().stream().filter(room -> room.getId().equals(id)).findFirst().get();
     }
 
