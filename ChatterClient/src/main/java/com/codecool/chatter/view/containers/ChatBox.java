@@ -20,6 +20,7 @@ public class ChatBox extends ScrollContainer {
     public void renderChatBox(Chat chat) {
         List<Message> messageList = chat.getMessages();
         messageList.stream().forEach(message -> addMessageView(message));
+        setItemsSpacing(0);
         getScrollPane().setVvalue(1.0);
         getChildren().addAll(getScrollPane(), getScrollBar());
     }
