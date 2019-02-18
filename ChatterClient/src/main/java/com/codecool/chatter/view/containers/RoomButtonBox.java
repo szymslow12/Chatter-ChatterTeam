@@ -35,4 +35,11 @@ public class RoomButtonBox extends ScrollContainer {
         });
         roomsButtons.forEach(button -> box.getChildren().add(button));
     }
+
+
+    public void clearChildren() {
+        roomsButtons.clear();
+        getChildren().clear();
+        getVBox().getChildren().clear();
+    }
 }
