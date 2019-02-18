@@ -62,11 +62,11 @@ public class AppController extends Thread {
 
 
     private void runRoomController(Connection connection) {
-        RoomController roomController = new RoomController(connection, client);
+        RoomController roomController = new RoomController(connection, chosenRoom);
         Platform.runLater(() ->
             {
                 appView.getChildren().clear();
-                roomController.run(appView, chosenRoom);
+                roomController.run(appView, client);
             }
         );
         while (true) {
