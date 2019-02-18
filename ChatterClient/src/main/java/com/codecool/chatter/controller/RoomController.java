@@ -30,7 +30,7 @@ public class RoomController {
 
 
     public void updateChat() {
-        roomView.clearChildren();
+        roomView.updateChat(room.getChat());
     }
 
 
