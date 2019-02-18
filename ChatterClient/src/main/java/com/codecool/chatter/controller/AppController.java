@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.controller.eventHandler.EnterRoom;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
@@ -35,7 +36,7 @@ public class AppController extends Thread {
             runLoginController(connection);
             runLobbyController(connection);
             runRoomController(connection);
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -51,10 +52,11 @@ public class AppController extends Thread {
     }
 
 
-    private void runLobbyController(Connection connection) {
+    private void runLobbyController(Connection connection) throws IOException, ClassNotFoundException {
         LobbyController lobbyController = new LobbyController(connection);
         Platform.runLater(() -> lobbyController.run(appView, client));
         while (chosenRoom == null) {
+            lobbyController.getLobbyView().updateView(connection.read(), client, new EnterRoom(lobbyController));
             chosenRoom = lobbyController.getChosenRoom();
         }
         System.out.println("Entering room " + chosenRoom.getName() + "...");

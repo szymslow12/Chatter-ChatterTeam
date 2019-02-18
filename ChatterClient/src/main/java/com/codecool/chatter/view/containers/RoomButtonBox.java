@@ -3,7 +3,7 @@ package com.codecool.chatter.view.containers;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ public class RoomButtonBox extends ScrollContainer {
     }
 
 
-    public void renderRoomButtonsBox(Lobby lobby, EventHandler<MouseEvent> onClick) {
+    public void renderRoomButtonsBox(Lobby lobby, EventHandler<InputEvent> onClick) {
         setAndAddRoomsButtons(getVBox(), lobby, onClick);
         getChildren().addAll(getScrollPane(), getScrollBar());
         switchPositions();
     }
 
 
-    private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<MouseEvent> onClick) {
+    private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<InputEvent> onClick) {
         lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(getWidth() - 10, 100, room, onClick)));
         IntStream.range(0, roomsButtons.size()).forEach(i -> {
             RoomButton roomButton = roomsButtons.get(i);

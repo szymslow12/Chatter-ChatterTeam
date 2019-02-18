@@ -10,7 +10,7 @@ import com.codecool.chatter.view.containers.LobbyInfo;
 import com.codecool.chatter.view.containers.RoomButtonBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -32,7 +32,7 @@ public class LobbyView extends Pane implements Updatable {
     }
 
 
-    public void renderLobbyView(Lobby lobby, User client, EventHandler<MouseEvent> roomOnClick, EventHandler<MouseEvent> buttonOnClick) {
+    public void renderLobbyView(Lobby lobby, User client, EventHandler<InputEvent> roomOnClick, EventHandler<InputEvent> buttonOnClick) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -50,11 +50,11 @@ public class LobbyView extends Pane implements Updatable {
 
 
     @Override
-    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<?> eventHandler) {
+    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<InputEvent> eventHandler) {
         if (objectWrapper.getAction().equals("lobby")) {
             Lobby lobby = (Lobby) objectWrapper.getObject();
             roomButtonBox.clearChildren();
-            roomButtonBox.renderRoomButtonsBox(lobby, (EventHandler<MouseEvent>) eventHandler);
+            roomButtonBox.renderRoomButtonsBox(lobby, eventHandler);
             lobbyInfo.clearChildren();
             lobbyInfo.renderLobbyInfoView(lobby, client);
         }

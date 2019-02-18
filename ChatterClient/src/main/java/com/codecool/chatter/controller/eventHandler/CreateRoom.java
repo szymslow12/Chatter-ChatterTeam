@@ -9,11 +9,11 @@ import com.codecool.chatter.view.form.CreateRoomForm;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 
 import java.io.IOException;
 
-public class CreateRoom implements EventHandler<MouseEvent> {
+public class CreateRoom implements EventHandler<InputEvent> {
 
     private LobbyController lobbyController;
 
@@ -22,7 +22,7 @@ public class CreateRoom implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public void handle(MouseEvent mouseEvent) {
+    public void handle(InputEvent mouseEvent) {
         Connection connection = lobbyController.getConnection();
         LobbyView lobbyView = lobbyController.getLobbyView();
         CreateRoomForm createRoomForm = lobbyView.getCreateRoomForm();

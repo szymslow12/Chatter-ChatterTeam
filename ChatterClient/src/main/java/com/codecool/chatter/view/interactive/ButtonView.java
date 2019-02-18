@@ -3,7 +3,7 @@ package com.codecool.chatter.view.interactive;
 import javafx.scene.control.Button;
 
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 
 public class ButtonView extends Button {
@@ -16,7 +16,7 @@ public class ButtonView extends Button {
     }
 
 
-    public ButtonView getButton(String name, EventHandler<MouseEvent> onClick) {
+    public ButtonView getButton(String name, EventHandler<InputEvent> onClick) {
         setFont(new Font(25));
         setText(name);
         setPrefHeight(25);

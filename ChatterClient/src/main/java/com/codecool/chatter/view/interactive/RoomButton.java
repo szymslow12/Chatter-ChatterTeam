@@ -3,7 +3,7 @@ package com.codecool.chatter.view.interactive;
 import com.codecool.chatter.model.Room;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -13,7 +13,7 @@ public class RoomButton extends HoverPane {
 
     private Room room;
 
-    public RoomButton(double width, double height, Room room, EventHandler<MouseEvent> onClick) {
+    public RoomButton(double width, double height, Room room, EventHandler<InputEvent> onClick) {
         this(width, height, room);
         setOnMouseClicked(onClick);
     }
