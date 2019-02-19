@@ -63,7 +63,6 @@ public class AppController extends Thread {
         }
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
-        chosenRoom.addUser(client);
     }
 
 
