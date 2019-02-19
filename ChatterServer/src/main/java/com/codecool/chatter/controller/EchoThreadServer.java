@@ -1,6 +1,7 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.Connection;
+import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 
@@ -17,15 +18,18 @@ public class EchoThreadServer extends Thread {
     }
 
     public void run() {
+        User user = null;
         try {
 
             String userName;
             userName = loginHandle();
-            User user = new User(userName);
+            user = new User(userName);
 
             appController.addClient(connection, user);
             appController.getLobby().addUser(user);
-            connection.write(appController.wrapObject("lobby", appController.getLobby()));
+            Lobby lobby = appController.getLobby();
+            System.out.println("lobby first refe: " + lobby);
+            connection.write(appController.wrapObject("lobby", lobby));
 
             chatHandle(user);
 
@@ -34,6 +38,7 @@ public class EchoThreadServer extends Thread {
         } finally {
             try {
                 connection.closeConnection();
+                appController.removeClient(user);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -58,9 +63,9 @@ public class EchoThreadServer extends Thread {
             receiveData = connection.read();
             action = receiveData.getAction();
             userName = (String) receiveData.getObject();
-            userExist = appController.checkNickNameExist(userName);
+            userExist = !appController.checkNickNameExist(userName);
             connection.write(appController.wrapObject(action, userExist));
-        } while (userExist);
+        } while (!userExist);
 
         return userName;
     }

@@ -27,24 +27,40 @@ public class DataStreamController extends Thread {
                 Connection connection;
                 System.out.println(clients.size() + " clients count");
                 for (ClientInfo client : clients) {
+
                     connection = client.getConnection();
                     user = client.getUser();
+
                     if (user.getCurrentRoomId() == null) {
                         sendLobby(connection, client);
                         break;
 
                     } else if (user.getCurrentRoomId() != null) {
-                        Room room = sendRoomUsers(connection, client);
-                        sendNewMessagess(connection, client, room);
+                        roomUpdate(connection, client);
+//                        Room room = sendRoomUsers(connection, client);
+//                        sendNewMessagess(connection, client, room);
                     }
                 }
 
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             }
         }catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void roomUpdate(Connection connection, ClientInfo client) throws IOException {
+        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
+
+        Room copyRoom = new Room(room.getName());
+        copyRoom.setUsers(room.getUsers());
+//        List<Message> messages = room.getChat().getMessages();
+        List<Message> messageToSend = getMessageToSend(client, room);
+        copyRoom.getChat().setMessages(messageToSend);
+
+
+        connection.write(appController.wrapObject("updateRoom", copyRoom));
     }
 
     private void sendNewMessagess(Connection connection, ClientInfo client, Room room) throws IOException {
@@ -55,28 +71,27 @@ public class DataStreamController extends Thread {
     }
 
     private Room sendRoomUsers(Connection connection, ClientInfo client) throws IOException {
-        System.out.println(client.getUser().getNickname() + " send room users and chat");
         Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
-        room.getUsers().forEach(System.out::println);
+
         ObjectWrapper roomUsers = appController.wrapObject("roomUsers", room.getUsers());
         connection.write(roomUsers);
         return room;
     }
 
     private void sendLobby(Connection connection, ClientInfo client) throws IOException {
-        System.out.println(client.getUser().getNickname() + " sending lobby to him");
-        System.out.println(appController.getLobby().getUsers().size() + " lobby users count");
-        connection.write(new ObjectWrapper("lobby", appController.getLobby()));
+        connection.write(appController.wrapObject("lobby", appController.getLobby()));
     }
 
     private List<Message> getMessageToSend(ClientInfo client, Room room) {
         int latestMsgIndex = client.getLatestMsgIndex();
         List<Message> messages = room.getChat().getMessages();
         List<Message> latestMsg = new ArrayList<>();
-        for(int i = latestMsgIndex; i < messages.size(); i++) {
+        int i;
+        for(i = latestMsgIndex; i < messages.size(); i++) {
             latestMsg.add(messages.get(i));
         }
-        return messages;
+        client.setLatestMsgIndex(i);
+        return latestMsg;
     }
 
 }
