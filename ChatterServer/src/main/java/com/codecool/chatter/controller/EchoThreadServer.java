@@ -42,8 +42,7 @@ public class EchoThreadServer extends Thread {
 
             appController.addClient(objectOutputStream, user);
 
-            Lobby lobby = appController.getLobby();
-            lobby.addUser(user);
+            appController.getLobby().addUser(user);
 
             objectOutputStream.writeObject(appController.wrapObject("lobby", appController.getLobby()));
             objectOutputStream.flush();

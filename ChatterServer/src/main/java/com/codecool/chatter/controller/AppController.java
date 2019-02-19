@@ -30,7 +30,7 @@ public class AppController {
         return clients;
     }
 
-    public Lobby getLobby() {
+    public synchronized Lobby getLobby() {
         return lobby;
     }
 
@@ -92,7 +92,6 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
-            System.out.println(room.getUsers().size() + " !!!!");
             return room;
         }
         return IllegalArgumentException.class;
