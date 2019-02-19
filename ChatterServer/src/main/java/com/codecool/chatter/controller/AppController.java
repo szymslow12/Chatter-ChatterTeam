@@ -28,7 +28,11 @@ public class AppController {
 
     public void removeClient(User user) {
         for (ClientInfo client: clients) {
-            if(client.getUser().equals(user)) clients.remove(client);
+            if(client.getUser().equals(user))
+            {
+                System.out.println("remove user: " + client.getUser().getNickname());;
+                clients.remove(client);
+            }
         }
     }
 
@@ -81,7 +85,6 @@ public class AppController {
 
     private Object handleMessage(Object receiveData, User user) {
         Message msg = (Message) receiveData;
-        System.out.println(msg.getContent());
         UUID roomId = user.getCurrentRoomId();
         msg.setId(msgId++);
         getRoomById(roomId).getChat().addMessage(msg);

@@ -28,7 +28,6 @@ public class EchoThreadServer extends Thread {
             appController.addClient(connection, user);
             appController.getLobby().addUser(user);
             Lobby lobby = appController.getLobby();
-            System.out.println("lobby first refe: " + lobby);
             connection.write(appController.wrapObject("lobby", lobby));
 
             chatHandle(user);
@@ -47,11 +46,17 @@ public class EchoThreadServer extends Thread {
     }
 
     private void chatHandle(User user) throws IOException, ClassNotFoundException {
-        while (true) {
-            ObjectWrapper receiveData = connection.read();
+//        while (true) {
+//            ObjectWrapper receiveData = connection.read();
+//            ObjectWrapper answer = appController.handleData(receiveData, user);
+//            connection.write(answer);
+//        }
+        ObjectWrapper receiveData;
+        do{
+            receiveData = connection.read();
             ObjectWrapper answer = appController.handleData(receiveData, user);
             connection.write(answer);
-        }
+        }while (receiveData != null);
     }
 
     private String loginHandle() throws IOException, ClassNotFoundException {

@@ -18,6 +18,7 @@ public class Room implements Serializable {
         this.name = name;
         this.maxCapacity = 20;
         this.users = new ArrayList<>();
+        new Chat();
     }
 
 

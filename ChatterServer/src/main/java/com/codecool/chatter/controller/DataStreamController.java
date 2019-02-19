@@ -56,9 +56,8 @@ public class DataStreamController extends Thread {
 
         Room copyRoom = new Room(room.getName());
         copyRoom.setUsers(room.getUsers());
-        Chat chat = new Chat();
-        chat.setMessages(messageToSend);
-        copyRoom.setChat(chat);
+
+        copyRoom.getChat().setMessages(messageToSend);
 
         copyRoom.getChat().setMessages(messageToSend);
 
