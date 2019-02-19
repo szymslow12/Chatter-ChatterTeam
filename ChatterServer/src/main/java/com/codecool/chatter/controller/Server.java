@@ -15,10 +15,10 @@ public class Server {
     }
 
     public void startServer() {
-
+        ServerSocket serverSocket;
+        Socket socket = null;
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            Socket socket;
+            serverSocket = new ServerSocket(port);
 
             while (true) {
                 socket = serverSocket.accept();
@@ -26,6 +26,13 @@ public class Server {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                assert socket != null;
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
