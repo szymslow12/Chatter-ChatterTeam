@@ -19,12 +19,12 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.HashMap;
 
 public class RoomView extends Pane implements Updatable {
 
     private UserListBox userListBox;
     private ChatForm chatForm;
+    private RoomButton titleRoomButton;
 
 
     public RoomView(double width, double height) {
@@ -51,11 +51,10 @@ public class RoomView extends Pane implements Updatable {
                         Insets.EMPTY)
             )
         );
-        RoomButton titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, room);
+        titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, room);
         userListBox.renderUserListBox(room);
-        userListBox.setTranslateY(100);
         chatForm.renderChatForm(room.getChat(), onEnter);
-        chatForm.setTranslateX(userListBox.getWidth() + 30);
+        setPositions();
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
     }
 
@@ -63,20 +62,31 @@ public class RoomView extends Pane implements Updatable {
     @Override
     public void updateView(ObjectWrapper objectWrapper, Object object, EventHandler<InputEvent> eventHandler) {
         if (objectWrapper.getAction().equals("updateRoom")) {
+            Room updatedRoom = (Room) objectWrapper.getObject();
+            Room roomChosen = (Room) object;
+            roomChosen.setUsers(updatedRoom.getUsers());
+            roomChosen.getChat().getMessages().addAll(updatedRoom.getChat().getMessages());
+            getChildren().remove(titleRoomButton);
+            getChildren().remove(userListBox);
+            userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
+            titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, roomChosen);
+            userListBox.renderUserListBox(roomChosen);
+            setPositions();
+            getChildren().addAll(titleRoomButton, userListBox);
+
         }
+    }
+
+
+    private void setPositions() {
+        userListBox.setTranslateY(100);
+        chatForm.setTranslateX(userListBox.getWidth() + 30);
     }
 
 
     public void updateChat(Chat chat) {
         chatForm.updateChat(chat);
         chatForm.getInputField().getTextInputControl().clear();
-    }
-
-
-    public void clearChildren() {
-        getChildren().clear();
-        userListBox.clearChildren();
-        chatForm.clearChildren();
     }
 
 
