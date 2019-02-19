@@ -21,9 +21,15 @@ public class AppController {
         new DataStreamController(this).start();
     }
 
-    public void addClient(ObjectOutputStream out, User user) {
+    public void addClient(Connection out, User user) {
         allUsers.add(user);
         clients.add(new ClientInfo(out, user));
+    }
+
+    public void removeClient(User user) {
+        for (ClientInfo client: clients) {
+            if(client.getUser().equals(user)) clients.remove(client);
+        }
     }
 
     public List<ClientInfo> getClientInfo() {
@@ -38,7 +44,7 @@ public class AppController {
         allUsers.add(user);
     }
 
-    public Object wrapObject(String action, Object object) {
+    public ObjectWrapper wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
     }
 
@@ -55,8 +61,7 @@ public class AppController {
         lobby.addUser(user);
     }
 
-    public Object handleData(Object object, User user) {
-        ObjectWrapper data = (ObjectWrapper) object;
+    public ObjectWrapper handleData(ObjectWrapper data, User user) {
         Object answer = null;
         String action = data.getAction();
         Object receiveData = data.getObject();
@@ -71,7 +76,7 @@ public class AppController {
                 answer = handleMessage(receiveData, user);
                 break;
         }
-        return wrapObject(action, answer);
+        return new ObjectWrapper(action, answer);
     }
 
     private Object handleMessage(Object receiveData, User user) {
