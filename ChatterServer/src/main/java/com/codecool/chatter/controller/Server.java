@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class Server {
 
+    private Socket socket;
     private int port;
     private AppController appController;
 
@@ -16,7 +17,7 @@ public class Server {
 
     public void startServer() {
         ServerSocket serverSocket;
-        Socket socket = null;
+
         try {
             serverSocket = new ServerSocket(port);
 
