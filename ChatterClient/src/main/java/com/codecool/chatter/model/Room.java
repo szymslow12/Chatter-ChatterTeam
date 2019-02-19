@@ -14,10 +14,11 @@ public class Room implements Serializable {
     private Chat chat;
 
 
-    public Room(String name) {
+    public Room(String name, Chat chat) {
         this.name = name;
         this.maxCapacity = 20;
         this.users = new ArrayList<>();
+        this.chat = chat;
     }
 
 
