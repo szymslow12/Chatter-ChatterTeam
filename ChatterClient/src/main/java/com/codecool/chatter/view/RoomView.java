@@ -87,7 +87,6 @@ public class RoomView extends Pane implements Updatable {
 
     public void updateChat(Chat chat) {
         chatForm.updateChat(chat);
-        chatForm.getInputField().getTextInputControl().clear();
     }
 
 
