@@ -10,6 +10,7 @@ public class ClientInfo {
     private int latestMsgIndex;
 
     public ClientInfo(Connection connection, User user) {
+        this.connection = connection;
         this.user = user;
     }
 
