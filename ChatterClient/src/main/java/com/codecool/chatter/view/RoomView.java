@@ -2,12 +2,16 @@ package com.codecool.chatter.view;
 
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Chat;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
+import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
 import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -15,7 +19,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class RoomView extends Pane {
+public class RoomView extends Pane implements Updatable {
 
     private UserListBox userListBox;
     private ChatForm chatForm;
@@ -51,6 +55,12 @@ public class RoomView extends Pane {
         chatForm.renderChatForm(room.getChat(), onEnter);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
         getChildren().addAll(titleRoomButton, userListBox, chatForm);
+    }
+
+
+    @Override
+    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<InputEvent> eventHandler) {
+
     }
 
 
