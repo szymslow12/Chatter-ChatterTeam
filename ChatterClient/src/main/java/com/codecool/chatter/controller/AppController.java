@@ -78,9 +78,6 @@ public class AppController extends Thread {
     }
 
 
-
-
-
     public AppView getAppView() {
         return appView;
     }
