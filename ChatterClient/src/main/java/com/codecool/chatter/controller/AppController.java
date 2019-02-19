@@ -57,31 +57,28 @@ public class AppController extends Thread {
     private void runLobbyController(Connection connection) {
         LobbyController lobbyController = new LobbyController(connection, updater);
         Platform.runLater(() -> lobbyController.run(appView, client));
-        startUpdater(lobbyController);
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
         }
+        updater = new Updater(chosenRoom, connection);
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
     }
 
 
     private void runRoomController(Connection connection) {
-        RoomController roomController = new RoomController(connection, chosenRoom);
+        RoomController roomController = new RoomController(connection, chosenRoom, updater);
         Platform.runLater(() ->
             {
                 appView.getChildren().clear();
                 roomController.run(appView, client);
             }
         );
+
     }
 
 
-    private void startUpdater(LobbyController lobbyController) {
-        updater.setEventHandler(new EnterRoom(lobbyController));
-        updater.setUpdatable(lobbyController.getLobbyView());
-        updater.start();
-    }
+
 
 
     public AppView getAppView() {
