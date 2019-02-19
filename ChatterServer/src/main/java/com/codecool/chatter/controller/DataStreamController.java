@@ -52,13 +52,15 @@ public class DataStreamController extends Thread {
 
     private void roomUpdate(Connection connection, ClientInfo client) throws IOException {
         Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
+        List<Message> messageToSend = getMessageToSend(client, room);
 
         Room copyRoom = new Room(room.getName());
         copyRoom.setUsers(room.getUsers());
-//        List<Message> messages = room.getChat().getMessages();
-        List<Message> messageToSend = getMessageToSend(client, room);
-        copyRoom.getChat().setMessages(messageToSend);
+        Chat chat = new Chat();
+        chat.setMessages(messageToSend);
+        copyRoom.setChat(chat);
 
+        copyRoom.getChat().setMessages(messageToSend);
 
         connection.write(appController.wrapObject("updateRoom", copyRoom));
     }
@@ -88,7 +90,8 @@ public class DataStreamController extends Thread {
         List<Message> latestMsg = new ArrayList<>();
         int i;
         for(i = latestMsgIndex; i < messages.size(); i++) {
-            latestMsg.add(messages.get(i));
+            if(messages.get(i).getAuthor().equals(client.getUser().getNickname()))
+                latestMsg.add(messages.get(i));
         }
         client.setLatestMsgIndex(i);
         return latestMsg;

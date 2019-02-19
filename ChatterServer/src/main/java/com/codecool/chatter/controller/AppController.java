@@ -22,7 +22,7 @@ public class AppController {
     }
 
     public void addClient(Connection out, User user) {
-        allUsers.add(user);
+//        allUsers.add(user);
         clients.add(new ClientInfo(out, user));
     }
 
@@ -49,16 +49,16 @@ public class AppController {
     }
 
     private void addUserAndRoomForTest() {
-        User user = new User("Stefan");
-        User user2 = new User("Grażyna");
+//        User user = new User("Stefan");
+//        User user2 = new User("Grażyna");
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
-        allUsers.add(user);
-        allUsers.add(user2);
-        room.addUser(user2);
+//        allUsers.add(user);
+//        allUsers.add(user2);
+//        room.addUser(user2);
         lobby.addRoom(room);
-        lobby.addUser(user);
+//        lobby.addUser(user);
     }
 
     public ObjectWrapper handleData(ObjectWrapper data, User user) {
@@ -89,7 +89,7 @@ public class AppController {
     }
 
     public boolean checkNickNameExist(String userName) {
-        return allUsers.stream().anyMatch(user -> userName.equals(user.getNickname()));
+        return clients.stream().anyMatch(clientInfo -> clientInfo.getUser().getNickname().equals(userName));
     }
 
     private Object chooseRoomHandle(Object object, User user) {
