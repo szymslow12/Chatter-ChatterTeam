@@ -31,12 +31,18 @@ public class CreateRoom implements EventHandler<InputEvent> {
         ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
             connection.write(objectWrapper);
+            lobbyController.getUpdater().sleep(1000);
             objectWrapper = connection.read();
+            while (!objectWrapper.getAction().equals("createRoom")) {
+                objectWrapper = connection.read();
+            }
             handleCreateRoom(objectWrapper, createRoomForm);
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     };
 
