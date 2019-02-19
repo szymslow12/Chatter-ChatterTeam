@@ -38,4 +38,8 @@ public class Chat implements Serializable {
     public void setClient(User client) {
         this.client = client;
     }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 }
