@@ -19,6 +19,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+
 public class RoomView extends Pane implements Updatable {
 
     private UserListBox userListBox;
@@ -59,8 +61,9 @@ public class RoomView extends Pane implements Updatable {
 
 
     @Override
-    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<InputEvent> eventHandler) {
-
+    public void updateView(ObjectWrapper objectWrapper, Object object, EventHandler<InputEvent> eventHandler) {
+        if (objectWrapper.getAction().equals("updateRoom")) {
+        }
     }
 
 

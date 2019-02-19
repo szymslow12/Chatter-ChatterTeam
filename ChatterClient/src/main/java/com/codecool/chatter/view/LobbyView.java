@@ -50,9 +50,10 @@ public class LobbyView extends Pane implements Updatable {
 
 
     @Override
-    public void updateView(ObjectWrapper objectWrapper, User client, EventHandler<InputEvent> eventHandler) {
+    public void updateView(ObjectWrapper objectWrapper, Object object, EventHandler<InputEvent> eventHandler) {
         if (objectWrapper.getAction().equals("lobby")) {
             Lobby lobby = (Lobby) objectWrapper.getObject();
+            User client = (User) object;
             getChildren().remove(roomButtonBox);
             getChildren().remove(lobbyInfo);
             recreateFields(410d, ChatterClient.WIDTH - 430d, ChatterClient.HEIGHT);
