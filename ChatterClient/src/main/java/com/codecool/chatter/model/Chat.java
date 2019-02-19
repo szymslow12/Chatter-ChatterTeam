@@ -14,12 +14,6 @@ public class Chat implements Serializable {
     }
 
 
-    public Chat(User client) {
-        this();
-        this.client = client;
-    }
-
-
     public List<Message> getMessages() {
         return messages;
     }
