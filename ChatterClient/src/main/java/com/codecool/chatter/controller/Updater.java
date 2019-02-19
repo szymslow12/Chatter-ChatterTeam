@@ -44,24 +44,26 @@ public class Updater extends Thread {
     @Override
     public void run() {
         System.out.println("started Updater...");
-        while (true) {
-            if (!isReceived) {
-                System.out.println("Waits for ObjectWrapper...");
-                try {
-                    ObjectWrapper objectWrapper = connection.read();
-                    Platform.runLater(() -> {
-                        System.out.println("Updating view...");
-                        updatable.updateView(objectWrapper, object, eventHandler);
-                    });
-                    sleep(1000);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        try {
+            while (true) {
+                if (!isReceived) {
+                    System.out.println("Waits for ObjectWrapper...");
+                    try {
+                        ObjectWrapper objectWrapper = connection.read();
+                        Platform.runLater(() -> {
+                            System.out.println("Updating view...");
+                            updatable.updateView(objectWrapper, object, eventHandler);
+                        });
+                        sleep(1000);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
