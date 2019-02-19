@@ -37,8 +37,6 @@ public class DataStreamController extends Thread {
 
                     } else if (user.getCurrentRoomId() != null) {
                         roomUpdate(connection, client);
-//                        Room room = sendRoomUsers(connection, client);
-//                        sendNewMessagess(connection, client, room);
                     }
                 }
 
@@ -62,21 +60,6 @@ public class DataStreamController extends Thread {
         copyRoom.getChat().setMessages(messageToSend);
 
         connection.write(appController.wrapObject("updateRoom", copyRoom));
-    }
-
-    private void sendNewMessagess(Connection connection, ClientInfo client, Room room) throws IOException {
-        List<Message> messages = room.getChat().getMessages();
-        List<Message> messageToSend = getMessageToSend(client, room);
-        ObjectWrapper newMessages = appController.wrapObject("updateChat", messageToSend);
-        connection.write(newMessages);
-    }
-
-    private Room sendRoomUsers(Connection connection, ClientInfo client) throws IOException {
-        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
-
-        ObjectWrapper roomUsers = appController.wrapObject("roomUsers", room.getUsers());
-        connection.write(roomUsers);
-        return room;
     }
 
     private void sendLobby(Connection connection, ClientInfo client) throws IOException {
