@@ -5,26 +5,16 @@ import java.io.ObjectOutputStream;
 
 public class ClientInfo {
 
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
+    private Connection connection;
     private User user;
     private int latestMsgIndex;
 
-    public ClientInfo(ObjectOutputStream outputStream, User user) {
-        this.outputStream = outputStream;
+    public ClientInfo(Connection connection, User user) {
         this.user = user;
-    }
-
-    public ObjectOutputStream getOutputStream() {
-        return outputStream;
     }
 
     public User getUser() {
         return user;
-    }
-
-    public ObjectInputStream getInputStream() {
-        return inputStream;
     }
 
     public int getLatestMsgIndex() {
@@ -34,4 +24,10 @@ public class ClientInfo {
     public void setLatestMsgIndex(int latestMsgIndex) {
         this.latestMsgIndex = latestMsgIndex;
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+
 }

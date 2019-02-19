@@ -1,6 +1,7 @@
 package com.codecool.chatter.model;
 
 import java.io.*;
+import java.net.Socket;
 
 public class Connection {
 
@@ -8,12 +9,11 @@ public class Connection {
     private ObjectInputStream objectInputStream;
 
 
-    public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
-        this.objectOutputStream = new ObjectOutputStream(outputStream);
-        this.objectOutputStream.flush();
-        this.objectInputStream = new ObjectInputStream(inputStream);
+    public Connection(Socket socket) throws IOException {
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream.flush();
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
     }
-
 
     public ObjectOutputStream getOutput() {
         return objectOutputStream;
@@ -33,5 +33,10 @@ public class Connection {
 
     public ObjectWrapper read() throws IOException, ClassNotFoundException {
         return (ObjectWrapper) objectInputStream.readObject();
+    }
+
+    public void closeConnection() throws IOException {
+        objectOutputStream.close();
+        objectInputStream.close();
     }
 }
