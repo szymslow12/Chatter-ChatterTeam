@@ -29,7 +29,7 @@ public class LobbyInfo extends GridPane {
     public void renderLobbyInfoView(Lobby lobby, User client) {
         List<Room> rooms = lobby.getRooms();
         long roomsNumber = rooms.size();
-        long usersNumber = IntStream.range(0, rooms.size()).mapToLong(i -> rooms.get(i).getUsers().size()).sum();
+        long usersNumber = lobby.getUsers().size();
         Font font = new Font(25);
         Text userNameText = new Text("Username:");
         Text userName = new Text(client.getNickname());
