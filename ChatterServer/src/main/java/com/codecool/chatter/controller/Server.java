@@ -1,12 +1,13 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Connection;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 
-    private Socket socket;
     private int port;
     private AppController appController;
 
@@ -22,18 +23,12 @@ public class Server {
             serverSocket = new ServerSocket(port);
 
             while (true) {
-                socket = serverSocket.accept();
-                new EchoThreadServer(socket, appController).start();
+                Socket socket = serverSocket.accept();
+                Connection connection = new Connection(socket);
+                new EchoThreadServer(connection, appController).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                assert socket != null;
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
