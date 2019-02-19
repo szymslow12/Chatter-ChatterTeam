@@ -2,7 +2,6 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.User;
 import com.codecool.chatter.model.interfaces.Updatable;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,13 +14,13 @@ public class Updater extends Thread {
     private Updatable updatable;
     private EventHandler<InputEvent> eventHandler;
     private Connection connection;
-    private User client;
+    private Object object;
     private volatile boolean isReceived;
 
 
 
-    public Updater(User client, Connection connection) {
-        this.client = client;
+    public Updater(Object object, Connection connection) {
+        this.object = object;
         this.connection = connection;
         isReceived = true;
         setName("Updater");
@@ -52,7 +51,7 @@ public class Updater extends Thread {
                     ObjectWrapper objectWrapper = connection.read();
                     Platform.runLater(() -> {
                         System.out.println("Updating view...");
-                        updatable.updateView(objectWrapper, client, eventHandler);
+                        updatable.updateView(objectWrapper, object, eventHandler);
                     });
                     sleep(1000);
                 } catch (IOException e) {
