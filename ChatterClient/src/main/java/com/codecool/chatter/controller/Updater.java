@@ -54,7 +54,7 @@ public class Updater extends Thread {
                         System.out.println("Updating view...");
                         updatable.updateView(objectWrapper, client, eventHandler);
                     });
-                    sleep(5000);
+                    sleep(1000);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
