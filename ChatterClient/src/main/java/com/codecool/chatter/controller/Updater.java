@@ -23,7 +23,7 @@ public class Updater extends Thread {
     public Updater(User client, Connection connection) {
         this.client = client;
         this.connection = connection;
-        isReceived = false;
+        isReceived = true;
         setName("Updater");
     }
 
@@ -46,7 +46,7 @@ public class Updater extends Thread {
     public void run() {
         System.out.println("started Updater...");
         while (true) {
-            if (isReceived) {
+            if (!isReceived) {
                 System.out.println("Waits for ObjectWrapper...");
                 try {
                     ObjectWrapper objectWrapper = connection.read();
