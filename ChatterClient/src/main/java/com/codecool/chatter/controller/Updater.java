@@ -1,6 +1,7 @@
 package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.Connection;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 import com.codecool.chatter.model.interfaces.Updatable;
 import javafx.application.Platform;
@@ -15,7 +16,7 @@ public class Updater extends Thread {
     private EventHandler<InputEvent> eventHandler;
     private Connection connection;
     private User client;
-    private boolean isReceived;
+    private volatile boolean isReceived;
 
 
 
@@ -43,17 +44,24 @@ public class Updater extends Thread {
 
     @Override
     public void run() {
+        System.out.println("started Updater...");
         while (true) {
             if (isReceived) {
-                Platform.runLater(() -> {
-                    try {
-                        updatable.updateView(connection.read(), client, eventHandler);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
+                System.out.println("Waits for ObjectWrapper...");
+                try {
+                    ObjectWrapper objectWrapper = connection.read();
+                    Platform.runLater(() -> {
+                        System.out.println("Updating view...");
+                        updatable.updateView(objectWrapper, client, eventHandler);
+                    });
+                    sleep(5000);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
