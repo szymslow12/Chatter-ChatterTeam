@@ -72,6 +72,7 @@ public class RoomView extends Pane implements Updatable {
             titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, roomChosen);
             userListBox.renderUserListBox(roomChosen);
             setPositions();
+            updateChat(roomChosen.getChat());
             getChildren().addAll(titleRoomButton, userListBox);
 
         }
