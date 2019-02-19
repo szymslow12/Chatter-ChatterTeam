@@ -31,13 +31,8 @@ public class EnterRoom implements EventHandler<InputEvent> {
         if (confirmation.get() == ButtonType.OK) {
             try {
                 connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
-                lobbyController.getUpdater().setReceived(false);
-                ObjectWrapper objectWrapper = connection.read();
-                while (!objectWrapper.getAction().equals("chosenRoomId")) {
-                    objectWrapper = connection.read();
-                }
-                room = (Room) objectWrapper.getObject();
-                lobbyController.setChosenRoom(room);
+                lobbyController.getUpdater().setReceived(true);
+                setChosenRoom(connection);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -45,6 +40,16 @@ public class EnterRoom implements EventHandler<InputEvent> {
             }
         }
     };
+
+
+    private void setChosenRoom(Connection connection) throws IOException, ClassNotFoundException {
+        ObjectWrapper objectWrapper = connection.read();
+        while (!objectWrapper.getAction().equals("chosenRoomId")) {
+            objectWrapper = connection.read();
+        }
+        Room room = (Room) objectWrapper.getObject();
+        lobbyController.setChosenRoom(room);
+    }
 
 
     private Alert getConfirmationAlert(Room room) {
