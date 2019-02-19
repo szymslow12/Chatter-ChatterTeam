@@ -32,6 +32,10 @@ public class Connection {
 
 
     public ObjectWrapper read() throws IOException, ClassNotFoundException {
-        return (ObjectWrapper) objectInputStream.readObject();
+        Object object = objectInputStream.readObject();
+        while (!(object instanceof ObjectWrapper)) {
+            object = objectInputStream.readObject();
+        }
+        return (ObjectWrapper) object;
     }
 }
