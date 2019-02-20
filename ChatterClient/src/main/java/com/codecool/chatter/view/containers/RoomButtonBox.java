@@ -24,19 +24,24 @@ public class RoomButtonBox extends ScrollContainer {
 
 
     public void renderRoomButtonsBox(Lobby lobby, EventHandler<InputEvent> onClick) {
-        setAndAddRoomsButtons(getVBox(), lobby, onClick);
+        setAndAddRoomsButtons(lobby, onClick);
         getChildren().addAll(getScrollPane(), getScrollBar());
         switchPositions();
     }
 
 
-    private void setAndAddRoomsButtons(VBox box, Lobby lobby, EventHandler<InputEvent> onClick) {
-        lobby.getRooms().forEach(room -> roomsButtons.add(new RoomButton(getWidth() - 10, 100, room, onClick)));
-        IntStream.range(0, roomsButtons.size()).forEach(i -> {
-            RoomButton roomButton = roomsButtons.get(i);
-            roomButton.setTranslateX(5);
-        });
-        roomsButtons.forEach(button -> box.getChildren().add(button));
+    private void setAndAddRoomsButtons(Lobby lobby, EventHandler<InputEvent> onClick) {
+        lobby.getRooms().forEach(room -> addRoomButtonToLst(room, onClick));
+    }
+
+
+    private void addRoomButtonToLst(Room room, EventHandler<InputEvent> onClick) {
+        double width = getWidth() - 10;
+        double height = 100;
+        RoomButton roomButton = new RoomButton(width, height, room, onClick);
+        roomButton.setTranslateX(5);
+        roomsButtons.add(roomButton);
+        getVBox().getChildren().add(roomButton);
     }
 
 
@@ -56,10 +61,7 @@ public class RoomButtonBox extends ScrollContainer {
                 roomButton = optional.get();
                 roomButton.update(room);
             } else {
-                roomButton = new RoomButton(getWidth() - 10, 100, room, onClick);
-                roomButton.setTranslateX(5);
-                roomsButtons.add(roomButton);
-                getVBox().getChildren().add(roomButton);
+                addRoomButtonToLst(room, onClick);
             }
         });
     }
