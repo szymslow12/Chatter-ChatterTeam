@@ -24,14 +24,9 @@ public class RoomButtonBox extends ScrollContainer {
 
 
     public void renderRoomButtonsBox(Lobby lobby, EventHandler<InputEvent> onClick) {
-        setAndAddRoomsButtons(lobby, onClick);
+        lobby.getRooms().forEach(room -> addRoomButtonToLst(room, onClick));
         getChildren().addAll(getScrollPane(), getScrollBar());
         switchPositions();
-    }
-
-
-    private void setAndAddRoomsButtons(Lobby lobby, EventHandler<InputEvent> onClick) {
-        lobby.getRooms().forEach(room -> addRoomButtonToLst(room, onClick));
     }
 
 
