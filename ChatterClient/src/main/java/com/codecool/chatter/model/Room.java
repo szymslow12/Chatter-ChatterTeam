@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Room implements Serializable {
 
-    private UUID id = UUID.randomUUID();
+    private UUID id;
     private String name;
     private int maxCapacity;
     private List<User> users;
@@ -19,6 +19,7 @@ public class Room implements Serializable {
         this.maxCapacity = 20;
         this.users = new ArrayList<>();
         this.chat = new Chat();
+        this.id = UUID.randomUUID();
     }
 
 
