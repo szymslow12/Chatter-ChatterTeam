@@ -93,4 +93,11 @@ public class RoomButton extends HoverPane {
     public Room getRoom() {
         return room;
     }
+
+
+    public void update(Room room) {
+        this.room = room;
+        getChildren().clear();
+        renderRoomButton();
+    }
 }
