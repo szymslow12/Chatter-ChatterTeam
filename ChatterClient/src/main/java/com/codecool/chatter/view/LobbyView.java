@@ -54,7 +54,7 @@ public class LobbyView extends Pane implements Updatable {
         if (objectWrapper.getAction().equals("lobby")) {
             Lobby lobby = (Lobby) objectWrapper.getObject();
             User client = (User) object;
-            getChildren().remove(roomButtonBox);
+            roomButtonBox.updateRoomButtons(lobby, eventHandler);
             getChildren().remove(lobbyInfo);
             recreateFields(410d, ChatterClient.WIDTH - 430d, ChatterClient.HEIGHT);
             rerenderView(lobby, client, eventHandler);
@@ -74,16 +74,14 @@ public class LobbyView extends Pane implements Updatable {
 
 
     private void recreateFields(double leftSiteWidth, double rightSiteWidth, double height) {
-        roomButtonBox = new RoomButtonBox(leftSiteWidth, height);
         lobbyInfo = new LobbyInfo(rightSiteWidth, divide(height, 3f / 4), new Insets(10));
     }
 
 
     private void rerenderView(Lobby lobby, User client, EventHandler<InputEvent> eventHandler) {
-        roomButtonBox.renderRoomButtonsBox(lobby, eventHandler);
         lobbyInfo.renderLobbyInfoView(lobby, client);
         setPositions();
-        getChildren().addAll(roomButtonBox, lobbyInfo);
+        getChildren().addAll(lobbyInfo);
     }
 
 
