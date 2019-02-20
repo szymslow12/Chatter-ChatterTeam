@@ -19,36 +19,28 @@ public class DataStreamController extends Thread {
 
         List<ClientInfo> clients;
         User user;
-        ObjectOutputStream out;
 
         try {
 
             while (true) {
                 clients = appController.getClientInfo();
+                Connection connection;
+                System.out.println(clients.size() + " clients count");
                 for (ClientInfo client : clients) {
-                    out = client.getOutputStream();
+
+                    connection = client.getConnection();
                     user = client.getUser();
+
                     if (user.getCurrentRoomId() == null) {
-                        System.out.println("chce wyslac lobby");
-                        out.writeObject(appController.wrapObject("lobby", appController.getLobby()));
-                        out.flush();
+                        sendLobby(connection, client);
                         break;
 
                     } else if (user.getCurrentRoomId() != null) {
-                        System.out.println("wchodzi i chce wyslac roomUsers");
-                        Room room = appController.getRoomById(user.getCurrentRoomId());
-                        Object roomUsers = appController.wrapObject("roomUsers", room.getUsers());
-                        out.writeObject(roomUsers);
-                        out.flush();
-                        List<Message> messages = room.getChat().getMessages();
-                        List<Message> messageToSend = getMessageToSend(client, room);
-                        Object newMessages = appController.wrapObject("updateChat", messageToSend);
-                        out.writeObject(newMessages);
-                        out.flush();
+                        roomUpdate(connection, client);
                     }
                 }
 
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             }
         }catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -56,14 +48,35 @@ public class DataStreamController extends Thread {
 
     }
 
+    private void roomUpdate(Connection connection, ClientInfo client) throws IOException {
+        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
+        List<Message> messageToSend = getMessageToSend(client, room);
+
+        Room copyRoom = new Room(room.getName());
+        copyRoom.setUsers(room.getUsers());
+
+        copyRoom.getChat().setMessages(messageToSend);
+
+        copyRoom.getChat().setMessages(messageToSend);
+
+        connection.write(appController.wrapObject("updateRoom", copyRoom));
+    }
+
+    private void sendLobby(Connection connection, ClientInfo client) throws IOException {
+        connection.write(appController.wrapObject("lobby", appController.getLobby()));
+    }
+
     private List<Message> getMessageToSend(ClientInfo client, Room room) {
         int latestMsgIndex = client.getLatestMsgIndex();
         List<Message> messages = room.getChat().getMessages();
         List<Message> latestMsg = new ArrayList<>();
-        for(int i = latestMsgIndex; i < messages.size(); i++) {
-            latestMsg.add(messages.get(i));
+        int i;
+        for(i = latestMsgIndex; i < messages.size(); i++) {
+            if(messages.get(i).getAuthor().equals(client.getUser().getNickname()))
+                latestMsg.add(messages.get(i));
         }
-        return messages;
+        client.setLatestMsgIndex(i);
+        return latestMsg;
     }
 
 }

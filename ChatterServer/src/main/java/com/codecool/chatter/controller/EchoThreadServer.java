@@ -1,68 +1,77 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class EchoThreadServer extends Thread {
 
-    private Socket socket;
+    private Connection connection;
     private AppController appController;
 
-    public EchoThreadServer(Socket socket, AppController appController) {
-        this.socket = socket;
+    public EchoThreadServer(Connection connection, AppController appController) {
         this.appController = appController;
+        this.connection = connection;
     }
 
     public void run() {
+        User user = null;
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-            ObjectWrapper receiveData;
-            String action;
-            Object receiveObject;
-            Boolean userExist;
-            do {
-                receiveData = (ObjectWrapper) objectInputStream.readObject();
-                action = receiveData.getAction();
-                receiveObject = receiveData.getObject();
-                userExist = loginValidate(receiveObject);
-                objectOutputStream.writeObject(new ObjectWrapper(action, userExist));
-                objectOutputStream.flush();
-            }while (!userExist);
+            String userName;
+            userName = loginHandle();
+            user = new User(userName);
 
-            String userName = (String) receiveObject;
-            User user = new User(userName);
-
-            appController.addClient(objectOutputStream, user);
-
+            appController.addClient(connection, user);
+            appController.getLobby().addUser(user);
             Lobby lobby = appController.getLobby();
-            lobby.addUser(user);
+            connection.write(appController.wrapObject("lobby", lobby));
 
-            objectOutputStream.writeObject(appController.wrapObject("lobby", appController.getLobby()));
-            objectOutputStream.flush();
-
-            while (true) {
-                Object object = objectInputStream.readObject();
-                Object answer = appController.handleData(object, user);
-                objectOutputStream.writeObject(answer);
-                objectOutputStream.flush();
-            }
+            chatHandle(user);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                connection.closeConnection();
+                appController.removeClient(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
-    private boolean loginValidate(Object object) {
-        String userName = (String) object;
-        return !appController.checkNickNameExist(userName);
+    private void chatHandle(User user) throws IOException, ClassNotFoundException {
+//        while (true) {
+//            ObjectWrapper receiveData = connection.read();
+//            ObjectWrapper answer = appController.handleData(receiveData, user);
+//            connection.write(answer);
+//        }
+        ObjectWrapper receiveData;
+        do{
+            receiveData = connection.read();
+            ObjectWrapper answer = appController.handleData(receiveData, user);
+            connection.write(answer);
+        }while (receiveData != null);
+    }
+
+    private String loginHandle() throws IOException, ClassNotFoundException {
+        ObjectWrapper receiveData;
+        String action;
+        String userName;
+        Boolean userExist;
+        do {
+            receiveData = connection.read();
+            action = receiveData.getAction();
+            userName = (String) receiveData.getObject();
+            userExist = !appController.checkNickNameExist(userName);
+            connection.write(appController.wrapObject(action, userExist));
+        } while (!userExist);
+
+        return userName;
     }
 }

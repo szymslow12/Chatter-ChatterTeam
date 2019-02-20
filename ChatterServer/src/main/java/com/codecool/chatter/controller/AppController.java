@@ -21,16 +21,26 @@ public class AppController {
         new DataStreamController(this).start();
     }
 
-    public void addClient(ObjectOutputStream out, User user) {
-        allUsers.add(user);
+    public void addClient(Connection out, User user) {
+//        allUsers.add(user);
         clients.add(new ClientInfo(out, user));
+    }
+
+    public void removeClient(User user) {
+        for (ClientInfo client: clients) {
+            if(client.getUser().equals(user))
+            {
+                System.out.println("remove user: " + client.getUser().getNickname());;
+                clients.remove(client);
+            }
+        }
     }
 
     public List<ClientInfo> getClientInfo() {
         return clients;
     }
 
-    public Lobby getLobby() {
+    public synchronized Lobby getLobby() {
         return lobby;
     }
 
@@ -38,25 +48,24 @@ public class AppController {
         allUsers.add(user);
     }
 
-    public Object wrapObject(String action, Object object) {
+    public ObjectWrapper wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
     }
 
     private void addUserAndRoomForTest() {
-        User user = new User("Stefan");
-        User user2 = new User("Grażyna");
+//        User user = new User("Stefan");
+//        User user2 = new User("Grażyna");
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
-        allUsers.add(user);
-        allUsers.add(user2);
-        room.addUser(user2);
+//        allUsers.add(user);
+//        allUsers.add(user2);
+//        room.addUser(user2);
         lobby.addRoom(room);
-        lobby.addUser(user);
+//        lobby.addUser(user);
     }
 
-    public Object handleData(Object object, User user) {
-        ObjectWrapper data = (ObjectWrapper) object;
+    public ObjectWrapper handleData(ObjectWrapper data, User user) {
         Object answer = null;
         String action = data.getAction();
         Object receiveData = data.getObject();
@@ -71,12 +80,11 @@ public class AppController {
                 answer = handleMessage(receiveData, user);
                 break;
         }
-        return wrapObject(action, answer);
+        return new ObjectWrapper(action, answer);
     }
 
     private Object handleMessage(Object receiveData, User user) {
         Message msg = (Message) receiveData;
-        System.out.println(msg.getContent());
         UUID roomId = user.getCurrentRoomId();
         msg.setId(msgId++);
         getRoomById(roomId).getChat().addMessage(msg);
@@ -84,7 +92,7 @@ public class AppController {
     }
 
     public boolean checkNickNameExist(String userName) {
-        return allUsers.stream().anyMatch(user -> userName.equals(user.getNickname()));
+        return clients.stream().anyMatch(clientInfo -> clientInfo.getUser().getNickname().equals(userName));
     }
 
     private Object chooseRoomHandle(Object object, User user) {
@@ -92,7 +100,6 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
-            System.out.println(room.getUsers().size() + " !!!!");
             return room;
         }
         return IllegalArgumentException.class;
@@ -113,7 +120,7 @@ public class AppController {
         }
         Room room = new Room(roomName);
         room.getUsers().add(user);
-        lobby.getRooms().add(room);
+        lobby.addRoom(room);
         return room;
     }
 

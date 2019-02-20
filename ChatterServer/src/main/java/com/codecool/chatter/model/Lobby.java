@@ -7,7 +7,7 @@ import java.util.List;
 public class Lobby implements Serializable {
 
     private List<Room> rooms;
-    private transient List<User> users;
+    private List<User> users;
 
 
     public Lobby() {
