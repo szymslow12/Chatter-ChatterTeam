@@ -57,6 +57,7 @@ public class EchoThreadServer extends Thread {
             ObjectWrapper answer = appController.handleData(receiveData, user);
             connection.write(answer);
         }while (receiveData != null);
+
     }
 
     private String loginHandle() throws IOException, ClassNotFoundException {

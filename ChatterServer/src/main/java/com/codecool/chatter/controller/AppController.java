@@ -11,7 +11,6 @@ public class AppController {
 
     private Lobby lobby;
 
-    private List<User> allUsers = new ArrayList<>();
     private List<ClientInfo> clients = new ArrayList<>();
     private static int msgId = 1;
 
@@ -22,7 +21,6 @@ public class AppController {
     }
 
     public void addClient(Connection out, User user) {
-//        allUsers.add(user);
         clients.add(new ClientInfo(out, user));
     }
 
@@ -44,25 +42,15 @@ public class AppController {
         return lobby;
     }
 
-    private void addUser(User user) {
-        allUsers.add(user);
-    }
-
     public ObjectWrapper wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
     }
 
-    private void addUserAndRoomForTest() {
-//        User user = new User("Stefan");
-//        User user2 = new User("Grażyna");
+    private void addUserAndRoomForTest() { ;
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
-//        allUsers.add(user);
-//        allUsers.add(user2);
-//        room.addUser(user2);
         lobby.addRoom(room);
-//        lobby.addUser(user);
     }
 
     public ObjectWrapper handleData(ObjectWrapper data, User user) {
@@ -100,6 +88,8 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
+            ClientInfo clientByUser = getClientByUser(user);
+            clientByUser.setLatestMsgIndex(msgId);
             return room;
         }
         return IllegalArgumentException.class;
@@ -132,5 +122,8 @@ public class AppController {
         return lobby.getRooms().stream().filter(room -> room.getName().equalsIgnoreCase(roomName)).findFirst().get();
     }
 
+    private ClientInfo getClientByUser(User user) {
+        return clients.stream().filter(clientInfo -> clientInfo.getUser().equals(user)).findFirst().get();
+    }
 
 }
