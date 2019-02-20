@@ -8,12 +8,12 @@ import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 
 import java.io.IOException;
 import java.util.Optional;
 
-public class EnterRoom implements EventHandler<MouseEvent> {
+public class EnterRoom implements EventHandler<InputEvent> {
 
     private LobbyController lobbyController;
 
@@ -22,7 +22,7 @@ public class EnterRoom implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public void handle(MouseEvent mouseEvent) {
+    public void handle(InputEvent mouseEvent) {
         RoomButton roomButton = (RoomButton) mouseEvent.getSource();
         Room room = roomButton.getRoom();
         Alert confirm = getConfirmationAlert(room);
@@ -31,12 +31,8 @@ public class EnterRoom implements EventHandler<MouseEvent> {
         if (confirmation.get() == ButtonType.OK) {
             try {
                 connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
-                ObjectWrapper objectWrapper = connection.read();
-                while (!objectWrapper.getAction().equals("chosenRoomId")) {
-                    objectWrapper = connection.read();
-                }
-                room = (Room) objectWrapper.getObject();
-                lobbyController.setChosenRoom(room);
+                lobbyController.getUpdater().interrupt();
+                setChosenRoom(connection);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -44,6 +40,16 @@ public class EnterRoom implements EventHandler<MouseEvent> {
             }
         }
     };
+
+
+    private void setChosenRoom(Connection connection) throws IOException, ClassNotFoundException {
+        ObjectWrapper objectWrapper = connection.read();
+        while (!objectWrapper.getAction().equals("chosenRoomId")) {
+            objectWrapper = connection.read();
+        }
+        Room room = (Room) objectWrapper.getObject();
+        lobbyController.setChosenRoom(room);
+    }
 
 
     private Alert getConfirmationAlert(Room room) {

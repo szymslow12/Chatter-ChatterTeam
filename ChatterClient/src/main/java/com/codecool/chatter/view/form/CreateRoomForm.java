@@ -5,7 +5,7 @@ import com.codecool.chatter.view.interactive.ButtonView;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -30,7 +30,7 @@ public class CreateRoomForm extends Pane {
     }
 
 
-    public void renderCreateRoomView(EventHandler<MouseEvent> onClick) {
+    public void renderCreateRoomView(EventHandler<InputEvent> onClick) {
         buttonView = buttonView.getButton("Create", onClick);
         setBorder(getCreateRoomBorder());
         setPositions();

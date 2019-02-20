@@ -2,17 +2,19 @@ package com.codecool.chatter.view;
 
 import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Lobby;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.form.CreateRoomForm;
 import com.codecool.chatter.view.containers.LobbyInfo;
 import com.codecool.chatter.view.containers.RoomButtonBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class LobbyView extends Pane {
+public class LobbyView extends Pane implements Updatable {
 
     private CreateRoomForm createRoomForm;
     private RoomButtonBox roomButtonBox;
@@ -30,7 +32,7 @@ public class LobbyView extends Pane {
     }
 
 
-    public void renderLobbyView(Lobby lobby, User client, EventHandler<MouseEvent> roomOnClick, EventHandler<MouseEvent> buttonOnClick) {
+    public void renderLobbyView(Lobby lobby, User client, EventHandler<InputEvent> roomOnClick, EventHandler<InputEvent> buttonOnClick) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -47,6 +49,19 @@ public class LobbyView extends Pane {
     }
 
 
+    @Override
+    public void updateView(ObjectWrapper objectWrapper, Object object, EventHandler<InputEvent> eventHandler) {
+        if (objectWrapper.getAction().equals("lobby")) {
+            Lobby lobby = (Lobby) objectWrapper.getObject();
+            User client = (User) object;
+            getChildren().remove(roomButtonBox);
+            getChildren().remove(lobbyInfo);
+            recreateFields(410d, ChatterClient.WIDTH - 430d, ChatterClient.HEIGHT);
+            rerenderView(lobby, client, eventHandler);
+        }
+    }
+
+
     private void initializeFields(double leftSiteWidth, double rightSiteWidth, double height) {
         roomButtonBox = new RoomButtonBox(leftSiteWidth, height);
         createRoomForm = new CreateRoomForm(rightSiteWidth, divide(height, 4));
@@ -55,6 +70,20 @@ public class LobbyView extends Pane {
             divide(height, 3f / 4),
             new Insets(10)
         );
+    }
+
+
+    private void recreateFields(double leftSiteWidth, double rightSiteWidth, double height) {
+        roomButtonBox = new RoomButtonBox(leftSiteWidth, height);
+        lobbyInfo = new LobbyInfo(rightSiteWidth, divide(height, 3f / 4), new Insets(10));
+    }
+
+
+    private void rerenderView(Lobby lobby, User client, EventHandler<InputEvent> eventHandler) {
+        roomButtonBox.renderRoomButtonsBox(lobby, eventHandler);
+        lobbyInfo.renderLobbyInfoView(lobby, client);
+        setPositions();
+        getChildren().addAll(roomButtonBox, lobbyInfo);
     }
 
 

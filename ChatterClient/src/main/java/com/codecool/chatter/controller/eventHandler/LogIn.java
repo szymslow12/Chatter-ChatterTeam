@@ -8,12 +8,12 @@ import com.codecool.chatter.view.LoginView;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LogIn implements EventHandler<MouseEvent> {
+public class LogIn implements EventHandler<InputEvent> {
 
     private LoginController loginController;
 
@@ -22,7 +22,7 @@ public class LogIn implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public void handle(MouseEvent mouseEvent) {
+    public void handle(InputEvent mouseEvent) {
         Connection connection = loginController.getConnection();
         LoginView loginView = loginController.getLoginView();
         try {

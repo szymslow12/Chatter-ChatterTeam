@@ -13,11 +13,13 @@ public class RoomController {
     private Connection connection;
     private RoomView roomView;
     private Room room;
+    private Updater updater;
 
-    public RoomController(Connection connection, Room room) {
+    public RoomController(Connection connection, Room room, Updater updater) {
         this.connection = connection;
         this.roomView = new RoomView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
         this.room = room;
+        this.updater = updater;
     }
 
 
@@ -26,6 +28,14 @@ public class RoomController {
         room.getChat().setClient(client);
         roomView.renderRoomView(room, new SendMessage(connection, this, client));
         appView.getChildren().add(roomView);
+        startRoomUpdater();
+    }
+
+
+    private void startRoomUpdater() {
+        updater.setUpdatable(roomView);
+        updater.setReceived(false);
+        updater.start();
     }
 
 

@@ -26,12 +26,17 @@ public class Connection {
 
 
     public void write(ObjectWrapper objectWrapper) throws IOException {
+        objectOutputStream.reset();
         objectOutputStream.writeObject(objectWrapper);
         objectOutputStream.flush();
     }
 
 
     public ObjectWrapper read() throws IOException, ClassNotFoundException {
-        return (ObjectWrapper) objectInputStream.readObject();
+        Object object = objectInputStream.readObject();
+        while (!(object instanceof ObjectWrapper)) {
+            object = objectInputStream.readObject();
+        }
+        return (ObjectWrapper) object;
     }
 }

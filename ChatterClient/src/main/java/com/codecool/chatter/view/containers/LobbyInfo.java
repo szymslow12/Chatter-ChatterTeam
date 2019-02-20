@@ -29,7 +29,7 @@ public class LobbyInfo extends GridPane {
     public void renderLobbyInfoView(Lobby lobby, User client) {
         List<Room> rooms = lobby.getRooms();
         long roomsNumber = rooms.size();
-        long usersNumber = IntStream.range(0, rooms.size()).mapToLong(i -> rooms.get(i).getUsers().size()).sum();
+        long usersNumber = lobby.getUsers().size();
         Font font = new Font(25);
         Text userNameText = new Text("Username:");
         Text userName = new Text(client.getNickname());
@@ -42,6 +42,12 @@ public class LobbyInfo extends GridPane {
         setFill(Color.web("#00cc00"), roomNumber, userNumber, userName);
         setConstraints(userNameText, userName, roomNumberText, roomNumber, userNumberText, userNumber);
         getChildren().addAll(roomNumberText, roomNumber, userNumberText, userNumber, userNameText, userName);
+    }
+
+
+    public void clearChildren() {
+        getChildren().forEach(node -> clearConstraints(node));
+        getChildren().clear();
     }
 
 

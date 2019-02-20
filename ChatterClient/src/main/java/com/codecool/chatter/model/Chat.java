@@ -14,12 +14,6 @@ public class Chat implements Serializable {
     }
 
 
-    public Chat(User client) {
-        this();
-        this.client = client;
-    }
-
-
     public List<Message> getMessages() {
         return messages;
     }
@@ -37,5 +31,10 @@ public class Chat implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+
+    public void  setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.controller.eventHandler.EnterRoom;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
@@ -16,6 +17,7 @@ public class AppController extends Thread {
     private AppView appView;
     private User client;
     private Room chosenRoom;
+    private Updater updater;
 
     public AppController(String host, int port, double width, double height) {
         this.host = host;
@@ -29,7 +31,8 @@ public class AppController extends Thread {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket(host, port)) {
+        try {
+            Socket socket = new Socket(host, port);
             Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
             runLoginController(connection);
             runLobbyController(connection);
@@ -46,33 +49,32 @@ public class AppController extends Thread {
         while (client == null) {
             client = loginController.getClient();
         }
+        updater = new Updater(client, connection);
         System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
     }
 
 
     private void runLobbyController(Connection connection) {
-        LobbyController lobbyController = new LobbyController(connection);
+        LobbyController lobbyController = new LobbyController(connection, updater);
         Platform.runLater(() -> lobbyController.run(appView, client));
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
         }
+        updater = new Updater(chosenRoom, connection);
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
-        chosenRoom.addUser(client);
     }
 
 
     private void runRoomController(Connection connection) {
-        RoomController roomController = new RoomController(connection, chosenRoom);
+        RoomController roomController = new RoomController(connection, chosenRoom, updater);
         Platform.runLater(() ->
             {
                 appView.getChildren().clear();
                 roomController.run(appView, client);
             }
         );
-        while (true) {
 
-        }
     }
 
 

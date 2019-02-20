@@ -5,11 +5,11 @@ import com.codecool.chatter.view.interactive.ButtonView;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class LoginView extends Pane {
 
@@ -17,7 +17,7 @@ public class LoginView extends Pane {
     private ButtonView buttonView;
     private AlertMessage alertMessage;
 
-    public LoginView(int width, int height, int margin, EventHandler<MouseEvent> onClick) {
+    public LoginView(int width, int height, int margin, EventHandler<InputEvent> onClick) {
         super();
         setWidth(width);
         setHeight(height);

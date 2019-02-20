@@ -34,6 +34,7 @@ public class SendMessage implements EventHandler<KeyEvent> {
                 Message toSend = new Message(client, message);
                 connection.write(new ObjectWrapper("message", toSend));
                 roomController.getRoom().getChat().addMessage(toSend);
+                textInputControl.clear();
                 roomController.updateChat();
             } catch (IOException e) {
                 e.printStackTrace();
