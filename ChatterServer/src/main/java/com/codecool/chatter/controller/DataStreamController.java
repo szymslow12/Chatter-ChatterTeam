@@ -57,8 +57,6 @@ public class DataStreamController extends Thread {
 
         copyRoom.getChat().setMessages(messageToSend);
 
-        copyRoom.getChat().setMessages(messageToSend);
-
         connection.write(appController.wrapObject("updateRoom", copyRoom));
     }
 
