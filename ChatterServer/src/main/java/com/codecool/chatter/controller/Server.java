@@ -17,7 +17,7 @@ public class Server {
     }
 
     public void startServer() {
-        ServerSocket serverSocket;
+        ServerSocket serverSocket = null;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -29,6 +29,12 @@ public class Server {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
