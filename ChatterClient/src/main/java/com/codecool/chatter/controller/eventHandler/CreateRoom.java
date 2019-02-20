@@ -31,7 +31,7 @@ public class CreateRoom implements EventHandler<InputEvent> {
         ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
             connection.write(objectWrapper);
-            lobbyController.getUpdater().sleep(1000);
+            lobbyController.getUpdater().setReceived(true);
             objectWrapper = connection.read();
             while (!objectWrapper.getAction().equals("createRoom")) {
                 objectWrapper = connection.read();
@@ -41,8 +41,6 @@ public class CreateRoom implements EventHandler<InputEvent> {
             e1.printStackTrace();
         } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     };
 
