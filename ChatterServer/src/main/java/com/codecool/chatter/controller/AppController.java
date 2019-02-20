@@ -120,7 +120,7 @@ public class AppController {
         }
         Room room = new Room(roomName);
         room.getUsers().add(user);
-        lobby.getRooms().add(room);
+        lobby.addRoom(room);
         return room;
     }
 
