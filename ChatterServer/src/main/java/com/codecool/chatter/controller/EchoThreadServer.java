@@ -46,16 +46,13 @@ public class EchoThreadServer extends Thread {
     }
 
     private void chatHandle(User user) throws IOException, ClassNotFoundException {
-//        while (true) {
-//            ObjectWrapper receiveData = connection.read();
-//            ObjectWrapper answer = appController.handleData(receiveData, user);
-//            connection.write(answer);
-//        }
-        ObjectWrapper receiveData;
+
+        ObjectWrapper receiveData = connection.read();
         do{
-            receiveData = connection.read();
+
             ObjectWrapper answer = appController.handleData(receiveData, user);
             connection.write(answer);
+            receiveData = connection.read();
         }while (receiveData != null);
 
     }
