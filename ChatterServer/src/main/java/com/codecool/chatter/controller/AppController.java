@@ -25,7 +25,8 @@ public class AppController {
     }
 
     public void removeClient(User user) {
-        for (ClientInfo client: clients) {
+        for (int i = 0; i <clients.size(); i++) {
+            ClientInfo client = clients.get(i);
             if(client.getUser().equals(user))
             {
                 System.out.println("remove user: " + client.getUser().getNickname());;
@@ -109,7 +110,7 @@ public class AppController {
             return null;
         }
         Room room = new Room(roomName);
-        room.getUsers().add(user);
+        room.addUser(user);
         lobby.addRoom(room);
         return room;
     }
