@@ -23,7 +23,6 @@ public class UserListBox extends ScrollContainer {
         users.stream().forEach(user -> addUserBoxToList(user));
         getChildren().addAll(getScrollPane(), getScrollBar());
         switchPositions();
-        System.out.println(room.getName() + " has " + room.getUsers().size() + " users...");
     }
 
 
