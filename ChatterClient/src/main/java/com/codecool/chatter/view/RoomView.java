@@ -4,7 +4,6 @@ import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Chat;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
 import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
