@@ -59,7 +59,7 @@ public class RoomButtonBox extends ScrollContainer {
                 roomButton = new RoomButton(getWidth() - 10, 100, room, onClick);
                 roomButton.setTranslateX(5);
                 roomsButtons.add(roomButton);
-                getChildren().add(roomButton);
+                getVBox().getChildren().add(roomButton);
             }
         });
     }
