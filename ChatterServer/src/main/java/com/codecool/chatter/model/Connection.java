@@ -1,15 +1,19 @@
 package com.codecool.chatter.model;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Connection {
 
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
+    private Socket socket;
 
 
     public Connection(Socket socket) throws IOException {
+        this.socket = socket;
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.flush();
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -39,5 +43,6 @@ public class Connection {
     public void closeConnection() throws IOException {
         objectOutputStream.close();
         objectInputStream.close();
+        socket.close();
     }
 }
