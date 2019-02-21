@@ -31,7 +31,7 @@ public class RoomButtonBox extends ScrollContainer {
 
 
     private void addRoomButtonToLst(Room room, EventHandler<InputEvent> onClick) {
-        double width = getWidth() - 10;
+        double width = 400;
         double height = 100;
         RoomButton roomButton = new RoomButton(width, height, room, onClick);
         roomButton.setTranslateX(5);
