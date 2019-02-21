@@ -36,8 +36,8 @@ public class EchoThreadServer extends Thread {
             e.printStackTrace();
         } finally {
             try {
-                connection.closeConnection();
                 appController.removeClient(user);
+                connection.closeConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
