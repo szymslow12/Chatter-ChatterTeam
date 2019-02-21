@@ -29,7 +29,7 @@ public class UserListBox extends ScrollContainer {
 
 
     private void addUserBoxToList(User user) {
-        double width = getWidth() - 10;
+        double width = 290;
         double height = 110;
         UserBox userBox = new UserBox(width, height, user);
         userBoxes.add(userBox);
