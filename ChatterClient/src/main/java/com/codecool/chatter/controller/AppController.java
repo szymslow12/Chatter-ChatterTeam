@@ -6,17 +6,43 @@ import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import javafx.application.Platform;
 
-public class AppController {
+import java.io.IOException;
+import java.net.Socket;
 
+public class AppController extends Thread {
+
+    private String host;
+    private int port;
     private AppView appView;
     private User client;
     private Room chosenRoom;
     private Updater updater;
+    private boolean isRunning;
 
-    public AppController(double width, double height) {
+    public AppController(String host, int port, double width, double height) {
         this.appView = new AppView(width, height);
         client = null;
         chosenRoom = null;
+        this.host = host;
+        this.port = port;
+    }
+
+
+    @Override
+    public void run() {
+        try {
+            Socket socket = new Socket(host, port);
+            Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
+            runLoginController(connection);
+            this.isRunning = true;
+            while (isRunning) {
+                runLobbyController(connection);
+                runRoomController(connection);
+            }
+
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
     }
 
 

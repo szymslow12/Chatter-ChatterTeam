@@ -1,41 +1,21 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Connection;
 import javafx.scene.Scene;
 
-import java.io.IOException;
-import java.net.Socket;
+public class Client {
 
-public class Client extends Thread {
 
-    private String host;
-    private int port;
     private AppController appController;
     private boolean isRunning;
 
 
     public Client(String host, int port, double width, double height) {
-        this.host = host;
-        this.port = port;
-        this.appController = new AppController(width, height);
+        this.appController = new AppController(host, port, width, height);
     }
 
 
-    @Override
     public void run() {
-        try {
-            Socket socket = new Socket(host, port);
-            Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
-            appController.runLoginController(connection);
-            this.isRunning = true;
-            while (isRunning) {
-                appController.runLobbyController(connection);
-                appController.runRoomController(connection);
-            }
-
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
+        appController.start();
     }
 
 
