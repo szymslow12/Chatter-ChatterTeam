@@ -6,6 +6,8 @@ import com.codecool.chatter.view.alert.MessageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class ChatBox extends ScrollContainer {
 
@@ -37,5 +39,27 @@ public class ChatBox extends ScrollContainer {
         getChildren().clear();
         messages.clear();
         getVBox().getChildren().clear();
+    }
+
+
+    public void updateChat(Chat chat) {
+        chat.getMessages().forEach(message -> {
+            Optional<MessageView> optional = getOptionalMessageView(message);
+            MessageView messageView;
+            if (optional.isPresent()) {
+                messageView = optional.get();
+                messageView.update(message);
+                System.out.println("ToFind - " + message.getAuthor().getNickname() + " - " + message.getContent() + " - " + message.getCreatedAt());
+                System.out.println("Found - " + messageView.getMessage().getAuthor().getNickname() + " - " + messageView.getMessage().getContent() + " - " + messageView.getMessage().getCreatedAt());
+            } else {
+                addMessageView(message);
+            }
+        });
+    }
+
+
+    private Optional<MessageView> getOptionalMessageView(Message message) {
+        Predicate<MessageView> messageViewPredicate = messageView -> messageView.getMessage().equals(message);
+        return messages.stream().filter(messageViewPredicate).findFirst();
     }
 }

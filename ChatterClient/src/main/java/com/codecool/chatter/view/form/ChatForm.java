@@ -48,10 +48,7 @@ public class ChatForm extends Pane {
 
 
     public void updateChat(Chat chat) {
-        getChildren().remove(chatBox);
-        chatBox = new ChatBox(getPrefWidth(), getPrefHeight() * 0.8);
-        chatBox.renderChatBox(chat);
-        getChildren().add(chatBox);
+        chatBox.updateChat(chat);
     }
 
 

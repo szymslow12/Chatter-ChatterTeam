@@ -23,6 +23,13 @@ public class MessageView extends HoverPane {
         return message;
     }
 
+
+    public void update(Message message) {
+        this.message = message;
+        getChildren().clear();
+        renderMessageView(message);
+    }
+
     private void renderMessageView(Message message) {
         String messageString = getMessageString(message);
         Text text = new Text(messageString);
