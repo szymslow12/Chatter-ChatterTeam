@@ -30,8 +30,8 @@ public class Connection {
 
 
     public void write(ObjectWrapper objectWrapper) throws IOException {
-        objectOutputStream.writeObject(objectWrapper);
         objectOutputStream.reset();
+        objectOutputStream.writeObject(objectWrapper);
         objectOutputStream.flush();
     }
 
