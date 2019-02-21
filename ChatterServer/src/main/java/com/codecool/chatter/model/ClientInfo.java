@@ -5,6 +5,9 @@ public class ClientInfo {
     private Connection connection;
     private User user;
     private int latestMsgIndex;
+    private int lastNumberOfUsersInLobby;
+    private int lastNumberOfRoomsInLobby;
+    private int lastNumberOfUsersInRoom = 1;
 
     public ClientInfo(Connection connection, User user) {
         this.connection = connection;
@@ -27,5 +30,27 @@ public class ClientInfo {
         return connection;
     }
 
+    public int getLastNumberOfUsersInLobby() {
+        return lastNumberOfUsersInLobby;
+    }
 
+    public void setLastNumberOfUsersInLobby(int lastNumberOfUsersInLobby) {
+        this.lastNumberOfUsersInLobby = lastNumberOfUsersInLobby;
+    }
+
+    public int getLastNumberOfRoomsInLobby() {
+        return lastNumberOfRoomsInLobby;
+    }
+
+    public void setLastNumberOfRoomsInLobby(int lastNumberOfRoomsInLobby) {
+        this.lastNumberOfRoomsInLobby = lastNumberOfRoomsInLobby;
+    }
+
+    public int getLastNumberOfUsersInRoom() {
+        return lastNumberOfUsersInRoom;
+    }
+
+    public void setLastNumberOfUsersInRoom(int lastNumberOfUsersInRoom) {
+        this.lastNumberOfUsersInRoom = lastNumberOfUsersInRoom;
+    }
 }
