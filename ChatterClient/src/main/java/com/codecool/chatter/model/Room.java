@@ -28,6 +28,9 @@ public class Room implements Serializable {
         users.add(user);
     }
 
+    public void removeUser(User user) {
+        users.remove(user);
+    }
 
     public UUID getId() {
         return id;
