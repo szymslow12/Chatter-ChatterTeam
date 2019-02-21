@@ -18,7 +18,6 @@ public class Client extends Thread {
         this.host = host;
         this.port = port;
         this.appController = new AppController(width, height);
-        this.isRunning = true;
     }
 
 
@@ -27,6 +26,12 @@ public class Client extends Thread {
         try {
             Socket socket = new Socket(host, port);
             Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
+            appController.runLoginController(connection);
+            this.isRunning = true;
+            while (isRunning) {
+                appController.runLobbyController(connection);
+                appController.runRoomController(connection);
+            }
 
         } catch (IOException err) {
             err.printStackTrace();

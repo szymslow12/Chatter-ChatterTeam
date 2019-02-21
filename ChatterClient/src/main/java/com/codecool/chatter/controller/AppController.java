@@ -51,7 +51,6 @@ public class AppController {
                 roomController.run(appView, client);
             }
         );
-
     }
 
 
