@@ -31,7 +31,7 @@ public class EnterRoom implements EventHandler<InputEvent> {
         if (confirmation.get() == ButtonType.OK) {
             try {
                 connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
-                lobbyController.getUpdater().interrupt();
+                lobbyController.getUpdater().setRunning(false);
                 setChosenRoom(connection);
             } catch (IOException e1) {
                 e1.printStackTrace();
