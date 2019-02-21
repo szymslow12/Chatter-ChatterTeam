@@ -30,38 +30,51 @@ public class DataStreamController extends Thread {
     }
 
     private void sendingUpdateDataToClients(List<ClientInfo> clients) throws IOException {
-        Connection connection;
         User user;
         for (int i = 0; i < clients.size(); i++) {
             ClientInfo client = clients.get(i);
-            connection = client.getConnection();
             user = client.getUser();
-            if (user.getCurrentRoomId() == null) {
-                loobyUpdate(connection, client);
+            if (user.getCurrentRoomId() == null && isLobbyChange(client)) {
+                lobbyUpdate(client);
             }
-            else if (user.getCurrentRoomId() != null) {
-                roomUpdate(connection, client);
+            else if (user.getCurrentRoomId() != null && isRoomChange(client)) {
+                roomUpdate(client);
             }
         }
     }
 
-    private void roomUpdate(Connection connection, ClientInfo client) throws IOException {
-        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
-        List<Message> messageToSend = getMessageToSend(client, room);
-        messageToSend.forEach(message -> System.out.println(message.getContent()));
-        Room copyRoom = new Room(room.getName());
-        copyRoom.setUsers(room.getUsers());
-
-        copyRoom.getChat().setMessages(messageToSend);
-
-        connection.write(appController.wrapObject("updateRoom", copyRoom));
+    private boolean isRoomChange(ClientInfo client) {
+        Room clientInRoom = appController.getRoomById(client.getUser().getCurrentRoomId());
+        boolean isDifferentUsersCount = client.getLastNumberOfUsersInRoom() != clientInRoom.getUsers().size();
+        boolean isDifferentLastMsg = clientInRoom.getChat().getMessages().size() != client.getLatestMsgIndex();
+        return isDifferentUsersCount || isDifferentLastMsg;
     }
 
-    private void loobyUpdate(Connection connection, ClientInfo client) throws IOException {
-        connection.write(appController.wrapObject("lobby", appController.getLobby()));
+    private boolean isLobbyChange(ClientInfo client) {
+        boolean isDifferentRoomsSize = client.getLastNumberOfRoomsInLobby() != appController.getLobby().getRooms().size();
+        boolean isDifferentUsersSize = client.getLastNumberOfUsersInLobby() != appController.getLobby().getUsers().size();
+        return isDifferentRoomsSize || isDifferentUsersSize;
+    }
+
+    private void roomUpdate(ClientInfo client) throws IOException {
+        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
+        List<Message> messageToSend = getMessageToSend(client, room);
+//        Room copyRoom = new Room(room.getName());
+//        copyRoom.setUsers(room.getUsers());
+//        copyRoom.getChat().setMessages(messageToSend);
+        room.getChat().setMessages(messageToSend);
+
+        client.getConnection().write(appController.wrapObject("updateRoom", room));
+    }
+
+    private void lobbyUpdate(ClientInfo client) throws IOException {
+        client.setLastNumberOfRoomsInLobby(appController.getLobby().getRooms().size());
+        client.setLastNumberOfUsersInLobby(appController.getLobby().getUsers().size());
+        client.getConnection().write(appController.wrapObject("lobby", appController.getLobby()));
     }
 
     private List<Message> getMessageToSend(ClientInfo client, Room room) {
+
         int latestMsgIndex = client.getLatestMsgIndex();
         List<Message> messages = room.getChat().getMessages();
         List<Message> latestMsg = new ArrayList<>();
@@ -73,5 +86,8 @@ public class DataStreamController extends Thread {
         client.setLatestMsgIndex(i);
         return latestMsg;
     }
+
+
+
 
 }
