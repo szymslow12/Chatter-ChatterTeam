@@ -49,8 +49,6 @@ public class ChatBox extends ScrollContainer {
             if (optional.isPresent()) {
                 messageView = optional.get();
                 messageView.update(message);
-                System.out.println("ToFind - " + message.getAuthor().getNickname() + " - " + message.getContent() + " - " + message.getCreatedAt());
-                System.out.println("Found - " + messageView.getMessage().getAuthor().getNickname() + " - " + messageView.getMessage().getContent() + " - " + messageView.getMessage().getCreatedAt());
             } else {
                 addMessageView(message);
             }
