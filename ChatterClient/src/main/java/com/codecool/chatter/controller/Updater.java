@@ -55,13 +55,13 @@ public class Updater extends Thread {
         while (isRunning) {
             System.out.println(isReceived);
             if (!isReceived) {
-                System.out.println("in if");
+//                System.out.println("in if");
                 try {
-                    System.out.println("Waits for ObjectWrapper...");
+//                    System.out.println("Waits for ObjectWrapper...");
                     ObjectWrapper objectWrapper = connection.read();
-                    System.out.println("ObjectWrapper is received...");
+//                    System.out.println("ObjectWrapper is received...");
                     Platform.runLater(() -> {
-                        System.out.println("Update..");
+//                        System.out.println("Update..");
                         updatable.updateView(objectWrapper, object, eventHandler);
                     });
                     sleep(50);
