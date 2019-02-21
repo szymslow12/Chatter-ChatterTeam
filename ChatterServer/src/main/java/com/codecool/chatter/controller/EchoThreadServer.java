@@ -37,6 +37,7 @@ public class EchoThreadServer extends Thread {
         } finally {
             try {
                 appController.removeClient(user);
+                appController.getLobby().removeUser(user);
                 connection.closeConnection();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -49,7 +50,6 @@ public class EchoThreadServer extends Thread {
 
         ObjectWrapper receiveData = connection.read();
         do{
-
             ObjectWrapper answer = appController.handleData(receiveData, user);
             connection.write(answer);
             receiveData = connection.read();

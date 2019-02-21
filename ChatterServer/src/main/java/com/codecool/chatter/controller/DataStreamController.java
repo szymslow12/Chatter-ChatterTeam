@@ -17,32 +17,32 @@ public class DataStreamController extends Thread {
     public void run() {
 
         List<ClientInfo> clients;
-        User user;
-
         try {
-
             while (true) {
                 clients = appController.getClientInfo();
-                Connection connection;
-
-                for (int i=0; i < clients.size(); i++) {
-                    ClientInfo client = clients.get(i);
-                    connection = client.getConnection();
-                    user = client.getUser();
-                    if (user.getCurrentRoomId() == null) {
-                        loobyUpdate(connection, client);
-                    }
-                    else if (user.getCurrentRoomId() != null) {
-                        roomUpdate(connection, client);
-                    }
-                }
-
+                sendingUpdateDataToClients(clients);
                 Thread.sleep(50);
             }
         }catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void sendingUpdateDataToClients(List<ClientInfo> clients) throws IOException {
+        Connection connection;
+        User user;
+        for (int i = 0; i < clients.size(); i++) {
+            ClientInfo client = clients.get(i);
+            connection = client.getConnection();
+            user = client.getUser();
+            if (user.getCurrentRoomId() == null) {
+                loobyUpdate(connection, client);
+            }
+            else if (user.getCurrentRoomId() != null) {
+                roomUpdate(connection, client);
+            }
+        }
     }
 
     private void roomUpdate(Connection connection, ClientInfo client) throws IOException {

@@ -2,7 +2,6 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.*;
 
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,11 +24,11 @@ public class AppController {
     }
 
     public void removeClient(User user) {
-        for (int i = 0; i <clients.size(); i++) {
+        for (int i = 0; i < clients.size(); i++) {
             ClientInfo client = clients.get(i);
-            if(client.getUser().equals(user))
-            {
-                System.out.println("remove user: " + client.getUser().getNickname());;
+            if (client.getUser().equals(user)) {
+                System.out.println("remove user: " + client.getUser().getNickname());
+                ;
                 clients.remove(client);
             }
         }
@@ -47,7 +46,8 @@ public class AppController {
         return new ObjectWrapper(action, object);
     }
 
-    private void addUserAndRoomForTest() { ;
+    private void addUserAndRoomForTest() {
+        ;
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
