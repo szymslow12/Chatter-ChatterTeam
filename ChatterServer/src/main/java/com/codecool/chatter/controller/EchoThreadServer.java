@@ -1,9 +1,6 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Connection;
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 
 import java.io.IOException;
 
@@ -36,14 +33,22 @@ public class EchoThreadServer extends Thread {
             e.printStackTrace();
         } finally {
             try {
-                appController.removeClient(user);
-                appController.getLobby().removeUser(user);
+                removeUser(user);
                 connection.closeConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private void removeUser(User user) {
+        appController.removeClient(user);
+        appController.getLobby().removeUser(user);
+        if(user.getCurrentRoomId() != null) {
+            Room room = appController.getRoomById(user.getCurrentRoomId());
+            room.removeUser(user);
+        }
     }
 
     private void chatHandle(User user) throws IOException, ClassNotFoundException {
