@@ -26,6 +26,6 @@ public class ChatterClient extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Chatter Client");
         primaryStage.show();
-        client.run();
+        client.start();
     }
 }
