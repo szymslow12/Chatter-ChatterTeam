@@ -35,18 +35,31 @@ public class DataStreamController extends Thread {
             ClientInfo client = clients.get(i);
             user = client.getUser();
             if (user.getCurrentRoomId() == null && isLobbyChange(client)) {
+                System.out.println("sending looby to: " + client.getUser().getNickname());
                 lobbyUpdate(client);
             }
             else if (user.getCurrentRoomId() != null && isRoomChange(client)) {
+                System.out.println("sending room to: " + client.getUser().getNickname());
                 roomUpdate(client);
             }
         }
     }
 
     private boolean isRoomChange(ClientInfo client) {
-        Room clientInRoom = appController.getRoomById(client.getUser().getCurrentRoomId());
-        boolean isDifferentUsersCount = client.getLastNumberOfUsersInRoom() != clientInRoom.getUsers().size();
-        boolean isDifferentLastMsg = clientInRoom.getChat().getMessages().size() != client.getLatestMsgIndex();
+        Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
+//        System.out.println("last number of users in room: " + client.getLastNumberOfUsersInRoom());
+//        System.out.println("numbers of users in room: " + room.getUsers().size());
+        boolean isDifferentUsersCount = client.getLastNumberOfUsersInRoom() != room.getUsers().size();
+
+        long lastMsgID = 1;
+        if(room.getChat().getMessages().size() > 0){
+            int lastIndex = room.getChat().getMessages().size() - 1;
+            lastMsgID = room.getChat().getMessages().get(lastIndex).getId();
+        }
+//        System.out.println(lastMsgID + " last msgId");
+//        System.out.println(client.getLatestMsgIndex() + " last clinet id msg");
+        boolean isDifferentLastMsg = lastMsgID != client.getLatestMsgIndex();
+
         return isDifferentUsersCount || isDifferentLastMsg;
     }
 
@@ -63,7 +76,7 @@ public class DataStreamController extends Thread {
 //        copyRoom.setUsers(room.getUsers());
 //        copyRoom.getChat().setMessages(messageToSend);
         room.getChat().setMessages(messageToSend);
-
+        client.setLastNumberOfUsersInRoom(room.getUsers().size());
         client.getConnection().write(appController.wrapObject("updateRoom", room));
     }
 
