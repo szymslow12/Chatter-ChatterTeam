@@ -20,7 +20,7 @@ public class AppController {
     }
 
 
-    private void runLoginController(Connection connection) {
+    public void runLoginController(Connection connection) {
         LoginController loginController = new LoginController(connection);
         Platform.runLater(loginController::runLoginStage);
         while (client == null) {
@@ -31,7 +31,7 @@ public class AppController {
     }
 
 
-    private void runLobbyController(Connection connection) {
+    public void runLobbyController(Connection connection) {
         LobbyController lobbyController = new LobbyController(connection, updater);
         Platform.runLater(() -> lobbyController.run(appView, client));
         while (chosenRoom == null) {
@@ -43,7 +43,7 @@ public class AppController {
     }
 
 
-    private void runRoomController(Connection connection) {
+    public void runRoomController(Connection connection) {
         RoomController roomController = new RoomController(connection, chosenRoom, updater);
         Platform.runLater(() ->
             {
