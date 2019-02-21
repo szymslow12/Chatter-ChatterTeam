@@ -55,4 +55,16 @@ public class Message implements Serializable {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+
+    @Override
+    public boolean equals(Object object) {
+        return this.hashCode() == object.hashCode();
+    }
+
+
+    @Override
+    public int hashCode() {
+        return author.hashCode() + content.hashCode() + createdAt.hashCode();
+    }
 }

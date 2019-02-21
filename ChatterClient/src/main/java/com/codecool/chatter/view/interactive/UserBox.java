@@ -17,6 +17,18 @@ public class UserBox extends HoverPane {
     }
 
 
+    public User getUser() {
+        return user;
+    }
+
+
+    public void update(User user) {
+        this.user = user;
+        getChildren().clear();
+        getChildren().add(getUserNameText());
+    }
+
+
     private void renderUserBox() {
         setTranslateX(5);
         getChildren().add(getUserNameText());

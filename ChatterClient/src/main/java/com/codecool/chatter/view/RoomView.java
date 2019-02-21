@@ -4,7 +4,6 @@ import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.model.Chat;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
-import com.codecool.chatter.model.User;
 import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
@@ -66,15 +65,9 @@ public class RoomView extends Pane implements Updatable {
             Room roomChosen = (Room) object;
             roomChosen.setUsers(updatedRoom.getUsers());
             roomChosen.getChat().getMessages().addAll(updatedRoom.getChat().getMessages());
-            getChildren().remove(titleRoomButton);
-            getChildren().remove(userListBox);
-            userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
-            titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, roomChosen);
-            userListBox.renderUserListBox(roomChosen);
-            setPositions();
-            updateChat(roomChosen.getChat());
-            getChildren().addAll(titleRoomButton, userListBox);
-
+            titleRoomButton.update(roomChosen);
+            userListBox.updateUserList(roomChosen);
+            chatForm.updateChat(roomChosen.getChat());
         }
     }
 
@@ -82,11 +75,6 @@ public class RoomView extends Pane implements Updatable {
     private void setPositions() {
         userListBox.setTranslateY(100);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
-    }
-
-
-    public void updateChat(Chat chat) {
-        chatForm.updateChat(chat);
     }
 
 

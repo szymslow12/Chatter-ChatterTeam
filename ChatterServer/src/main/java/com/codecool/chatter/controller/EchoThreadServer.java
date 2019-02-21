@@ -1,9 +1,6 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.model.Connection;
-import com.codecool.chatter.model.Lobby;
-import com.codecool.chatter.model.ObjectWrapper;
-import com.codecool.chatter.model.User;
+import com.codecool.chatter.model.*;
 
 import java.io.IOException;
 
@@ -36,8 +33,8 @@ public class EchoThreadServer extends Thread {
             e.printStackTrace();
         } finally {
             try {
+                removeUser(user);
                 connection.closeConnection();
-                appController.removeClient(user);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -45,18 +42,24 @@ public class EchoThreadServer extends Thread {
 
     }
 
+    private void removeUser(User user) {
+        appController.removeClient(user);
+        appController.getLobby().removeUser(user);
+        if(user.getCurrentRoomId() != null) {
+            Room room = appController.getRoomById(user.getCurrentRoomId());
+            room.removeUser(user);
+        }
+    }
+
     private void chatHandle(User user) throws IOException, ClassNotFoundException {
-//        while (true) {
-//            ObjectWrapper receiveData = connection.read();
-//            ObjectWrapper answer = appController.handleData(receiveData, user);
-//            connection.write(answer);
-//        }
-        ObjectWrapper receiveData;
+
+        ObjectWrapper receiveData = connection.read();
         do{
-            receiveData = connection.read();
             ObjectWrapper answer = appController.handleData(receiveData, user);
             connection.write(answer);
+            receiveData = connection.read();
         }while (receiveData != null);
+
     }
 
     private String loginHandle() throws IOException, ClassNotFoundException {

@@ -10,11 +10,25 @@ import java.time.LocalDateTime;
 
 public class MessageView extends HoverPane {
 
+    private Message message;
+
     public MessageView(double width, double height, Message message) {
         super(width, height, new Insets(0));
+        this.message = message;
         renderMessageView(message);
     }
 
+
+    public Message getMessage() {
+        return message;
+    }
+
+
+    public void update(Message message) {
+        this.message = message;
+        getChildren().clear();
+        renderMessageView(message);
+    }
 
     private void renderMessageView(Message message) {
         String messageString = getMessageString(message);

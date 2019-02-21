@@ -40,7 +40,7 @@ public class RoomController {
 
 
     public void updateChat() {
-        roomView.updateChat(room.getChat());
+        roomView.getChatForm().updateChat(room.getChat());
     }
 
 

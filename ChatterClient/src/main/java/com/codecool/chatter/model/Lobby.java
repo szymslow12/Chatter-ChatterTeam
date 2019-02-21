@@ -25,6 +25,9 @@ public class Lobby implements Serializable {
         users.add(user);
     }
 
+    public void removeUser(User user) {
+        users.remove(user);
+    }
 
     public void setUsers(List<User> users) {
         this.users = users;

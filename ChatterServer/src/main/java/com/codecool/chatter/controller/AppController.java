@@ -2,7 +2,6 @@ package com.codecool.chatter.controller;
 
 import com.codecool.chatter.model.*;
 
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +10,6 @@ public class AppController {
 
     private Lobby lobby;
 
-    private List<User> allUsers = new ArrayList<>();
     private List<ClientInfo> clients = new ArrayList<>();
     private static int msgId = 1;
 
@@ -22,15 +20,15 @@ public class AppController {
     }
 
     public void addClient(Connection out, User user) {
-//        allUsers.add(user);
         clients.add(new ClientInfo(out, user));
     }
 
     public void removeClient(User user) {
-        for (ClientInfo client: clients) {
-            if(client.getUser().equals(user))
-            {
-                System.out.println("remove user: " + client.getUser().getNickname());;
+        for (int i = 0; i < clients.size(); i++) {
+            ClientInfo client = clients.get(i);
+            if (client.getUser().equals(user)) {
+                System.out.println("remove user: " + client.getUser().getNickname());
+                ;
                 clients.remove(client);
             }
         }
@@ -44,25 +42,16 @@ public class AppController {
         return lobby;
     }
 
-    private void addUser(User user) {
-        allUsers.add(user);
-    }
-
     public ObjectWrapper wrapObject(String action, Object object) {
         return new ObjectWrapper(action, object);
     }
 
     private void addUserAndRoomForTest() {
-//        User user = new User("Stefan");
-//        User user2 = new User("Grażyna");
+        ;
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
-//        allUsers.add(user);
-//        allUsers.add(user2);
-//        room.addUser(user2);
         lobby.addRoom(room);
-//        lobby.addUser(user);
     }
 
     public ObjectWrapper handleData(ObjectWrapper data, User user) {
@@ -100,6 +89,8 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
+            ClientInfo clientByUser = getClientByUser(user);
+            clientByUser.setLatestMsgIndex(msgId);
             return room;
         }
         return IllegalArgumentException.class;
@@ -119,7 +110,7 @@ public class AppController {
             return null;
         }
         Room room = new Room(roomName);
-        room.getUsers().add(user);
+        room.addUser(user);
         lobby.addRoom(room);
         return room;
     }
@@ -132,5 +123,8 @@ public class AppController {
         return lobby.getRooms().stream().filter(room -> room.getName().equalsIgnoreCase(roomName)).findFirst().get();
     }
 
+    private ClientInfo getClientByUser(User user) {
+        return clients.stream().filter(clientInfo -> clientInfo.getUser().equals(user)).findFirst().get();
+    }
 
 }
