@@ -37,7 +37,7 @@ public class DataStreamController extends Thread {
             connection = client.getConnection();
             user = client.getUser();
             if (user.getCurrentRoomId() == null) {
-                loobyUpdate(connection, client);
+                lobbyUpdate(connection, client);
             }
             else if (user.getCurrentRoomId() != null) {
                 roomUpdate(connection, client);
@@ -48,7 +48,6 @@ public class DataStreamController extends Thread {
     private void roomUpdate(Connection connection, ClientInfo client) throws IOException {
         Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
         List<Message> messageToSend = getMessageToSend(client, room);
-        messageToSend.forEach(message -> System.out.println(message.getContent()));
         Room copyRoom = new Room(room.getName());
         copyRoom.setUsers(room.getUsers());
 
@@ -57,7 +56,7 @@ public class DataStreamController extends Thread {
         connection.write(appController.wrapObject("updateRoom", copyRoom));
     }
 
-    private void loobyUpdate(Connection connection, ClientInfo client) throws IOException {
+    private void lobbyUpdate(Connection connection, ClientInfo client) throws IOException {
         connection.write(appController.wrapObject("lobby", appController.getLobby()));
     }
 
