@@ -34,7 +34,7 @@ public class DataStreamController extends Thread {
         for (int i = 0; i < clients.size(); i++) {
             ClientInfo client = clients.get(i);
             user = client.getUser();
-            if (user.getCurrentRoomId() == null && isLobbyChange(client)) {
+            if (user.getCurrentRoomId() == null /*&& isLobbyChange(client)*/) {
                 System.out.println("sending looby to: " + client.getUser().getNickname());
                 lobbyUpdate(client);
             }
