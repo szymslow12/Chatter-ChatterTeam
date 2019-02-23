@@ -53,11 +53,11 @@ public class Updater extends Thread {
     public void run() {
         System.out.println("started Updater...");
         while (isRunning) {
-            if (!isReceived && connection.isInputAvailable()) {
+            if (!isReceived && connection.isAvailable()) {
                 try {
-                    connection.setInputAvailable(false);
+                    connection.setAvailable(false);
                     ObjectWrapper objectWrapper = connection.read();
-                    connection.setInputAvailable(true);
+                    connection.setAvailable(true);
                     Platform.runLater(() -> {
                         updatable.updateView(objectWrapper, object, eventHandler);
                     });

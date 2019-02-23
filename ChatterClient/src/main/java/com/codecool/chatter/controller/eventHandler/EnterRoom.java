@@ -44,15 +44,15 @@ public class EnterRoom implements EventHandler<InputEvent> {
 
 
     private void setChosenRoom(Connection connection) throws IOException, ClassNotFoundException {
-        while (!connection.isInputAvailable()) {
+        while (!connection.isAvailable()) {
             System.out.println("Input not available...");
         }
-        connection.setInputAvailable(false);
+        connection.setAvailable(false);
         ObjectWrapper objectWrapper = connection.read();
         while (!objectWrapper.getAction().equals("chosenRoomId")) {
             objectWrapper = connection.read();
         }
-        connection.setInputAvailable(true);
+        connection.setAvailable(true);
         Room room = (Room) objectWrapper.getObject();
         lobbyController.setChosenRoom(room);
     }

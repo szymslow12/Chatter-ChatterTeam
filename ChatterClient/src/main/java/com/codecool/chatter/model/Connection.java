@@ -6,14 +6,14 @@ public class Connection {
 
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
-    private boolean isInputAvailable;
+    private volatile boolean isAvailable;
 
 
     public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
         this.objectOutputStream = new ObjectOutputStream(outputStream);
         this.objectOutputStream.flush();
         this.objectInputStream = new ObjectInputStream(inputStream);
-        isInputAvailable = true;
+        isAvailable = true;
     }
 
 
@@ -34,13 +34,13 @@ public class Connection {
     }
 
 
-    public void setInputAvailable(boolean isInputAvailable) {
-        this.isInputAvailable = isInputAvailable;
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
 
-    public boolean isInputAvailable() {
-        return isInputAvailable;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
 

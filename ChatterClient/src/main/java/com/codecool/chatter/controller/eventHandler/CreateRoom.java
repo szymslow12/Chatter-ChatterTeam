@@ -32,15 +32,15 @@ public class CreateRoom implements EventHandler<InputEvent> {
         try {
             connection.write(objectWrapper);
             lobbyController.getUpdater().setReceived(true);
-            while (!connection.isInputAvailable()) {
+            while (!connection.isAvailable()) {
                 System.out.println("Input not available...");
             }
-            connection.setInputAvailable(false);
+            connection.setAvailable(false);
             objectWrapper = connection.read();
             while (!objectWrapper.getAction().equals("createRoom")) {
                 objectWrapper = connection.read();
             }
-            connection.setInputAvailable(true);
+            connection.setAvailable(true);
             handleCreateRoom(objectWrapper, createRoomForm);
         } catch (IOException e1) {
             e1.printStackTrace();
