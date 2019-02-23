@@ -30,11 +30,15 @@ public class EnterRoom implements EventHandler<InputEvent> {
         Connection connection = lobbyController.getConnection();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
+                Connection.waitForAccess(connection);
+                connection.setAvailable(false);
+                connection.write(new ObjectWrapper<>("chosenRoomId", room.getId()));
                 setChosenRoom(connection);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -42,12 +46,11 @@ public class EnterRoom implements EventHandler<InputEvent> {
 
 
     private void setChosenRoom(Connection connection) throws IOException, ClassNotFoundException {
-        while (!connection.isAvailable()) {
-            System.out.println("Input not available...");
-        }
-        connection.setAvailable(false);
+        System.out.println("Before read...");
         ObjectWrapper objectWrapper = connection.read();
+        System.out.println("Action: " + objectWrapper.getAction());
         while (!objectWrapper.getAction().equals("chosenRoomId")) {
+            System.out.println("Action: " + objectWrapper.getAction());
             objectWrapper = connection.read();
         }
         connection.setAvailable(true);

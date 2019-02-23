@@ -46,22 +46,21 @@ public class Updater extends Thread {
     public void run() {
         System.out.println("started Updater...");
         while (isRunning) {
-            if (connection.isAvailable()) {
-                try {
-                    connection.setAvailable(false);
-                    ObjectWrapper objectWrapper = connection.read();
-                    connection.setAvailable(true);
-                    Platform.runLater(() -> {
-                        updatable.updateView(objectWrapper, object, eventHandler);
-                    });
-                    sleep(50);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Connection.waitForAccess(connection);
+                connection.setAvailable(false);
+                ObjectWrapper objectWrapper = connection.read();
+                Platform.runLater(() -> {
+                    updatable.updateView(objectWrapper, object, eventHandler);
+                });
+                connection.setAvailable(true);
+                sleep(50);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         System.out.println("stop Updater...");

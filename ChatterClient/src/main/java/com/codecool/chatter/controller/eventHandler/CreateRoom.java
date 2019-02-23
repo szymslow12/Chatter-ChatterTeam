@@ -30,21 +30,21 @@ public class CreateRoom implements EventHandler<InputEvent> {
         String roomName = textInputControl.getText();
         ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
-            connection.write(objectWrapper);
-            while (!connection.isAvailable()) {
-                System.out.println("Input not available...");
-            }
+            Connection.waitForAccess(connection);
             connection.setAvailable(false);
+            connection.write(objectWrapper);
             objectWrapper = connection.read();
             while (!objectWrapper.getAction().equals("createRoom")) {
                 objectWrapper = connection.read();
             }
-            connection.setAvailable(true);
             handleCreateRoom(objectWrapper, createRoomForm);
+            connection.setAvailable(true);
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     };
 
