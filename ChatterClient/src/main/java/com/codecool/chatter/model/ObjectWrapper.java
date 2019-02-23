@@ -2,15 +2,15 @@ package com.codecool.chatter.model;
 
 import java.io.Serializable;
 
-public class ObjectWrapper implements Serializable {
+public class ObjectWrapper<T> implements Serializable {
 
     private String action;
 
-    private Object object;
+    private T type;
 
-    public ObjectWrapper(String action, Object object) {
+    public ObjectWrapper(String action, T type) {
         this.action = action;
-        this.object = object;
+        this.type = type;
     }
 
     public String getAction() {
@@ -18,6 +18,6 @@ public class ObjectWrapper implements Serializable {
     }
 
     public Object getObject() {
-        return object;
+        return type;
     }
 }
