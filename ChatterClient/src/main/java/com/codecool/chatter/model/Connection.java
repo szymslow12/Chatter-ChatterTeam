@@ -51,4 +51,16 @@ public class Connection {
         }
         return (ObjectWrapper) object;
     }
+
+
+    public static void waitForAccess(Connection connection) throws InterruptedException {
+        while (!connection.isAvailable()) {
+            System.out.println("Input not available... Thread=" + Thread.currentThread().getName());
+            Thread.sleep(10);
+            if (connection.isAvailable()) {
+                break;
+            }
+        }
+        System.out.println("Input available... Thread=" + Thread.currentThread().getName());
+    }
 }
