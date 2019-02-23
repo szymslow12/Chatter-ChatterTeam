@@ -46,11 +46,8 @@ public class EnterRoom implements EventHandler<InputEvent> {
 
 
     private void setChosenRoom(Connection connection) throws IOException, ClassNotFoundException {
-        System.out.println("Before read...");
         ObjectWrapper objectWrapper = connection.read();
-        System.out.println("Action: " + objectWrapper.getAction());
         while (!objectWrapper.getAction().equals("chosenRoomId")) {
-            System.out.println("Action: " + objectWrapper.getAction());
             objectWrapper = connection.read();
         }
         connection.setAvailable(true);
