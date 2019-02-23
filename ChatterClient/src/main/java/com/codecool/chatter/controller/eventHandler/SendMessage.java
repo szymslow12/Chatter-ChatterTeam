@@ -32,7 +32,7 @@ public class SendMessage implements EventHandler<KeyEvent> {
             String message = textInputControl.getText().trim();
             try {
                 Message toSend = new Message(client, message);
-                connection.write(new ObjectWrapper("message", toSend));
+                connection.write(new ObjectWrapper<>("message", toSend));
                 roomController.getRoom().getChat().addMessage(toSend);
                 textInputControl.clear();
                 roomController.updateChat();
