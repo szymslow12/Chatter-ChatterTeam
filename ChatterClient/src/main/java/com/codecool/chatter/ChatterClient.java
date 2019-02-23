@@ -16,7 +16,7 @@ public class ChatterClient extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Client client = new Client("localhost", 8080, WIDTH, HEIGHT);
+        Client client = new Client("192.168.1.160", 8080, WIDTH, HEIGHT);
         Scene scene = client.getMainScene();
         scene.getStylesheets().add("css/main.css");
         primaryStage.setScene(scene);
