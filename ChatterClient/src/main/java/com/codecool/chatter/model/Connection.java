@@ -6,12 +6,14 @@ public class Connection {
 
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
+    private boolean isInputAvailable;
 
 
     public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
         this.objectOutputStream = new ObjectOutputStream(outputStream);
         this.objectOutputStream.flush();
         this.objectInputStream = new ObjectInputStream(inputStream);
+        isInputAvailable = true;
     }
 
 
@@ -29,6 +31,16 @@ public class Connection {
         objectOutputStream.reset();
         objectOutputStream.writeObject(objectWrapper);
         objectOutputStream.flush();
+    }
+
+
+    public void setInputAvailable(boolean isInputAvailable) {
+        this.isInputAvailable = isInputAvailable;
+    }
+
+
+    public boolean isInputAvailable() {
+        return isInputAvailable;
     }
 
 
