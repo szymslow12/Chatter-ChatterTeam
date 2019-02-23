@@ -17,7 +17,7 @@ public class ObjectWrapper<T> implements Serializable {
         return action;
     }
 
-    public Object getObject() {
+    public T getObject() {
         return type;
     }
 }
