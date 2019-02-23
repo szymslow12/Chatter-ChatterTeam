@@ -31,7 +31,6 @@ public class CreateRoom implements EventHandler<InputEvent> {
         ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
             connection.write(objectWrapper);
-            lobbyController.getUpdater().setReceived(true);
             while (!connection.isAvailable()) {
                 System.out.println("Input not available...");
             }
@@ -53,7 +52,6 @@ public class CreateRoom implements EventHandler<InputEvent> {
     private void handleCreateRoom(ObjectWrapper objectWrapper, CreateRoomForm createRoomForm) {
         if (isNull(objectWrapper.getObject())) {
             handleAlert(createRoomForm);
-            lobbyController.getUpdater().setReceived(false);
         } else {
             lobbyController.setChosenRoom((Room) objectWrapper.getObject());
             lobbyController.getUpdater().setRunning(false);

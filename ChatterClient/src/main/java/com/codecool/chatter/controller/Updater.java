@@ -15,7 +15,6 @@ public class Updater extends Thread {
     private EventHandler<InputEvent> eventHandler;
     private Connection connection;
     private Object object;
-    private volatile boolean isReceived;
     private volatile boolean isRunning;
 
 
@@ -23,7 +22,6 @@ public class Updater extends Thread {
     public Updater(Object object, Connection connection) {
         this.object = object;
         this.connection = connection;
-        isReceived = true;
         isRunning = true;
         setName("Updater");
     }
@@ -39,11 +37,6 @@ public class Updater extends Thread {
     }
 
 
-    public void setReceived(boolean isReceived) {
-        this.isReceived = isReceived;
-    }
-
-
     public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
@@ -53,7 +46,7 @@ public class Updater extends Thread {
     public void run() {
         System.out.println("started Updater...");
         while (isRunning) {
-            if (!isReceived && connection.isAvailable()) {
+            if (connection.isAvailable()) {
                 try {
                     connection.setAvailable(false);
                     ObjectWrapper objectWrapper = connection.read();
@@ -64,7 +57,6 @@ public class Updater extends Thread {
                     sleep(50);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    isReceived = true;
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

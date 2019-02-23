@@ -66,7 +66,6 @@ public class LobbyController {
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
         lobby = (Lobby) connection.read().getObject();
-        updater.setReceived(false);
         System.out.println("Lobby has been loaded!");
     }
 

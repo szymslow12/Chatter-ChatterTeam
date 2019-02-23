@@ -34,7 +34,6 @@ public class RoomController {
 
     private void startRoomUpdater() {
         updater.setUpdatable(roomView);
-        updater.setReceived(false);
         updater.start();
     }
 
