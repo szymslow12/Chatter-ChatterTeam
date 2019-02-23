@@ -44,8 +44,25 @@ public class AppController {
         return lobby;
     }
 
+//    public ObjectWrapper wrapObject(String action, Object object) {
+//        return new ObjectWrapper(action, object);
+//    }
+
     public ObjectWrapper wrapObject(String action, Object object) {
-        return new ObjectWrapper(action, object);
+        if (object == null) {
+            return new ObjectWrapper<Object>(action, null);
+        } else if (object instanceof Lobby) {
+            return new ObjectWrapper<>(action, (Lobby) object);
+        } else if (object instanceof Room) {
+            return new ObjectWrapper<>(action, (Room) object);
+        } else if (object instanceof Boolean) {
+            return new ObjectWrapper<>(action, (Boolean) object);
+        } else if (object instanceof Message) {
+            return new ObjectWrapper<>(action, (Message) object);
+        } else {
+            return null;
+        }
+
     }
 
     private void addUserAndRoomForTest() {
@@ -70,7 +87,7 @@ public class AppController {
                 answer = handleMessage(receiveData, user);
                 break;
         }
-        return new ObjectWrapper(action, answer);
+        return wrapObject(action, answer);
     }
 
     private Object handleMessage(Object receiveData, User user) {
