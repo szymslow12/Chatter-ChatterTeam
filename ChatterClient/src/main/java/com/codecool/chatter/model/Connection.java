@@ -61,4 +61,10 @@ public class Connection {
             }
         }
     }
+
+
+    public void close() throws IOException {
+        objectOutputStream.close();
+        objectInputStream.close();
+    }
 }
