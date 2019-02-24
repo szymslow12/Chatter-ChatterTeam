@@ -23,6 +23,7 @@ public class AppController extends Thread {
         this.appView = new AppView(width, height);
         client = null;
         chosenRoom = null;
+        this.isRunning = true;
         this.host = host;
         this.port = port;
     }
@@ -34,12 +35,11 @@ public class AppController extends Thread {
             Socket socket = new Socket(host, port);
             Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
             runLoginController(connection);
-            this.isRunning = true;
             while (isRunning) {
                 runLobbyController(connection);
                 runRoomController(connection);
             }
-
+            connection.close();
         } catch (IOException err) {
             err.printStackTrace();
         }
