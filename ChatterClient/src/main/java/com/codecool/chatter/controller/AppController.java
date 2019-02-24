@@ -66,20 +66,18 @@ public class AppController extends Thread {
         updater = new Updater(chosenRoom, connection);
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
+        appView.getChildren().clear();
     }
 
 
     public void runRoomController(Connection connection) {
         RoomController roomController = new RoomController(connection, chosenRoom, updater);
-        Platform.runLater(() ->
-            {
-                appView.getChildren().clear();
-                roomController.run(appView, client);
-            }
-        );
-        while (true) {
-
+        Platform.runLater(() -> roomController.run(appView, client));
+        while (chosenRoom != null) {
+            chosenRoom = roomController.getRoom();
         }
+        appView.getChildren().clear();
+        System.out.println("Entering Lobby" + chosenRoom.getName() + "...");
     }
 
 
