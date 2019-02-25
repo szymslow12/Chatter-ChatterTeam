@@ -39,6 +39,7 @@ public class AppController extends Thread {
             while (isRunning) {
                 runLobbyController(connection);
                 runRoomController(connection);
+                System.out.println("isRunning=" + isRunning + " client=" + client + " chosenRoom=" + chosenRoom);
             }
             connection.close();
         } catch (IOException err) {
@@ -63,7 +64,6 @@ public class AppController extends Thread {
         Platform.runLater(() -> lobbyController.run(appView, client));
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
-            changeStateToExitLoopIfUserExitProgram();
         }
         updater = new Updater(chosenRoom, connection);
         System.out.println("Entering room " + chosenRoom.getName() + "...");
@@ -77,18 +77,9 @@ public class AppController extends Thread {
         Platform.runLater(() -> roomController.run(appView, client));
         while (chosenRoom != null) {
             chosenRoom = roomController.getRoom();
-            changeStateToExitLoopIfUserExitProgram();
         }
         appView.getChildren().clear();
         System.out.println("Entering Lobby" + chosenRoom.getName() + "...");
-    }
-
-
-    private void changeStateToExitLoopIfUserExitProgram() {
-        if (!isRunning) {
-            chosenRoom = new Room(null);
-            client = new User(null);
-        }
     }
 
 
