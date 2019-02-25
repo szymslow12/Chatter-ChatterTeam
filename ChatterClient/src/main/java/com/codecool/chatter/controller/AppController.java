@@ -84,4 +84,9 @@ public class AppController extends Thread {
     public AppView getAppView() {
         return appView;
     }
+
+
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
 }
