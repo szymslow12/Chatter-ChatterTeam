@@ -2,9 +2,9 @@ package com.codecool.chatter.controller.eventHandler;
 
 import com.codecool.chatter.controller.AppController;
 import javafx.event.EventHandler;
-import javafx.scene.input.InputEvent;
+import javafx.stage.WindowEvent;
 
-public class ExitProgram implements EventHandler<InputEvent> {
+public class ExitProgram implements EventHandler<WindowEvent> {
 
     private AppController appController;
 
@@ -13,7 +13,7 @@ public class ExitProgram implements EventHandler<InputEvent> {
     }
 
     @Override
-    public void handle(InputEvent mouseEvent) {
+    public void handle(WindowEvent windowEvent) {
         appController.setChosenRoom(null);
         appController.setClient(null);
         appController.getUpdater().setRunning(false);
