@@ -14,6 +14,10 @@ public class ExitProgram implements EventHandler<InputEvent> {
 
     @Override
     public void handle(InputEvent mouseEvent) {
-
+        appController.setChosenRoom(null);
+        appController.setClient(null);
+        appController.getUpdater().setRunning(false);
+        appController.setRunning(false);
+        System.out.println("User exits program...");
     }
 }
