@@ -89,4 +89,19 @@ public class AppController extends Thread {
     public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
+
+
+    public Updater getUpdater() {
+        return updater;
+    }
+
+
+    public void setChosenRoom(Room room) {
+        this.chosenRoom = room;
+    }
+
+
+    public void setClient(User client) {
+        this.client = client;
+    }
 }
