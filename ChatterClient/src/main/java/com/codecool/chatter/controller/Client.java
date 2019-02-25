@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.controller.eventHandler.ExitProgram;
 import javafx.scene.Scene;
 
 public class Client {
@@ -20,5 +21,10 @@ public class Client {
 
     public Scene getMainScene() {
         return new Scene(appController.getAppView());
+    }
+
+
+    public ExitProgram getExitProgram() {
+        return appController.getExitProgram();
     }
 }
