@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.controller.eventHandler.ExitProgram;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.User;
@@ -103,5 +104,10 @@ public class AppController extends Thread {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+
+    public ExitProgram getExitProgram() {
+        return new ExitProgram(this);
     }
 }
