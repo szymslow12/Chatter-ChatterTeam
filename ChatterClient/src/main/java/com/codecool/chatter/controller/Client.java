@@ -6,7 +6,6 @@ public class Client {
 
 
     private AppController appController;
-    private boolean isRunning;
 
 
     public Client(String host, int port, double width, double height) {
@@ -21,15 +20,5 @@ public class Client {
 
     public Scene getMainScene() {
         return new Scene(appController.getAppView());
-    }
-
-
-    public void setRunning(boolean isRunning) {
-        this.isRunning = isRunning;
-    }
-
-
-    public boolean isRunning() {
-        return isRunning;
     }
 }
