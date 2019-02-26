@@ -39,9 +39,9 @@ public class AppController extends Thread {
             while (isRunning) {
                 runLobbyController(connection);
                 runRoomController(connection);
-                System.out.println("isRunning=" + isRunning + " client=" + client + " chosenRoom=" + chosenRoom);
             }
             connection.close();
+            System.out.println("User exits program...");
         } catch (IOException err) {
             err.printStackTrace();
         }
@@ -53,6 +53,9 @@ public class AppController extends Thread {
         Platform.runLater(loginController::runLoginStage);
         while (client == null) {
             client = loginController.getClient();
+            if (!isRunning) {
+                return;
+            }
         }
         updater = new Updater(client, connection);
         System.out.println("Client nickname=" + client.getNickname() + " has logged in...");
@@ -61,24 +64,35 @@ public class AppController extends Thread {
 
     public void runLobbyController(Connection connection) {
         LobbyController lobbyController = new LobbyController(connection, updater);
-        Platform.runLater(() -> lobbyController.run(appView, client));
+        Platform.runLater(() -> {
+            appView.getChildren().clear();
+            lobbyController.run(appView, client);
+        });
         while (chosenRoom == null) {
             chosenRoom = lobbyController.getChosenRoom();
+            if (!isRunning) {
+                chosenRoom = new Room(null);
+                return;
+            }
         }
         updater = new Updater(chosenRoom, connection);
         System.out.println("Entering room " + chosenRoom.getName() + "...");
         client.setCurrentRoomId(chosenRoom.getId());
-        appView.getChildren().clear();
     }
 
 
     public void runRoomController(Connection connection) {
         RoomController roomController = new RoomController(connection, chosenRoom, updater);
-        Platform.runLater(() -> roomController.run(appView, client));
+        Platform.runLater(() -> {
+            appView.getChildren().clear();
+            roomController.run(appView, client);
+        });
         while (chosenRoom != null) {
             chosenRoom = roomController.getRoom();
+            if (!isRunning) {
+                return;
+            }
         }
-        appView.getChildren().clear();
         System.out.println("Entering Lobby" + chosenRoom.getName() + "...");
     }
 
