@@ -18,6 +18,5 @@ public class ExitProgram implements EventHandler<WindowEvent> {
         appController.setClient(null);
         appController.getUpdater().setRunning(false);
         appController.setRunning(false);
-        System.out.println("User exits program...");
     }
 }
