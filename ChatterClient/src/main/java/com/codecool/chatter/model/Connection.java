@@ -7,6 +7,7 @@ public class Connection {
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private volatile boolean isAvailable;
+    private boolean isClosed;
 
 
     public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
@@ -14,6 +15,7 @@ public class Connection {
         this.objectOutputStream.flush();
         this.objectInputStream = new ObjectInputStream(inputStream);
         isAvailable = true;
+        isClosed = false;
     }
 
 
@@ -44,6 +46,11 @@ public class Connection {
     }
 
 
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+
     public ObjectWrapper read() throws IOException, ClassNotFoundException {
         Object object = objectInputStream.readObject();
         while (!(object instanceof ObjectWrapper)) {
@@ -66,5 +73,6 @@ public class Connection {
     public void close() throws IOException {
         objectOutputStream.close();
         objectInputStream.close();
+        isClosed = true;
     }
 }
