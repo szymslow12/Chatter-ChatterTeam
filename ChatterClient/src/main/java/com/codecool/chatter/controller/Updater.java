@@ -44,10 +44,13 @@ public class Updater extends Thread {
 
     @Override
     public void run() {
-        System.out.println("started Updater...");
+        System.out.println("started Updater=" + this.getId() + "...");
         while (isRunning) {
             try {
                 Connection.waitForAccess(connection);
+                if (!isRunning || connection.isClosed()) {
+                    break;
+                }
                 connection.setAvailable(false);
                 ObjectWrapper objectWrapper = connection.read();
                 Platform.runLater(() -> {
@@ -63,6 +66,6 @@ public class Updater extends Thread {
                 e.printStackTrace();
             }
         }
-        System.out.println("stop Updater...");
+        System.out.println("stop Updater=" + this.getId() + "...");
     }
 }
