@@ -15,10 +15,10 @@ public class AppController extends Thread {
     private String host;
     private int port;
     private AppView appView;
-    private User client;
-    private Room chosenRoom;
-    private Updater updater;
-    private boolean isRunning;
+    private volatile User client;
+    private volatile Room chosenRoom;
+    private volatile Updater updater;
+    private volatile boolean isRunning;
 
     public AppController(String host, int port, double width, double height) {
         this.appView = new AppView(width, height);
