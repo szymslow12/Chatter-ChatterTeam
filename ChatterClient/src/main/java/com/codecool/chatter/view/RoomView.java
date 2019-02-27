@@ -1,7 +1,6 @@
 package com.codecool.chatter.view;
 
-import com.codecool.chatter.ChatterClient;
-import com.codecool.chatter.model.Chat;
+import com.codecool.chatter.controller.Client;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.interfaces.Updatable;
@@ -28,8 +27,8 @@ public class RoomView extends Pane implements Updatable {
 
     public RoomView(double width, double height) {
         super();
-        userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
-        chatForm = new ChatForm(ChatterClient.WIDTH - 300d, ChatterClient.HEIGHT);
+        userListBox = new UserListBox(300d, Client.HEIGHT - 100);
+        chatForm = new ChatForm(Client.WIDTH - 300d, Client.HEIGHT);
         setSizes(width, height);
     }
 

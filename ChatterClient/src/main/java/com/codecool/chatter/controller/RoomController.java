@@ -1,6 +1,5 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.controller.eventHandler.SendMessage;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
@@ -17,7 +16,7 @@ public class RoomController {
 
     public RoomController(Connection connection, Room room, Updater updater) {
         this.connection = connection;
-        this.roomView = new RoomView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
+        this.roomView = new RoomView(Client.WIDTH, Client.HEIGHT);
         this.room = room;
         this.updater = updater;
     }

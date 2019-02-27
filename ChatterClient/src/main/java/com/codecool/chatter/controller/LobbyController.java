@@ -1,6 +1,5 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.ChatterClient;
 import com.codecool.chatter.controller.eventHandler.CreateRoom;
 import com.codecool.chatter.controller.eventHandler.EnterRoom;
 import com.codecool.chatter.model.*;
@@ -24,7 +23,7 @@ public class LobbyController {
         this.updater = updater;
         lobby = null;
         chosenRoom = null;
-        lobbyView = new LobbyView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
+        lobbyView = new LobbyView(Client.WIDTH, Client.HEIGHT);
     }
 
 
