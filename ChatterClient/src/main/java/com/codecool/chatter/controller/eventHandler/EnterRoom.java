@@ -34,6 +34,7 @@ public class EnterRoom implements EventHandler<InputEvent> {
                 connection.setAvailable(false);
                 connection.write(new ObjectWrapper<>("chosenRoomId", room.getId()));
                 setChosenRoom(connection);
+                connection.setAvailable(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -50,10 +51,9 @@ public class EnterRoom implements EventHandler<InputEvent> {
         while (!objectWrapper.getAction().equals("chosenRoomId")) {
             objectWrapper = connection.read();
         }
-        connection.setAvailable(true);
         Room room = (Room) objectWrapper.getObject();
-        lobbyController.setChosenRoom(room);
         lobbyController.getUpdater().setRunning(false);
+        lobbyController.setChosenRoom(room);
     }
 
 

@@ -53,8 +53,8 @@ public class CreateRoom implements EventHandler<InputEvent> {
         if (isNull(objectWrapper.getObject())) {
             handleAlert(createRoomForm);
         } else {
-            lobbyController.setChosenRoom((Room) objectWrapper.getObject());
             lobbyController.getUpdater().setRunning(false);
+            lobbyController.setChosenRoom((Room) objectWrapper.getObject());
         }
     }
 
