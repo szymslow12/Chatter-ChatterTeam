@@ -19,6 +19,7 @@ public class AppController extends Thread {
     private volatile Room chosenRoom;
     private volatile Updater updater;
     private volatile boolean isRunning;
+    private Connection connection;
 
     public AppController(String host, int port, double width, double height) {
         this.appView = new AppView(width, height);
@@ -34,13 +35,14 @@ public class AppController extends Thread {
     public void run() {
         try {
             Socket socket = new Socket(host, port);
-            Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
+            this.connection = new Connection(socket.getOutputStream(), socket.getInputStream());
             runLoginController(connection);
             while (isRunning) {
                 runLobbyController(connection);
                 runRoomController(connection);
             }
-            connection.close();
+//            connection.close();
+            socket.close();
             System.out.println("User exits program...");
         } catch (IOException err) {
             err.printStackTrace();
@@ -124,5 +126,10 @@ public class AppController extends Thread {
 
     public ExitProgram getExitProgram() {
         return new ExitProgram(this);
+    }
+
+
+    public Connection getConnection() {
+        return connection;
     }
 }
