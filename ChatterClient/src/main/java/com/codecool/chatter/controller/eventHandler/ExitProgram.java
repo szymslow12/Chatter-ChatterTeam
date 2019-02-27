@@ -14,9 +14,9 @@ public class ExitProgram implements EventHandler<WindowEvent> {
 
     @Override
     public void handle(WindowEvent windowEvent) {
-        appController.setChosenRoom(null);
-        appController.setClient(null);
         appController.getUpdater().setRunning(false);
         appController.setRunning(false);
+        appController.setChosenRoom(null);
+        appController.setClient(null);
     }
 }
