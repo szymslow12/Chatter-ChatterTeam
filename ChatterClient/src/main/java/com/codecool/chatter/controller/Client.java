@@ -35,14 +35,4 @@ public class Client {
         primaryStage.setTitle("Chatter Client");
         primaryStage.setOnCloseRequest(appController.getExitProgram());
     }
-
-
-    public Scene getMainScene() {
-        return new Scene(appController.getAppView());
-    }
-
-
-    public ExitProgram getExitProgram() {
-        return appController.getExitProgram();
-    }
 }
