@@ -4,6 +4,8 @@ public class ClientInfo {
 
     private Connection connection;
     private User user;
+    private boolean allowRoomUpdate = false;
+    private boolean allowLobbyUpdate = false;
     private int latestMsgIndex;
     private int lastNumberOfUsersInLobby;
     private int lastNumberOfRoomsInLobby;
@@ -12,6 +14,22 @@ public class ClientInfo {
     public ClientInfo(Connection connection, User user) {
         this.connection = connection;
         this.user = user;
+    }
+
+    public boolean isAllowRoomUpdate() {
+        return allowRoomUpdate;
+    }
+
+    public void setAllowRoomUpdate(boolean allowRoomUpdate) {
+        this.allowRoomUpdate = allowRoomUpdate;
+    }
+
+    public boolean isAllowLobbyUpdate() {
+        return allowLobbyUpdate;
+    }
+
+    public void setAllowLobbyUpdate(boolean allowLobbyUpdate) {
+        this.allowLobbyUpdate = allowLobbyUpdate;
     }
 
     public User getUser() {
