@@ -29,8 +29,8 @@ public class RoomView extends Pane implements Updatable {
 
     public RoomView(double width, double height) {
         super();
-        userListBox = new UserListBox(300d, Client.HEIGHT - 100);
-        chatForm = new ChatForm(Client.WIDTH - 300d, Client.HEIGHT);
+        userListBox = new UserListBox(300d, Client.HEIGHT * 0.9 - 100);
+        chatForm = new ChatForm(Client.WIDTH - 340d, Client.HEIGHT);
         backToLobbyButton = new ButtonView(50, 50);
         setSizes(width, height);
     }
@@ -77,10 +77,11 @@ public class RoomView extends Pane implements Updatable {
 
 
     private void setPositions() {
-        userListBox.setTranslateY(100);
+        titleRoomButton.setTranslateY(Client.HEIGHT * 0.1);
+        userListBox.setTranslateY(titleRoomButton.getTranslateY() + 100);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
         backToLobbyButton.setTranslateX(0);
-        backToLobbyButton.setTranslateY(10);
+        backToLobbyButton.setTranslateY(Client.HEIGHT * 0.05 - 20);
     }
 
 
