@@ -36,19 +36,4 @@ public class RoomController extends Controller<Room> {
         updater.setUpdatable(roomView);
         updater.start();
     }
-
-
-    public RoomView getRoomView() {
-        return (RoomView) getUpdatable();
-    }
-
-
-//    public Room getRoom() {
-//        return room;
-//    }
-
-
-//    public void setRoom(Room room) {
-//        this.room = room;
-//    }
 }
