@@ -26,6 +26,4 @@ public abstract class Controller<T> {
     public void setUpdatable(Updatable updatable) {
         this.updatable = updatable;
     }
-
-    public abstract void updateView();
 }

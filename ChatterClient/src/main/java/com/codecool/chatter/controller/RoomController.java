@@ -38,12 +38,6 @@ public class RoomController extends Controller<Room> {
     }
 
 
-    @Override
-    public void updateView() {
-        getRoomView().getChatForm().updateChat(getControlType().getChat());
-    }
-
-
     public RoomView getRoomView() {
         return (RoomView) getUpdatable();
     }
