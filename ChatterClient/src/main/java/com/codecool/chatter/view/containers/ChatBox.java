@@ -24,6 +24,7 @@ public class ChatBox extends ScrollContainer {
         messageList.stream().forEach(message -> addMessageView(message));
         setItemsSpacing(0);
         getScrollPane().setVvalue(1.0);
+        getScrollBar().setVisible(false);
         getChildren().addAll(getScrollPane(), getScrollBar());
     }
 
