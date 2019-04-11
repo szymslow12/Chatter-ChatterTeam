@@ -1,5 +1,6 @@
 package com.codecool.chatter.controller;
 
+import com.codecool.chatter.controller.eventHandler.BackToLobby;
 import com.codecool.chatter.controller.eventHandler.SendMessage;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
@@ -25,7 +26,8 @@ public class RoomController {
     public void run(AppView appView, User client) {
         client.setCurrentRoomId(room.getId());
         room.getChat().setClient(client);
-        roomView.renderRoomView(room, new SendMessage(connection, this, client));
+        // TODO write Controller<T> interface or some kind of abstarct class
+        roomView.renderRoomView(room, new SendMessage(connection, this, client), new BackToLobby(this));
         appView.getChildren().add(roomView);
         startRoomUpdater();
     }
@@ -46,7 +48,13 @@ public class RoomController {
         return roomView;
     }
 
+
     public Room getRoom() {
         return room;
+    }
+
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }
