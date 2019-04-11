@@ -53,7 +53,8 @@ public class RoomView extends Pane implements Updatable {
             )
         );
         titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, room);
-        backToLobbyButton = backToLobbyButton.getButton("Lobby", backToLobby);
+        String arrow = Character.toString((char) 11013);
+        backToLobbyButton = backToLobbyButton.getButton(arrow, backToLobby);
         userListBox.renderUserListBox(room);
         chatForm.renderChatForm(room.getChat(), onEnter);
         setPositions();
