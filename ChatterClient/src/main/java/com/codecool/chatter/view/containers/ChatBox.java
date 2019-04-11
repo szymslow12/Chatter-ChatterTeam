@@ -54,6 +54,7 @@ public class ChatBox extends ScrollContainer {
                 addMessageView(message);
             }
         });
+        getScrollPane().setVvalue(1.0);
     }
 
 
