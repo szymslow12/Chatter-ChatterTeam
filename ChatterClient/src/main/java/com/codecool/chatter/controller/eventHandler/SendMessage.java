@@ -1,7 +1,6 @@
 package com.codecool.chatter.controller.eventHandler;
 
 import com.codecool.chatter.controller.Controller;
-import com.codecool.chatter.controller.RoomController;
 import com.codecool.chatter.model.*;
 import com.codecool.chatter.view.RoomView;
 import com.codecool.chatter.view.interactive.InputField;
@@ -14,12 +13,10 @@ import java.io.IOException;
 
 public class SendMessage implements EventHandler<KeyEvent> {
 
-    private Connection connection;
     private Controller<Room> roomController;
     private User client;
 
-    public SendMessage(Connection connection, Controller<Room> roomController, User client) {
-        this.connection = connection;
+    public SendMessage(Controller<Room> roomController, User client) {
         this.roomController = roomController;
         this.client = client;
     }
@@ -35,7 +32,7 @@ public class SendMessage implements EventHandler<KeyEvent> {
             String message = textInputControl.getText().trim();
             try {
                 Message toSend = new Message(client, message);
-                connection.write(new ObjectWrapper<>("message", toSend));
+                roomController.getConnection().write(new ObjectWrapper<>("message", toSend));
                 roomController.getControlType().getChat().addMessage(toSend);
                 textInputControl.clear();
                 roomView.getChatForm().updateChat(roomController.getControlType().getChat());
