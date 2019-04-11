@@ -94,7 +94,7 @@ public class AppController extends Thread {
                 return;
             }
         }
-        System.out.println("Entering Lobby" + chosenRoom.getName() + "...");
+        System.out.println("Entering Lobby...");
     }
 
 
