@@ -70,7 +70,7 @@ public class AppController extends Thread {
             lobbyController.run(appView, client);
         });
         while (chosenRoom == null) {
-            chosenRoom = lobbyController.getChosenRoom();
+            chosenRoom = lobbyController.getControlType();
             if (!isRunning) {
                 chosenRoom = new Room(null);
                 return;
