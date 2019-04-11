@@ -1,6 +1,6 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.controller.LobbyController;
+import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
@@ -15,9 +15,9 @@ import java.util.Optional;
 
 public class EnterRoom implements EventHandler<InputEvent> {
 
-    private LobbyController lobbyController;
+    private Controller<Room> lobbyController;
 
-    public EnterRoom(LobbyController lobbyController) {
+    public EnterRoom(Controller<Room> lobbyController) {
         this.lobbyController = lobbyController;
     }
 
@@ -53,7 +53,7 @@ public class EnterRoom implements EventHandler<InputEvent> {
         }
         Room room = (Room) objectWrapper.getObject();
         lobbyController.getUpdater().setRunning(false);
-        lobbyController.setChosenRoom(room);
+        lobbyController.setControlType(room);
     }
 
 
