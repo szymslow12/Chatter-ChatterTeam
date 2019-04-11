@@ -18,7 +18,7 @@ public class SendMessage implements EventHandler<KeyEvent> {
     private Controller<Room> roomController;
     private User client;
 
-    public SendMessage(Connection connection, RoomController roomController, User client) {
+    public SendMessage(Connection connection, Controller<Room> roomController, User client) {
         this.connection = connection;
         this.roomController = roomController;
         this.client = client;

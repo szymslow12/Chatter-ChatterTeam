@@ -11,15 +11,12 @@ import com.codecool.chatter.view.RoomView;
 public class RoomController extends Controller<Room> {
 
     private Connection connection;
-    //private RoomView roomView;
-//    private Room room;
     private Updater updater;
 
     public RoomController(Connection connection, Room room, Updater updater) {
         this.connection = connection;
         setControlType(room);
         setUpdatable(new RoomView(Client.WIDTH, Client.HEIGHT));
-//        this.room = room;
         this.updater = updater;
     }
 
@@ -29,7 +26,6 @@ public class RoomController extends Controller<Room> {
         Room room = getControlType();
         client.setCurrentRoomId(room.getId());
         room.getChat().setClient(client);
-        // TODO write Controller<T> interface or some kind of abstarct class
         roomView.renderRoomView(room, new SendMessage(connection, this, client), new BackToLobby(this));
         appView.getChildren().add(roomView);
         startRoomUpdater(roomView);
