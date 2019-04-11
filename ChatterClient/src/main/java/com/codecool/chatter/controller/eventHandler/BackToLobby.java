@@ -15,7 +15,7 @@ public class BackToLobby implements EventHandler<InputEvent> {
 
     @Override
     public void handle(InputEvent mouseEvent) {
+        System.out.println("Exiting room=" + roomController.getRoom().getName() + "...");
         roomController.setRoom(null);
-        System.out.println("Exiting Room...");
     }
 }
