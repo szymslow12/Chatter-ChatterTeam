@@ -94,6 +94,8 @@ public class AppController extends Thread {
                 return;
             }
         }
+        updater = new Updater(client, connection);
+        client.setCurrentRoomId(null);
         System.out.println("Entering Lobby...");
     }
 
