@@ -1,7 +1,9 @@
 package com.codecool.chatter.controller.eventHandler;
 
+import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.controller.RoomController;
 import com.codecool.chatter.model.*;
+import com.codecool.chatter.view.RoomView;
 import com.codecool.chatter.view.interactive.InputField;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputControl;
@@ -13,7 +15,7 @@ import java.io.IOException;
 public class SendMessage implements EventHandler<KeyEvent> {
 
     private Connection connection;
-    private RoomController roomController;
+    private Controller<Room> roomController;
     private User client;
 
     public SendMessage(Connection connection, RoomController roomController, User client) {
@@ -27,15 +29,16 @@ public class SendMessage implements EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            InputField inputField = roomController.getRoomView().getChatForm().getInputField();
+            RoomView roomView = (RoomView) roomController.getUpdatable();
+            InputField inputField = roomView.getChatForm().getInputField();
             TextInputControl textInputControl = inputField.getTextInputControl();
             String message = textInputControl.getText().trim();
             try {
                 Message toSend = new Message(client, message);
                 connection.write(new ObjectWrapper<>("message", toSend));
-                roomController.getRoom().getChat().addMessage(toSend);
+                roomController.getControlType().getChat().addMessage(toSend);
                 textInputControl.clear();
-                roomController.updateChat();
+                roomController.updateView();
             } catch (IOException e) {
                 e.printStackTrace();
             }

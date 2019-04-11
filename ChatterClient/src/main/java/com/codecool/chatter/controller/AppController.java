@@ -89,7 +89,7 @@ public class AppController extends Thread {
             roomController.run(appView, client);
         });
         while (chosenRoom != null) {
-            chosenRoom = roomController.getRoom();
+            chosenRoom = roomController.getControlType();
             if (!isRunning) {
                 return;
             }

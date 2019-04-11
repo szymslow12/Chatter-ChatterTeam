@@ -1,21 +1,22 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.controller.RoomController;
+import com.codecool.chatter.controller.Controller;
+import com.codecool.chatter.model.Room;
 import javafx.event.EventHandler;
 import javafx.scene.input.InputEvent;
 
 public class BackToLobby implements EventHandler<InputEvent> {
 
-    private RoomController roomController;
+    private Controller<Room> roomController;
 
-    public BackToLobby(RoomController roomController) {
+    public BackToLobby(Controller<Room> roomController) {
         this.roomController = roomController;
     }
 
 
     @Override
     public void handle(InputEvent mouseEvent) {
-        System.out.println("Exiting room=" + roomController.getRoom().getName() + "...");
-        roomController.setRoom(null);
+        System.out.println("Exiting room=" + roomController.getControlType().getName() + "...");
+        roomController.setControlType(null);
     }
 }
