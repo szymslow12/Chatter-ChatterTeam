@@ -77,13 +77,13 @@ public class DataStreamController extends Thread {
 //        copyRoom.getChat().setMessages(messageToSend);
         room.getChat().setMessages(messageToSend);
         client.setLastNumberOfUsersInRoom(room.getUsers().size());
-        client.getConnection().write(appController.wrapObject("updateRoom", room));
+        client.getConnection().sendDataByUDPConnection(appController.wrapObject("updateRoom", room));
     }
 
     private void lobbyUpdate(ClientInfo client) throws IOException {
         client.setLastNumberOfRoomsInLobby(appController.getLobby().getRooms().size());
         client.setLastNumberOfUsersInLobby(appController.getLobby().getUsers().size());
-        client.getConnection().write(appController.wrapObject("lobby", appController.getLobby()));
+        client.getConnection().sendDataByUDPConnection(appController.wrapObject("lobby", appController.getLobby()));
     }
 
     private List<Message> getMessageToSend(ClientInfo client, Room room) {
