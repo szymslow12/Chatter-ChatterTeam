@@ -26,7 +26,7 @@ public class BackToLobby implements EventHandler<InputEvent> {
         try {
             Connection.waitForAccess(connection);
             connection.setAvailable(false);
-            connection.write(new ObjectWrapper<>("chosenRoomId", null));
+            connection.write(new ObjectWrapper<>("exitRoom", roomController.getControlType()));
             roomController.getUpdater().setRunning(false);
             roomController.setControlType(null);
             connection.setAvailable(true);
