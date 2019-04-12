@@ -45,18 +45,23 @@ public class Updater extends Thread {
     @Override
     public void run() {
         System.out.println("started Updater=" + this.getId() + "...");
-        while (isRunning) {
+        do {
             try {
+                System.out.println("Checks for access...");
                 Connection.waitForAccess(connection);
+                System.out.println("Checks break conditions... isRunning=" + isRunning + " connection.isClosed()=" + connection.isClosed());
                 if (!isRunning || connection.isClosed()) {
                     break;
                 }
                 connection.setAvailable(false);
+                System.out.println("Waits for response...");
                 ObjectWrapper objectWrapper = connection.read();
+                System.out.println("Updating View...");
                 Platform.runLater(() -> {
                     updatable.updateView(objectWrapper, object, eventHandler);
                 });
                 connection.setAvailable(true);
+                System.out.println("Sleep for 50 milis");
                 sleep(50);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -66,6 +71,7 @@ public class Updater extends Thread {
                 e.printStackTrace();
             }
         }
+        while (isRunning);
         System.out.println("stop Updater=" + this.getId() + "...");
     }
 }

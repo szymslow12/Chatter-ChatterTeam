@@ -9,41 +9,13 @@ import javafx.scene.input.InputEvent;
 
 import java.io.IOException;
 
-public class LobbyController {
+public class LobbyController extends Controller<Room>{
 
-    private Connection connection;
     private Lobby lobby;
-    private LobbyView lobbyView;
-    private Updater updater;
-    private volatile Room chosenRoom;
-
 
     public LobbyController(Connection connection, Updater updater) {
-        this.connection = connection;
-        this.updater = updater;
+        super(null, new LobbyView(Client.WIDTH, Client.HEIGHT), connection, updater);
         lobby = null;
-        chosenRoom = null;
-        lobbyView = new LobbyView(Client.WIDTH, Client.HEIGHT);
-    }
-
-
-    public void setChosenRoom(Room room) {
-        this.chosenRoom = room;
-    }
-
-
-    public Room getChosenRoom() {
-        return chosenRoom;
-    }
-
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-
-    public LobbyView getLobbyView() {
-        return lobbyView;
     }
 
 
@@ -51,10 +23,11 @@ public class LobbyController {
         try {
             EventHandler<InputEvent> enterRoom = new EnterRoom(this);
             EventHandler<InputEvent> createRoom = new CreateRoom(this);
+            LobbyView lobbyView = (LobbyView) getUpdatable();
             getLobbyFromServer();
             lobbyView.renderLobbyView(lobby, client, enterRoom, createRoom);
             appView.getChildren().add(lobbyView);
-            startLobbyUpdater(enterRoom);
+            startLobbyUpdater(enterRoom, lobbyView);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,18 +37,15 @@ public class LobbyController {
 
 
     private void getLobbyFromServer() throws IOException, ClassNotFoundException {
-        lobby = (Lobby) connection.read().getObject();
+        lobby = (Lobby) getConnection().read().getObject();
         System.out.println("Lobby has been loaded!");
     }
 
 
-    private void startLobbyUpdater(EventHandler<InputEvent> eventHandler) {
+    private void startLobbyUpdater(EventHandler<InputEvent> eventHandler, LobbyView lobbyView) {
+        Updater updater = getUpdater();
         updater.setEventHandler(eventHandler);
         updater.setUpdatable(lobbyView);
         updater.start();
-    }
-
-    public Updater getUpdater() {
-        return updater;
     }
 }

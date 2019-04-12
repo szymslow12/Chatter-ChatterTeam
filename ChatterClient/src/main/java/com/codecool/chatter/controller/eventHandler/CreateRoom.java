@@ -1,6 +1,6 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.controller.LobbyController;
+import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
@@ -15,16 +15,16 @@ import java.io.IOException;
 
 public class CreateRoom implements EventHandler<InputEvent> {
 
-    private LobbyController lobbyController;
+    private Controller<Room> lobbyController;
 
-    public CreateRoom(LobbyController lobbyController) {
+    public CreateRoom(Controller<Room> lobbyController) {
         this.lobbyController = lobbyController;
     }
 
     @Override
     public void handle(InputEvent mouseEvent) {
         Connection connection = lobbyController.getConnection();
-        LobbyView lobbyView = lobbyController.getLobbyView();
+        LobbyView lobbyView = (LobbyView) lobbyController.getUpdatable();
         CreateRoomForm createRoomForm = lobbyView.getCreateRoomForm();
         TextInputControl textInputControl = createRoomForm.getInputField().getTextInputControl();
         String roomName = textInputControl.getText();
@@ -54,7 +54,7 @@ public class CreateRoom implements EventHandler<InputEvent> {
             handleAlert(createRoomForm);
         } else {
             lobbyController.getUpdater().setRunning(false);
-            lobbyController.setChosenRoom((Room) objectWrapper.getObject());
+            lobbyController.setControlType((Room) objectWrapper.getObject());
         }
     }
 

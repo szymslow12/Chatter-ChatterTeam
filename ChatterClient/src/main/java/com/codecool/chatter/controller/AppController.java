@@ -70,7 +70,7 @@ public class AppController extends Thread {
             lobbyController.run(appView, client);
         });
         while (chosenRoom == null) {
-            chosenRoom = lobbyController.getChosenRoom();
+            chosenRoom = lobbyController.getControlType();
             if (!isRunning) {
                 chosenRoom = new Room(null);
                 return;
@@ -89,12 +89,14 @@ public class AppController extends Thread {
             roomController.run(appView, client);
         });
         while (chosenRoom != null) {
-            chosenRoom = roomController.getRoom();
+            chosenRoom = roomController.getControlType();
             if (!isRunning) {
                 return;
             }
         }
-        System.out.println("Entering Lobby" + chosenRoom.getName() + "...");
+        updater = new Updater(client, connection);
+        client.setCurrentRoomId(null);
+        System.out.println("Entering Lobby...");
     }
 
 
