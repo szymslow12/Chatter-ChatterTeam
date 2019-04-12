@@ -22,13 +22,14 @@ public class Server {
 
         try {
             serverSocket = new ServerSocket(port);
+            DatagramSocket datagramSocket = new DatagramSocket();
+            InetAddress inetAddress = InetAddress.getByName("localhost");
 //            datagramSocket = new DatagramSocket(port);
 
             while (true) {
 
                 Socket socket = serverSocket.accept();
-                DatagramSocket datagramSocket = new DatagramSocket(8081);
-                InetAddress inetAddress = InetAddress.getByName("localhost");
+
 
 //                DatagramPacket packet = new DatagramPacket(buf, buf.length);
 //                datagramSocket.receive(packet);
