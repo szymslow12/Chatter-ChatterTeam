@@ -1,6 +1,7 @@
 package com.codecool.chatter.model;
 
 import java.io.*;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
@@ -82,5 +83,17 @@ public class Connection {
         objectOutputStream.close();
         objectInputStream.close();
         isClosed = true;
+    }
+
+
+    public ObjectWrapper readUpdatedData() throws IOException, ClassNotFoundException {
+        byte[] buffer = new byte[5000];
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+        datagramSocket.receive(packet);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer);
+        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        Object object = objectInputStream.readObject();
+        return (ObjectWrapper) object;
+
     }
 }
