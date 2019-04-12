@@ -15,15 +15,12 @@ public class Connection {
     private Socket socket;
     private DatagramSocket datagramSocket;
     private InetAddress inetAddress;
-//    private DatagramPacket packet;
-    private byte[] buf = new byte[256];
 
 
-    public Connection(Socket socket, DatagramSocket datagramSocket, InetAddress inetAddress) throws IOException {
-//        this.packet = packet;
+    public Connection(Socket socket) throws IOException {
         this.socket = socket;
-        this.datagramSocket = datagramSocket;
-        this.inetAddress = inetAddress;
+        this.datagramSocket = new DatagramSocket();
+        this.inetAddress = InetAddress.getByName("localhost");
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.flush();
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -50,7 +47,7 @@ public class Connection {
         bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(objectWrapper);
-        buf = bos.toByteArray();
+        byte[] buf = bos.toByteArray();
         DatagramPacket response = new DatagramPacket(buf, buf.length, inetAddress, 8081);
         datagramSocket.send(response);
     }
