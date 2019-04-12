@@ -88,9 +88,11 @@ public class Connection {
 
 
     public ObjectWrapper readUpdatedData() throws IOException, ClassNotFoundException {
-        byte[] buffer = new byte[5000];
+        byte[] buffer = "lobby".getBytes();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+        System.out.println("before receive packet");
         datagramSocket.receive(packet);
+        System.out.println("after receive packet");
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer);
         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
         Object object = objectInputStream.readObject();
