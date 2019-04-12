@@ -34,7 +34,7 @@ public class DataStreamController extends Thread {
         for (int i = 0; i < clients.size(); i++) {
             ClientInfo client = clients.get(i);
             user = client.getUser();
-            if (user.getCurrentRoomId() == null /*&& isLobbyChange(client)*/) {
+            if (user.getCurrentRoomId() == null && isLobbyChange(client)) {
                 System.out.println("sending looby to: " + client.getUser().getNickname());
                 lobbyUpdate(client);
             }
@@ -47,8 +47,7 @@ public class DataStreamController extends Thread {
 
     private boolean isRoomChange(ClientInfo client) {
         Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
-//        System.out.println("last number of users in room: " + client.getLastNumberOfUsersInRoom());
-//        System.out.println("numbers of users in room: " + room.getUsers().size());
+
         boolean isDifferentUsersCount = client.getLastNumberOfUsersInRoom() != room.getUsers().size();
 
         long lastMsgID = 1;
@@ -56,8 +55,6 @@ public class DataStreamController extends Thread {
             int lastIndex = room.getChat().getMessages().size() - 1;
             lastMsgID = room.getChat().getMessages().get(lastIndex).getId();
         }
-//        System.out.println(lastMsgID + " last msgId");
-//        System.out.println(client.getLatestMsgIndex() + " last clinet id msg");
         boolean isDifferentLastMsg = lastMsgID != client.getLatestMsgIndex();
 
         return isDifferentUsersCount || isDifferentLastMsg;
@@ -72,9 +69,6 @@ public class DataStreamController extends Thread {
     private void roomUpdate(ClientInfo client) throws IOException {
         Room room = appController.getRoomById(client.getUser().getCurrentRoomId());
         List<Message> messageToSend = getMessageToSend(client, room);
-//        Room copyRoom = new Room(room.getName());
-//        copyRoom.setUsers(room.getUsers());
-//        copyRoom.getChat().setMessages(messageToSend);
         room.getChat().setMessages(messageToSend);
         client.setLastNumberOfUsersInRoom(room.getUsers().size());
         client.getConnection().sendDataByUDPConnection(appController.wrapObject("updateRoom", room));
