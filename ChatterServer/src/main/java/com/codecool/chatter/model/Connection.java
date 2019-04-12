@@ -13,14 +13,16 @@ public class Connection {
     private ObjectInputStream objectInputStream;
     private Socket socket;
     private DatagramSocket datagramSocket;
-    private DatagramPacket packet;
+    private InetAddress inetAddress;
+//    private DatagramPacket packet;
     private byte[] buf = new byte[256];
 
 
-    public Connection(Socket socket, DatagramPacket packet) throws IOException {
-        this.packet = packet;
+    public Connection(Socket socket, DatagramSocket datagramSocket, InetAddress inetAddress) throws IOException {
+//        this.packet = packet;
         this.socket = socket;
-        datagramSocket = new DatagramSocket();
+        this.datagramSocket = datagramSocket;
+        this.inetAddress = inetAddress;
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.flush();
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -44,13 +46,11 @@ public class Connection {
     }
 
     public void sendDataByUDPConnection(ObjectWrapper objectWrapper) throws IOException{
-        InetAddress clientAdress = packet.getAddress();
-        int clientPort = packet.getPort();
         bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(objectWrapper);
         buf = bos.toByteArray();
-        DatagramPacket response = new DatagramPacket(buf, buf.length, clientAdress, clientPort);
+        DatagramPacket response = new DatagramPacket(buf, buf.length, inetAddress, 8081);
         datagramSocket.send(response);
     }
 
