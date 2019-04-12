@@ -47,20 +47,20 @@ public class Updater extends Thread {
         System.out.println("started Updater=" + this.getId() + "...");
         do {
             try {
-                System.out.println("Checks for access...");
-                Connection.waitForAccess(connection);
-                System.out.println("Checks break conditions... isRunning=" + isRunning + " connection.isClosed()=" + connection.isClosed());
-                if (!isRunning || connection.isClosed()) {
+//                System.out.println("Checks for access...");
+//                Connection.waitForAccess(connection);
+//                connection.setAvailable(false);
+                System.out.println("Waits for response...");
+                ObjectWrapper data = receiveDataIfAvailable();
+                System.out.println("Checks break conditions... isRunning=" + isRunning + " ObjectWrapper=" + data);
+                if (shouldStop(data)) {
                     break;
                 }
-                connection.setAvailable(false);
-                System.out.println("Waits for response...");
-                ObjectWrapper objectWrapper = connection.read();
                 System.out.println("Updating View...");
                 Platform.runLater(() -> {
-                    updatable.updateView(objectWrapper, object, eventHandler);
+                    updatable.updateView(data, object, eventHandler);
                 });
-                connection.setAvailable(true);
+//                connection.setAvailable(true);
                 System.out.println("Sleep for 50 milis");
                 sleep(50);
             } catch (IOException e) {
@@ -73,5 +73,19 @@ public class Updater extends Thread {
         }
         while (isRunning);
         System.out.println("stop Updater=" + this.getId() + "...");
+    }
+
+
+    private boolean shouldStop(ObjectWrapper data) {
+        return !isRunning || data == null;
+    }
+
+
+    private ObjectWrapper receiveDataIfAvailable() throws IOException, ClassNotFoundException {
+        if (connection.isClosed()) {
+            return null;
+        } else {
+            return connection.readUpdatedData();
+        }
     }
 }

@@ -8,6 +8,8 @@ import com.codecool.chatter.view.AppView;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class AppController extends Thread {
@@ -34,7 +36,13 @@ public class AppController extends Thread {
     public void run() {
         try {
             Socket socket = new Socket(host, port);
-            Connection connection = new Connection(socket.getOutputStream(), socket.getInputStream());
+            DatagramSocket datagramSocket = new DatagramSocket();
+            InetAddress address = InetAddress.getByName("localhost");
+            Connection connection = new Connection(socket.getOutputStream(),
+                    socket.getInputStream(),
+                    datagramSocket,
+                    address);
+
             runLoginController(connection);
             while (isRunning) {
                 runLobbyController(connection);
