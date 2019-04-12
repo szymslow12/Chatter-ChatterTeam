@@ -1,16 +1,24 @@
 package com.codecool.chatter.model;
 
 import java.io.*;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class Connection {
 
+    private DatagramSocket datagramSocket;
+    private InetAddress address;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private volatile boolean isAvailable;
     private boolean isClosed;
 
 
-    public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
+    public Connection(OutputStream outputStream, InputStream inputStream,
+                      DatagramSocket datagramSocket, InetAddress address) throws IOException {
+
+        this.datagramSocket = datagramSocket;
+        this.address = address;
         this.objectOutputStream = new ObjectOutputStream(outputStream);
         this.objectOutputStream.flush();
         this.objectInputStream = new ObjectInputStream(inputStream);
