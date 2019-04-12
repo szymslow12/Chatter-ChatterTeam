@@ -1,6 +1,6 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.controller.LobbyController;
+import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
@@ -15,9 +15,9 @@ import java.util.Optional;
 
 public class EnterRoom implements EventHandler<InputEvent> {
 
-    private LobbyController lobbyController;
+    private Controller<Room> lobbyController;
 
-    public EnterRoom(LobbyController lobbyController) {
+    public EnterRoom(Controller<Room> lobbyController) {
         this.lobbyController = lobbyController;
     }
 
@@ -30,12 +30,16 @@ public class EnterRoom implements EventHandler<InputEvent> {
         Connection connection = lobbyController.getConnection();
         if (confirmation.get() == ButtonType.OK) {
             try {
-                connection.write(new ObjectWrapper("chosenRoomId", room.getId()));
-                lobbyController.getUpdater().interrupt();
+                Connection.waitForAccess(connection);
+                connection.setAvailable(false);
+                connection.write(new ObjectWrapper<>("chosenRoomId", room.getId()));
                 setChosenRoom(connection);
+                connection.setAvailable(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -48,7 +52,8 @@ public class EnterRoom implements EventHandler<InputEvent> {
             objectWrapper = connection.read();
         }
         Room room = (Room) objectWrapper.getObject();
-        lobbyController.setChosenRoom(room);
+        lobbyController.getUpdater().setRunning(false);
+        lobbyController.setControlType(room);
     }
 
 

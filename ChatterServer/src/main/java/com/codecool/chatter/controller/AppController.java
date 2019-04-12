@@ -20,7 +20,10 @@ public class AppController {
     }
 
     public void addClient(Connection out, User user) {
-        clients.add(new ClientInfo(out, user));
+        ClientInfo client = new ClientInfo(out, user);
+        client.setLastNumberOfUsersInLobby(lobby.getUsers().size());
+        client.setLastNumberOfRoomsInLobby(lobby.getRooms().size());
+        clients.add(client);
     }
 
     public void removeClient(User user) {
@@ -28,7 +31,6 @@ public class AppController {
             ClientInfo client = clients.get(i);
             if (client.getUser().equals(user)) {
                 System.out.println("remove user: " + client.getUser().getNickname());
-                ;
                 clients.remove(client);
             }
         }
@@ -42,12 +44,28 @@ public class AppController {
         return lobby;
     }
 
+//    public ObjectWrapper wrapObject(String action, Object object) {
+//        return new ObjectWrapper(action, object);
+//    }
+
     public ObjectWrapper wrapObject(String action, Object object) {
-        return new ObjectWrapper(action, object);
+        if (object == null) {
+            return new ObjectWrapper<Object>(action, null);
+        } else if (object instanceof Lobby) {
+            return new ObjectWrapper<>(action, (Lobby) object);
+        } else if (object instanceof Room) {
+            return new ObjectWrapper<>(action, (Room) object);
+        } else if (object instanceof Boolean) {
+            return new ObjectWrapper<>(action, (Boolean) object);
+        } else if (object instanceof Message) {
+            return new ObjectWrapper<>(action, (Message) object);
+        } else {
+            return null;
+        }
+
     }
 
     private void addUserAndRoomForTest() {
-        ;
         Room room = new Room("towarzyski");
         Chat chat = new Chat();
         room.setChat(chat);
@@ -69,7 +87,7 @@ public class AppController {
                 answer = handleMessage(receiveData, user);
                 break;
         }
-        return new ObjectWrapper(action, answer);
+        return wrapObject(action, answer);
     }
 
     private Object handleMessage(Object receiveData, User user) {
@@ -89,8 +107,9 @@ public class AppController {
         if (checkRoomByIdExist(id)) {
             Room room = getRoomById(id);
             room.addUser(user);
-            ClientInfo clientByUser = getClientByUser(user);
-            clientByUser.setLatestMsgIndex(msgId);
+            ClientInfo client = getClientByUser(user);
+            client.setLatestMsgIndex(msgId);
+            client.setLastNumberOfUsersInRoom(room.getUsers().size());
             return room;
         }
         return IllegalArgumentException.class;

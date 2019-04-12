@@ -15,14 +15,14 @@ public class Updater extends Thread {
     private EventHandler<InputEvent> eventHandler;
     private Connection connection;
     private Object object;
-    private volatile boolean isReceived;
+    private volatile boolean isRunning;
 
 
 
     public Updater(Object object, Connection connection) {
         this.object = object;
         this.connection = connection;
-        isReceived = true;
+        isRunning = true;
         setName("Updater");
     }
 
@@ -37,31 +37,41 @@ public class Updater extends Thread {
     }
 
 
-    public void setReceived(boolean isReceived) {
-        this.isReceived = isReceived;
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
     }
+
 
     @Override
     public void run() {
-        System.out.println("started Updater...");
-        try {
-            while (true) {
-                if (!isReceived) {
-                    try {
-                        ObjectWrapper objectWrapper = connection.read();
-                        Platform.runLater(() -> {
-                            updatable.updateView(objectWrapper, object, eventHandler);
-                        });
-                        sleep(50);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+        System.out.println("started Updater=" + this.getId() + "...");
+        do {
+            try {
+                System.out.println("Checks for access...");
+                Connection.waitForAccess(connection);
+                System.out.println("Checks break conditions... isRunning=" + isRunning + " connection.isClosed()=" + connection.isClosed());
+                if (!isRunning || connection.isClosed()) {
+                    break;
                 }
+                connection.setAvailable(false);
+                System.out.println("Waits for response...");
+                ObjectWrapper objectWrapper = connection.read();
+                System.out.println("Updating View...");
+                Platform.runLater(() -> {
+                    updatable.updateView(objectWrapper, object, eventHandler);
+                });
+                connection.setAvailable(true);
+                System.out.println("Sleep for 50 milis");
+                sleep(50);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+        while (isRunning);
+        System.out.println("stop Updater=" + this.getId() + "...");
     }
 }

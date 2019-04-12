@@ -1,12 +1,12 @@
 package com.codecool.chatter.view;
 
-import com.codecool.chatter.ChatterClient;
-import com.codecool.chatter.model.Chat;
+import com.codecool.chatter.controller.Client;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import com.codecool.chatter.model.interfaces.Updatable;
 import com.codecool.chatter.view.containers.UserListBox;
 import com.codecool.chatter.view.form.ChatForm;
+import com.codecool.chatter.view.interactive.ButtonView;
 import com.codecool.chatter.view.interactive.RoomButton;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,12 +24,14 @@ public class RoomView extends Pane implements Updatable {
     private UserListBox userListBox;
     private ChatForm chatForm;
     private RoomButton titleRoomButton;
+    private ButtonView backToLobbyButton;
 
 
     public RoomView(double width, double height) {
         super();
-        userListBox = new UserListBox(300d, ChatterClient.HEIGHT - 100);
-        chatForm = new ChatForm(ChatterClient.WIDTH - 300d, ChatterClient.HEIGHT);
+        userListBox = new UserListBox(300d, Client.HEIGHT * 0.9 - 100);
+        chatForm = new ChatForm(Client.WIDTH - 340d, Client.HEIGHT);
+        backToLobbyButton = new ButtonView(50, 50);
         setSizes(width, height);
     }
 
@@ -41,7 +43,7 @@ public class RoomView extends Pane implements Updatable {
     }
 
 
-    public void renderRoomView(Room room, EventHandler<KeyEvent> onEnter) {
+    public void renderRoomView(Room room, EventHandler<KeyEvent> onEnter, EventHandler<InputEvent> backToLobby) {
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -51,10 +53,12 @@ public class RoomView extends Pane implements Updatable {
             )
         );
         titleRoomButton = new RoomButton(userListBox.getWidth() + 30, 100, room);
+        String arrow = Character.toString((char) 11013);
+        backToLobbyButton = backToLobbyButton.getButton(arrow, backToLobby);
         userListBox.renderUserListBox(room);
         chatForm.renderChatForm(room.getChat(), onEnter);
         setPositions();
-        getChildren().addAll(titleRoomButton, userListBox, chatForm);
+        getChildren().addAll(titleRoomButton, userListBox, chatForm, backToLobbyButton);
     }
 
 
@@ -73,8 +77,11 @@ public class RoomView extends Pane implements Updatable {
 
 
     private void setPositions() {
-        userListBox.setTranslateY(100);
+        titleRoomButton.setTranslateY(Client.HEIGHT * 0.1);
+        userListBox.setTranslateY(titleRoomButton.getTranslateY() + 100);
         chatForm.setTranslateX(userListBox.getWidth() + 30);
+        backToLobbyButton.setTranslateX(0);
+        backToLobbyButton.setTranslateY(Client.HEIGHT * 0.05 - 20);
     }
 
 

@@ -30,6 +30,7 @@ public class ChatForm extends Pane {
 
 
     private void setInputField(EventHandler<KeyEvent> onEnter) {
+        inputField.setTranslateX(chatBox.getWidth() / 2 - inputField.getWidth() / 2);
         inputField.setTranslateY(chatBox.getHeight());
         inputField.setOnEnterPressed(onEnter);
         inputField.setFont(new Font(20));

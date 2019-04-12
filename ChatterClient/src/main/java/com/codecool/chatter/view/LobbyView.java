@@ -1,6 +1,6 @@
 package com.codecool.chatter.view;
 
-import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.controller.Client;
 import com.codecool.chatter.model.Lobby;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.User;
@@ -22,7 +22,7 @@ public class LobbyView extends Pane implements Updatable {
 
     public LobbyView(double width, double height) {
         super();
-        initializeFields(410d, ChatterClient.WIDTH - 430d, ChatterClient.HEIGHT);
+        initializeFields(410d, Client.WIDTH - 430d, Client.HEIGHT);
         setSize(width, height);
     }
 

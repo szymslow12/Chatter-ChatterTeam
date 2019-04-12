@@ -6,12 +6,16 @@ public class Connection {
 
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
+    private volatile boolean isAvailable;
+    private boolean isClosed;
 
 
     public Connection(OutputStream outputStream, InputStream inputStream) throws IOException {
         this.objectOutputStream = new ObjectOutputStream(outputStream);
         this.objectOutputStream.flush();
         this.objectInputStream = new ObjectInputStream(inputStream);
+        isAvailable = true;
+        isClosed = false;
     }
 
 
@@ -32,11 +36,43 @@ public class Connection {
     }
 
 
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+
     public ObjectWrapper read() throws IOException, ClassNotFoundException {
         Object object = objectInputStream.readObject();
         while (!(object instanceof ObjectWrapper)) {
             object = objectInputStream.readObject();
         }
         return (ObjectWrapper) object;
+    }
+
+
+    public static void waitForAccess(Connection connection) throws InterruptedException {
+        while (!connection.isAvailable()) {
+            Thread.sleep(10);
+            if (connection.isAvailable()) {
+                break;
+            }
+        }
+    }
+
+
+    public void close() throws IOException {
+        objectOutputStream.close();
+        objectInputStream.close();
+        isClosed = true;
     }
 }
