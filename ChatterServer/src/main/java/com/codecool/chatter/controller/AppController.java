@@ -90,6 +90,9 @@ public class AppController {
 
     private Object handleRoomExit(User user) {
         user.setCurrentRoomId(null);
+        Room room = getRoomById(user.getCurrentRoomId());
+        room.getUsers().remove(user);
+
         return lobby;
     }
 
