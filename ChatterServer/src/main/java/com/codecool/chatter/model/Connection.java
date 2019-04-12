@@ -51,9 +51,7 @@ public class Connection {
         ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(objectWrapper);
         buf = bos.toByteArray();
-        String action = objectWrapper.getAction();
-        byte[] actionsBytes = action.getBytes();
-        DatagramPacket response = new DatagramPacket(actionsBytes, actionsBytes.length, inetAddress, 8081);
+        DatagramPacket response = new DatagramPacket(buf, buf.length, inetAddress, 8081);
         datagramSocket.send(response);
     }
 
