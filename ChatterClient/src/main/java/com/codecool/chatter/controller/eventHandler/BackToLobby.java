@@ -2,9 +2,12 @@ package com.codecool.chatter.controller.eventHandler;
 
 import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.model.Connection;
+import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
 import javafx.event.EventHandler;
 import javafx.scene.input.InputEvent;
+
+import java.io.IOException;
 
 public class BackToLobby implements EventHandler<InputEvent> {
 
@@ -23,10 +26,13 @@ public class BackToLobby implements EventHandler<InputEvent> {
         try {
             Connection.waitForAccess(connection);
             connection.setAvailable(false);
+            connection.write(new ObjectWrapper<>("chosenRoomId", null));
             roomController.getUpdater().setRunning(false);
             roomController.setControlType(null);
             connection.setAvailable(true);
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
