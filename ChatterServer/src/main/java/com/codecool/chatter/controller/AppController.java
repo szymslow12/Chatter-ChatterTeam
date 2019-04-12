@@ -44,10 +44,6 @@ public class AppController {
         return lobby;
     }
 
-//    public ObjectWrapper wrapObject(String action, Object object) {
-//        return new ObjectWrapper(action, object);
-//    }
-
     public ObjectWrapper wrapObject(String action, Object object) {
         if (object == null) {
             return new ObjectWrapper<Object>(action, null);
@@ -86,8 +82,15 @@ public class AppController {
             case "message":
                 answer = handleMessage(receiveData, user);
                 break;
+            case "exitRoom":
+                answer = handleRoomExit(user);
         }
         return wrapObject(action, answer);
+    }
+
+    private Object handleRoomExit(User user) {
+        user.setCurrentRoomId(null);
+        return lobby;
     }
 
     private Object handleMessage(Object receiveData, User user) {
