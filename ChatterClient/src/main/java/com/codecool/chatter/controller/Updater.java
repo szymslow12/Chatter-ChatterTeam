@@ -47,21 +47,13 @@ public class Updater extends Thread {
         System.out.println("started Updater=" + this.getId() + "...");
         do {
             try {
-//                System.out.println("Checks for access...");
-//                Connection.waitForAccess(connection);
-//                connection.setAvailable(false);
-                System.out.println("Waits for response...");
                 ObjectWrapper data = receiveDataIfAvailable();
-                System.out.println("Checks break conditions... isRunning=" + isRunning + " ObjectWrapper=" + data);
                 if (shouldStop(data)) {
                     break;
                 }
-                System.out.println("Updating View...");
                 Platform.runLater(() -> {
                     updatable.updateView(data, object, eventHandler);
                 });
-//                connection.setAvailable(true);
-                System.out.println("Sleep for 50 milis");
                 sleep(50);
             } catch (IOException e) {
                 e.printStackTrace();
