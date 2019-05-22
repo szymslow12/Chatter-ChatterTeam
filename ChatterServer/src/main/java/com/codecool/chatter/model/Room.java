@@ -27,17 +27,21 @@ public class Room implements Serializable {
         users.add(user);
     }
 
+
     public void removeUser(User user) {
         users.remove(user);
     }
+
 
     public UUID getId() {
         return id;
     }
 
+
     public void setId(UUID id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -67,6 +71,7 @@ public class Room implements Serializable {
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
+
 
     public List<User> getUsers() {
         return users;

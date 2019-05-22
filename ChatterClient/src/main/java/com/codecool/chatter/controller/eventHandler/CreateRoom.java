@@ -1,6 +1,6 @@
 package com.codecool.chatter.controller.eventHandler;
 
-import com.codecool.chatter.controller.LobbyController;
+import com.codecool.chatter.controller.Controller;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.ObjectWrapper;
 import com.codecool.chatter.model.Room;
@@ -15,32 +15,36 @@ import java.io.IOException;
 
 public class CreateRoom implements EventHandler<InputEvent> {
 
-    private LobbyController lobbyController;
+    private Controller<Room> lobbyController;
 
-    public CreateRoom(LobbyController lobbyController) {
+    public CreateRoom(Controller<Room> lobbyController) {
         this.lobbyController = lobbyController;
     }
 
     @Override
     public void handle(InputEvent mouseEvent) {
         Connection connection = lobbyController.getConnection();
-        LobbyView lobbyView = lobbyController.getLobbyView();
+        LobbyView lobbyView = (LobbyView) lobbyController.getUpdatable();
         CreateRoomForm createRoomForm = lobbyView.getCreateRoomForm();
         TextInputControl textInputControl = createRoomForm.getInputField().getTextInputControl();
         String roomName = textInputControl.getText();
         ObjectWrapper objectWrapper = new ObjectWrapper("createRoom", roomName);
         try {
+            Connection.waitForAccess(connection);
+            connection.setAvailable(false);
             connection.write(objectWrapper);
-            lobbyController.getUpdater().setReceived(true);
             objectWrapper = connection.read();
             while (!objectWrapper.getAction().equals("createRoom")) {
                 objectWrapper = connection.read();
             }
             handleCreateRoom(objectWrapper, createRoomForm);
+            connection.setAvailable(true);
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     };
 
@@ -49,7 +53,8 @@ public class CreateRoom implements EventHandler<InputEvent> {
         if (isNull(objectWrapper.getObject())) {
             handleAlert(createRoomForm);
         } else {
-            lobbyController.setChosenRoom((Room) objectWrapper.getObject());
+            lobbyController.getUpdater().setRunning(false);
+            lobbyController.setControlType((Room) objectWrapper.getObject());
         }
     }
 

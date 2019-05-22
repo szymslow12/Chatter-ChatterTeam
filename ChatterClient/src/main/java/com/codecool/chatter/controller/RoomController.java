@@ -1,6 +1,6 @@
 package com.codecool.chatter.controller;
 
-import com.codecool.chatter.ChatterClient;
+import com.codecool.chatter.controller.eventHandler.BackToLobby;
 import com.codecool.chatter.controller.eventHandler.SendMessage;
 import com.codecool.chatter.model.Connection;
 import com.codecool.chatter.model.Room;
@@ -8,47 +8,27 @@ import com.codecool.chatter.model.User;
 import com.codecool.chatter.view.AppView;
 import com.codecool.chatter.view.RoomView;
 
-public class RoomController {
-
-    private Connection connection;
-    private RoomView roomView;
-    private Room room;
-    private Updater updater;
+public class RoomController extends Controller<Room> {
 
     public RoomController(Connection connection, Room room, Updater updater) {
-        this.connection = connection;
-        this.roomView = new RoomView(ChatterClient.WIDTH, ChatterClient.HEIGHT);
-        this.room = room;
-        this.updater = updater;
+        super(room, new RoomView(Client.WIDTH, Client.HEIGHT), connection, updater);
     }
 
 
     public void run(AppView appView, User client) {
+        RoomView roomView = (RoomView) getUpdatable();
+        Room room = getControlType();
         client.setCurrentRoomId(room.getId());
         room.getChat().setClient(client);
-        roomView.renderRoomView(room, new SendMessage(connection, this, client));
+        roomView.renderRoomView(room, new SendMessage(this, client), new BackToLobby(this));
         appView.getChildren().add(roomView);
-        startRoomUpdater();
+        startRoomUpdater(roomView);
     }
 
 
-    private void startRoomUpdater() {
+    private void startRoomUpdater(RoomView roomView) {
+        Updater updater = getUpdater();
         updater.setUpdatable(roomView);
-        updater.setReceived(false);
         updater.start();
-    }
-
-
-    public void updateChat() {
-        roomView.getChatForm().updateChat(room.getChat());
-    }
-
-
-    public RoomView getRoomView() {
-        return roomView;
-    }
-
-    public Room getRoom() {
-        return room;
     }
 }

@@ -17,11 +17,9 @@ public class EchoThreadServer extends Thread {
     public void run() {
         User user = null;
         try {
-
             String userName;
             userName = loginHandle();
             user = new User(userName);
-
             appController.addClient(connection, user);
             appController.getLobby().addUser(user);
             Lobby lobby = appController.getLobby();

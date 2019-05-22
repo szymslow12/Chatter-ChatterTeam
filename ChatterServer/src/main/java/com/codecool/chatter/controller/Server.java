@@ -3,8 +3,7 @@ package com.codecool.chatter.controller;
 import com.codecool.chatter.model.Connection;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 
 public class Server {
 
@@ -24,6 +23,7 @@ public class Server {
 
             while (true) {
                 Socket socket = serverSocket.accept();
+
                 Connection connection = new Connection(socket);
                 new EchoThreadServer(connection, appController).start();
             }
@@ -31,6 +31,7 @@ public class Server {
             e.printStackTrace();
         } finally {
             try {
+                assert serverSocket != null;
                 serverSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
